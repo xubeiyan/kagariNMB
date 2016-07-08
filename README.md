@@ -44,20 +44,20 @@ kagari Nimingba(匿名版)
 >会同时接受JSON和multipart/form-data(因为会上传图片)
 
 ####用户级别:
-* 获取饼干  
+* 获取饼干    
   `/api/getCookie`    
-提交内容：(暂无)    
-返回内容：(举例)    
-	```javascript
-	{
-		"request": "getCookie",
-		"response": {
-			"timestamp": "2016-06-06 10:15:34",
-			"ip": "::1",
-			"username": "1abCDEF"
-		}
+提交内容：(暂无)      
+返回内容：(举例)     
+```javascript
+{
+	"request": "getCookie",
+	"response": {
+		"timestamp": "2016-06-06 10:15:34",
+		"ip": "::1",
+		"username": "1abCDEF"
 	}
-	```
+}
+```
 * 获取板块列表  
   `/api/getAreaLists`   
 提交内容：(暂无)  
