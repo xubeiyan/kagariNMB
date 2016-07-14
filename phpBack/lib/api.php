@@ -337,7 +337,8 @@ class API {
 		$area_id . ',' . $user_id . ',' . $reply_post_id . ',"' . $author_name . '","' . $author_email . '","' . $post_title . '","' . $post_content . '","' . $post_image . '","' . self::timestamp() . '","' . self::timestamp() . '")';
 		
 		// 如果reply_post_id不为0，更新主串update_time
- 		if ($reply_post_id != 0) {
+		// 新增：post_title为SAGE则不更新时间（所谓的串被SAGE了）
+ 		if ($reply_post_id != 0 && $post_title != $conf['sageString']) {
  			$updatesql = 'UPDATE ' . $post_table . ' SET update_time=' . self::timestamp() . ' WHERE post_id=' . $reply_post_id;
  			if (!mysqli_query($con, $updatesql)) {
  				mysqli_error();
