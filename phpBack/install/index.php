@@ -80,7 +80,7 @@ if (isset($_GET['create_tbl'])) {
 if (isset($_GET['test_area'])) {
 	$test_area_sql = 'INSERT INTO ' . $conf['databaseName'] . '.' . $conf['databaseTableName']['area'] . 
 	' (area_name, area_sort, block_status, parent_area, min_post) VALUES (' .
-	'"测试母版", 1, 0, 0, 0)';
+	'"综合", 1, 0, 0, 0)';
 	if(!mysqli_query($con, $test_area_sql)) {
 		die(mysqli_connect_error());
 	} else {
@@ -89,7 +89,7 @@ if (isset($_GET['test_area'])) {
 	
 	$test_area_sql2 = 'INSERT INTO ' . $conf['databaseName'] . '.' . $conf['databaseTableName']['area'] . 
 	' (area_name, area_sort, block_status, parent_area, min_post) VALUES (' .
-	'"测试子版", 5, 0, 1, 0)';
+	'"综合版", 5, 0, 1, 0)';
 	if(!mysqli_query($con, $test_area_sql2)) {
 		die(mysqli_connect_error());
 	} else {
