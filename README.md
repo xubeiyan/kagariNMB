@@ -265,6 +265,32 @@ kagari Nimingba(匿名版)
 	}
 	```
 
+* 删除某个区
+`api/deleteArea`
+提交内容：    
+`area_id`(要删除的区的id)    
+返回内容：(删除成功)    
+	```javascript
+	{
+		"request": "deleteArea",
+		"response": {
+			"timestamp": "2016-07-18 18:12:29",
+			"status": "OK"
+		}
+		
+	}
+	```
+(不存在的区)    
+	```javascript
+	{
+		"request": "deleteArea",
+		"response": {
+			"timestamp": "2016-07-18 18:12:25",
+			"error": "删除的区不存在"
+		}
+	}
+	```
+
 * 删除某个串    
 `/api/deletePost`    
 提交内容：    

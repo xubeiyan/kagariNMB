@@ -83,18 +83,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 	header('connection:close');
 	switch ($queryString) {
 		case 'api/getAreaPosts':
-			API::getAreaPosts($input);
+			if (isset($input['area_id'])) {
+				API::getAreaPosts($input);
+			}
 			break;
 		case 'api/getPost':
-			API::getPost($input);
+			if (isset($input['post_id'])) {
+				API::getPost($input);
+			}
 			break;
 		case 'api/sendPost':
 			if (isset($input['area_id']) && isset($input['user_id']) && isset($input['reply_post_id']) && isset($input['post_content'])) {
 				API::sendPost($input);				
 			}
 			break;
+		case 'api/deleteArea':
+			if (isset($input['area_id'])) {
+				API::deleteArea($input);
+			}
+			break;
 		case 'api/deletePost':
- 			API::deletePost($input);
+			if (isset($input['post_id'])) {
+				API::deletePost($input);
+			}
  			break;
 		default:
 			die('>w<');

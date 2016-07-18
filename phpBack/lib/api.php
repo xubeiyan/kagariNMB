@@ -355,7 +355,47 @@ class API {
 	}
 	
 	/**
- 	* 删除串
+	* 删除板块(需要权限
+	* `area_id` 
+	*/
+	public static function deleteArea($post) {
+		$return['request'] = 'deleteArea';
+		$return['response']['timestamp'] = self::timestamp();
+		
+		$area_id = is_numeric($post['area_id']) && $post['area_id'] > 0 ? $post['area_id'] : 0;
+		
+		global $con, $conf;
+		$areaTable = $conf['databaseName'] . '.' . $conf['databaseTableName']['area'];
+		$postTable = $conf['databaseName'] . '.' . $conf['databaseTableName']['post'];
+
+		// 查询指定的版
+		$sql = 'SELECT area_id FROM ' . $areaTable . ' WHERE area_id=' . $area_id;
+		$result = mysqli_query($con, $sql);
+		// 检查是否存在该区域
+		if(empty($row = mysqli_fetch_assoc($result))) {
+			$return['response']['error'] = 'area with id= ' . $area_id . 'not exists';
+			echo json_encode($resturn, JSON_UNESCAPED_UNICODE);
+			exit();
+		}
+		// 删除所在区的串
+		$sql = 'DELETE FROM ' . $postTable . ' WHERE area_id=' . $area_id;
+		if(!mysqli_query($con, $sql)) {
+			die(mysqli_error($con));
+		}
+		// 删除所在区
+		$sql = 'DELETE FROM ' . $areaTable . ' WHERE area_id=' . $area_id;
+		if (!mysqli_query($con, $sql)) {
+			die(mysqli_error($con));
+		}
+		
+		$return['response']['status'] = 'OK';
+		echo json_encode($return, JSON_UNESCAPED_UNICODE);
+		exit();
+	}
+	
+	/**
+ 	* 删除串（要求权限
+	* `post_id` 要删除的串的id
  	*/
  	public static function deletePost($post) {
  		// 返回目标
@@ -382,7 +422,7 @@ class API {
  		if ($row['reply_post_id'] == 0) {
  			$sql = 'DELETE FROM ' . $postTable . ' WHERE reply_post_id=' . $post_id;
  			$result = mysqli_query($con, $sql);
- 			print_r($result);
+ 			//print_r($result);
  		}
  		
  		// 删除该记录
