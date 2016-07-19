@@ -7,6 +7,7 @@ if (!file_exists('install.php')) {
 
 require '../conf/conf.php';
 require '../lib/database.php'; // 数据库连接，变量为$con
+$test_area_id = 2;
 
 if (isset($_GET['create_db'])) {
 	$sql = 'CREATE DATABASE ' . $conf['databaseName'] . ' COLLATE utf8_general_ci';
@@ -95,5 +96,14 @@ if (isset($_GET['test_area'])) {
 	} else {
 		echo "insert " . $test_area_sql ." successfully!";
 	}
+	
+	$sql = 'SELECT area_id FROM ' . $conf['databaseName'] . '.' . $conf['databaseTableName']['area'] . ' WHERE area_name="综合版"';
+	$row = mysqli_fetch_assoc(mysqli_query($con, $sql));
+	$test_area_id = $row['area_id'];
+}
+
+// 暂时没啥用
+if (isset($_GET['test_post'])) {
+	$test_post_sql = 'INSERT INTO ' . $conf['datebaseName'] . '.' . $conf['databaseTableName']['post'] . ' (area_id, user_id, reply_post_id, author_name, author_email, post_title, post_content, post_images, create_time, update_time) VALUES (' . $test_area_id . ')';
 }
 ?>

@@ -93,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 			}
 			break;
 		case 'api/sendPost':
-			if (isset($input['area_id']) && isset($input['user_id']) && isset($input['reply_post_id']) && isset($input['post_content'])) {
+			if (isset($input['area_id']) && isset($input['user_id']) && isset($input['post_content'])) {
 				API::sendPost($input);				
 			}
 			break;

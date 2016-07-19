@@ -320,16 +320,16 @@ class API {
 		}
 		
 		// 补全其他字段
-		$author_name = $post['author_name'] == '' ? $conf['default_author_name'] : $post['author_name'];
-		$author_email = $post['author_email'];
-		$post_title = $post['post_title'] == '' ? $conf['default_post_title'] : $post['post_title'];
-		if ($post['post_content'] == '') {
+		$author_name = !isset($post['author_name']) ? $conf['default_author_name'] : $post['author_name'];
+		$author_email = !isset($post['author_email']) ? '' : $post['author_email'];
+		$post_title = !isset($post['post_title']) ? $conf['default_post_title'] : $post['post_title'];
+		if (!isset($post['post_content']) && $post['post_content'] == '') {
 			$return['response']['error'] = 'content can not be empty';
 			echo json_encode($return, JSON_UNESCAPED_UNICODE);
 			exit();
 		}
 		$post_content = $post['post_content'];
-		$post_image = $post['post_image'];
+		$post_image = !isset($post['post_image']) ? '' : $post['post_image'];
 		
 		// 发送请求
 		$sql = 'INSERT INTO ' . $post_table . 
@@ -339,9 +339,9 @@ class API {
 		// 如果reply_post_id不为0，更新主串update_time
 		// 新增：post_title为SAGE则不更新时间（所谓的串被SAGE了）
  		if ($reply_post_id != 0 && $post_title != $conf['sageString']) {
- 			$updatesql = 'UPDATE ' . $post_table . ' SET update_time=' . self::timestamp() . ' WHERE post_id=' . $reply_post_id;
+ 			$updatesql = 'UPDATE ' . $post_table . ' SET update_time="' . self::timestamp() . '" WHERE post_id=' . $reply_post_id;
  			if (!mysqli_query($con, $updatesql)) {
- 				mysqli_error();
+ 				die(mysqli_error($con));
  			}
  		}
 		//echo $sql;
