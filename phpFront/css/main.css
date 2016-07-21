@@ -1,0 +1,12 @@
+div.out {
+	height: 400px;
+	float:left;
+}
+div.left-part {
+	width: 20%;
+	background-color: #C2F7D4;
+}
+div.right-part {
+	width: 80%;
+	background-color: #F6FFBD;
+}
