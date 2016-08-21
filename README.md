@@ -265,7 +265,7 @@ kagari Nimingba(匿名版)
 	}
 	```
 
-* 增加新板块
+* 增加新板块    
 `api/addArea`
 提交内容：      	
 `area_name` 板块名     
@@ -301,7 +301,7 @@ kagari Nimingba(匿名版)
 	}
 	```
 	
-* 删除某个区
+* 删除某个区    
 `api/deleteArea`
 提交内容：    
 `area_id`(要删除的区的id)    
