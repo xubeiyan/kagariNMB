@@ -97,6 +97,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 				API::sendPost($input);				
 			}
 			break;
+		case 'api/addArea':
+			if (isset($input['area_name'])) {
+				API::addArea($input);
+			}
+			break;
 		case 'api/deleteArea':
 			if (isset($input['area_id'])) {
 				API::deleteArea($input);

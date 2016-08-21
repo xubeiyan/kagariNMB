@@ -353,6 +353,47 @@ class API {
 			die(mysqli_error($con));
 		}
 	}
+	/**
+	* 增加板块(需要权限)
+	* `area_name` 板块名
+	* `parent_area` 为某板块的子版块，0为无
+	*/
+	public static function addArea($post) {
+		$return['request'] = 'addArea';
+		$return['response']['timestamp'] = self::timestamp();
+		
+		// area_name未设置或为空
+		if (!isset($post['area_name']) && $post['area_name'] == '') {
+			$return['response']['error'] = 'area name must not be empty';
+			echo json_encode($resturn, JSON_UNESCAPED_UNICODE);
+			exit();
+		}
+		
+		$area_name = $post['area_name'];
+		$parent_area = isset($post['parent_area']) && is_numeric($post['parent_area']) && $post['parent_area'] > 0 ? $post['parent_area'] : 0;
+		
+		global $con, $conf;
+		$areaTable = $conf['databaseName'] . '.' . $conf['databaseTableName']['area'];
+		// 检查area_name及parent_id是否和现有的一致
+		$sql = 'SELECT area_name FROM ' . $areaTable . ' WHERE area_name=' . $area_name . ' AND parent_area=' . $parent_area;
+		$result = mysqli_query($con, $sql);
+		if (!empty($row = mysqli_fetch_assoc($result))) {
+			$return['response']['error'] = 'area ' . $area_name . ' has existed in parent area=' . $parent_area;
+			echo json_encode($resturn, JSON_UNESCAPED_UNICODE);
+			exit();
+		}
+		
+		// 不存在则可以插入新的分区
+		$sql = 'INSERT INTO ' . $areaTable . ' (area_name, area_sort, block_status, parent_area, min_post) VALUES (' . $area_name . ',0 ,0 ,' . $parent_area .',0)';
+		if(mysqli_query($con, $sql)) {
+			$return['response']['status'] = 'OK';
+			echo json_encode($return, JSON_UNESCAPED_UNICODE);
+			exit(); 
+		} else {
+			die(mysqli_error($con));
+		}
+		
+	}
 	
 	/**
 	* 删除板块(需要权限

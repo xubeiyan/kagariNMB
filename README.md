@@ -265,6 +265,42 @@ kagari Nimingba(匿名版)
 	}
 	```
 
+* 增加新板块
+`api/addArea`
+提交内容：      	
+`area_name` 板块名     
+`parent_area` 为某板块的子版块，0为无    
+返回内容：(增加成功)    
+	```javascript
+	{
+		"request": "addArea",
+		"response": {
+			"timestamp": "2016-08-21 20:24:33",
+			"status": "OK"
+		}
+	}
+	```
+(板块名为空)
+	```javascript
+	{
+		"request": "addArea",
+		"response": {
+			"timestamp": "2016-08-21 20:24:33",
+			"error": "板块名不能为空"
+		}
+	}
+	```
+(板块名和现有的一样)
+	```javascript
+	{
+		"request": "addArea",
+		"response": {
+			"timestamp": "2016-08-21 20:24:33",
+			"error": "板块名abc已存在于母板1之下"
+		}
+	}
+	```
+	
 * 删除某个区
 `api/deleteArea`
 提交内容：    
