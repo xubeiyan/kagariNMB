@@ -377,19 +377,20 @@ class API {
 		// 检查area_name及parent_id是否和现有的一致
 		$sql = 'SELECT area_name FROM ' . $areaTable . ' WHERE area_name=' . $area_name . ' AND parent_area=' . $parent_area;
 		$result = mysqli_query($con, $sql);
-		if (!empty($row = mysqli_fetch_assoc($result))) {
+		if (!empty($result)) {
 			$return['response']['error'] = 'area ' . $area_name . ' has existed in parent area=' . $parent_area;
 			echo json_encode($resturn, JSON_UNESCAPED_UNICODE);
 			exit();
 		}
 		
 		// 不存在则可以插入新的分区
-		$sql = 'INSERT INTO ' . $areaTable . ' (area_name, area_sort, block_status, parent_area, min_post) VALUES (' . $area_name . ',0 ,0 ,' . $parent_area .',0)';
+		$sql = 'INSERT INTO ' . $areaTable . ' (area_name, area_sort, block_status, parent_area, min_post) VALUES ("' . $area_name . '" ,0 ,0 ,' . $parent_area .',0)';
 		if(mysqli_query($con, $sql)) {
 			$return['response']['status'] = 'OK';
 			echo json_encode($return, JSON_UNESCAPED_UNICODE);
 			exit(); 
 		} else {
+			//print $sql;
 			die(mysqli_error($con));
 		}
 		

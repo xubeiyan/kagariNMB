@@ -22,7 +22,8 @@ $conf = Array(
 			'api/getPost',
 			'api/sendPost',
 			'api/deletePost',
-			'api/deleteArea'
+			'api/deleteArea',
+			'api/addArea'
 	),
 	'customUserAgent' => '',
 	'scriptFilename' => 'index.php',
