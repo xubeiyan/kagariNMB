@@ -6,4 +6,5 @@ $config = Array(
 	'backURI' => '../phpBack/index.php', // ºóÌ¨µØÖ·
 	'responseType' => 'json'
 );
+
 ?>
