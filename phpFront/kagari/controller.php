@@ -12,7 +12,7 @@ class Controller {
 				$opts = Array(
 					'http' => Array(
 						'method' => 'GET',
-						'user_agent' => 'KagariNMBFront'
+						'user_agent' => $config['userAgent']
 					)
 				);
 				$context = stream_context_create($opts);

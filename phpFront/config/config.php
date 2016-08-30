@@ -4,7 +4,8 @@
 */
 $config = Array(
 	'backURI' => 'http://localhost/kagariNMB/phpBack/', // 后台地址
-	'responseType' => 'json'
+	'responseType' => 'json',
+	'userAgent' => 'KagariNMBFront' // 客户端指定串
 );
 
 ?>
