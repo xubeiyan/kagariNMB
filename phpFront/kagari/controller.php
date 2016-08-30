@@ -3,6 +3,24 @@
 * 大概是控制器吧
 */
 class Controller {
+	// cookie设置与读取
+	public static function cookies() {
+		global $config;
+		if (!isset($_COOKIE['username'])) {
+			$opts = Array(
+				'http' => Array(
+					'method' => 'GET',
+					'user_agent' => $config['userAgent']
+				)
+			);
+			$context = stream_context_create($opts);
+			$json = file_get_contents($config['backURI'] . 'api/getCookie', false, $context);
+			$string = json_decode($json, TRUE);
+			setcookie('username', $string['response']['username'], time() + 60); // 一分钟过期？
+		} else {
+			setcookie('username', $_COOKIE['username'], time() + 60);
+		}
+	}
 	// 数据库值替换
 	public static function dbDataReplace($list, $toReplace) {
 		global $config;
@@ -23,8 +41,9 @@ class Controller {
 					//print_r($array);
 					$string = '';
 					foreach ($array['response']['areas'] as $arrkey => $arrval) {
-						$string .= $arrval['area_name'] . '<br />';
+						$string .= $arrval['area_id'] . ' ' . $arrval['area_name'] . ' ' . $arrval['parent_area'] . '<br />';
 					}
+					$string .= $_COOKIE['username'];
 					$toReplace = str_replace('%' . $key . '%', $string , $toReplace);
 				}
 				
