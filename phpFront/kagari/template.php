@@ -5,7 +5,7 @@ class Template {
 	// 匿名版的某些固定值
 	private static $template = Array (
 		'nimingbanTitle' => 'kagari匿名版',
-		'welcomeInformation' => '欢迎！'
+		'welcomeInformation' => '<h3>Kagari匿名版欢迎你！</h3>'
 	);
 	
 	// 匿名版里需要从数据库读取的值
