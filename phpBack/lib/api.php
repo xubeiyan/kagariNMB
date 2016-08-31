@@ -5,13 +5,22 @@
 class API {
 	/**
 	* 获取饼干, 需要主动调用？
+	* `ip`(客户端的ip地址，必须)
 	*/
-	public static function getCookie() {
+	public static function getCookie($input) {
 		$return['request'] = 'getCookie';
 		$return['response']['timestamp'] = self::timestamp();
 		
-		global $conf, $con;		
-		$ip = $_SERVER['REMOTE_ADDR'];
+		global $conf, $con;
+		// ip地址是否合法
+		if (filter_var($input['ip'], FILTER_VALIDATE_IP)) {
+			$ip = $input['ip'];
+		} else {
+			$return['response']['error'] = 'invaild IP address...';
+			echo json_encode($return, JSON_UNESCAPED_UNICODE);
+			exit();
+		}
+		
 		$table = $conf['databaseName'] . '.' . $conf['databaseTableName']['user'];
 		$sql = 'SELECT * FROM ' . $table . ' WHERE ip_address="' . $ip . '"';
 		// 查询访问ip是否在数据库中

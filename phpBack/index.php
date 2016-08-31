@@ -65,9 +65,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 	//echo 'Request API: ' . $queryString . '<br />';
 	header('connection:close'); // close²»Òªkeep-alive
 	switch ($queryString) {
-		case 'api/getCookie':
-			API::getCookie();
-			break;
 		case 'api/getAreaLists':
 			API::getAreaLists();
 			break;
@@ -82,6 +79,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 	}
 	header('connection:close');
 	switch ($queryString) {
+		case 'api/getCookie':
+			if (isset($input['ip'])) {
+				API::getCookie($input);
+			}
+			break;
 		case 'api/getAreaPosts':
 			if (isset($input['area_id'])) {
 				API::getAreaPosts($input);

@@ -46,8 +46,14 @@ kagari Nimingba(匿名版)
 ####用户级别:
 * 获取饼干    
   `/api/getCookie`    
-提交内容：(暂无)      
-返回内容：(举例)     
+提交内容：
+```javascript
+{
+	"ip": "::1"
+}
+```     
+返回内容：(举例)    
+(正确ip地址)     
 ```javascript
 {
 	"request": "getCookie",
@@ -55,6 +61,16 @@ kagari Nimingba(匿名版)
 		"timestamp": "2016-06-06 10:15:34",
 		"ip": "::1",
 		"username": "1abCDEF"
+	}
+}
+```
+(非法ip地址)
+```javascript
+{
+	"request": "getCookie",
+	"response": {
+		"timestamp": "2016-06-06 10:15:34",
+		"error": "这个IP地址不符合规定呢"
 	}
 }
 ```
