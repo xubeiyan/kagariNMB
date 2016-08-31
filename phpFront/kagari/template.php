@@ -21,7 +21,7 @@ class Template {
 	public static function replace($html) {
 		require('controller.php');
 		// Cookie设置函数
-		Controller::cookies();
+		$html = Controller::cookies($html);
 		// 数据库数据替换
 		$html = Controller::dbDataReplace(self::$dbData, $html);
 		

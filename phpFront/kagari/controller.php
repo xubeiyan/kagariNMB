@@ -4,23 +4,39 @@
 */
 class Controller {
 	// cookie设置与读取
-	public static function cookies() {
+	public static function cookies($toReplace) {
 		global $config;
 		if (!isset($_COOKIE['username'])) {
+			$data = Array(
+				'ip' => $_SERVER['REMOTE_ADDR']
+			);
 			$opts = Array(
 				'http' => Array(
-					'method' => 'GET',
-					'user_agent' => $config['userAgent']
+					'method' => 'POST',
+					'user_agent' => $config['userAgent'],
+					'header' => "Content-type: application/json\r\n",
+					'content' => json_encode($data)
 				)
 			);
+			
 			$context = stream_context_create($opts);
 			$json = file_get_contents($config['backURI'] . 'api/getCookie', false, $context);
 			$string = json_decode($json, TRUE);
-			print_r($json);
-			setcookie('username', $string['response']['username'], time() + 60); // 一分钟过期？
+			//print_r($json);
+			setcookie('username', $string['response']['username'], time() + 1000); // 一分钟过期？
 		} else {
-			setcookie('username', $_COOKIE['username'], time() + 60);
+			setcookie('username', $_COOKIE['username'], time() + 1000);
 		}
+		
+		//print_r($_COOKIE);
+		if (isset($_COOKIE['username'])) {
+			$toReplace = str_replace('%cookie%', $_COOKIE['username'], $toReplace);
+		} else {
+			$toReplace = str_replace('%cookie%', '未获取到饼干' , $toReplace);
+		}
+		//print_r($_COOKIE);
+		//print_r($_REQUEST);
+		return $toReplace;
 	}
 	// 数据库值替换
 	public static function dbDataReplace($list, $toReplace) {
@@ -44,7 +60,6 @@ class Controller {
 					foreach ($array['response']['areas'] as $arrkey => $arrval) {
 						$string .= $arrval['area_id'] . ' ' . $arrval['area_name'] . ' ' . $arrval['parent_area'] . '<br />';
 					}
-					$string .= $_COOKIE['username'];
 					$toReplace = str_replace('%' . $key . '%', $string , $toReplace);
 				}
 				
