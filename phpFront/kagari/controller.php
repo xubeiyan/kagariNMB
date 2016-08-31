@@ -23,9 +23,9 @@ class Controller {
 			$json = file_get_contents($config['backURI'] . 'api/getCookie', false, $context);
 			$string = json_decode($json, TRUE);
 			//print_r($json);
-			setcookie('username', $string['response']['username'], time() + 1000); // 一分钟过期？
+			setcookie('username', $string['response']['username'], time() + 10 * 60); // 十分钟过期？
 		} else {
-			setcookie('username', $_COOKIE['username'], time() + 1000);
+			setcookie('username', $_COOKIE['username'], time() + 10 * 60);
 		}
 		
 		//print_r($_COOKIE);
