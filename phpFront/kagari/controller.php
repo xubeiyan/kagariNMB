@@ -16,6 +16,7 @@ class Controller {
 			$context = stream_context_create($opts);
 			$json = file_get_contents($config['backURI'] . 'api/getCookie', false, $context);
 			$string = json_decode($json, TRUE);
+			print_r($json);
 			setcookie('username', $string['response']['username'], time() + 60); // 一分钟过期？
 		} else {
 			setcookie('username', $_COOKIE['username'], time() + 60);

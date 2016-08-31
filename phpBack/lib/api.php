@@ -29,7 +29,7 @@ class API {
 			if (empty($row = mysqli_fetch_assoc($result))) {
 				$id = 1;
 			} else {
-				$id = $row['user_id'] + 1;
+				$id = $row['max(user_id)'] + 1;
 			}
 			$username = self::randomString($id);
 			$sql = 'INSERT INTO ' . $table . '(ip_address, user_name, block_time, last_post_id) VALUES ("' . $ip . '", "' . $username . '", 0, 0)';
