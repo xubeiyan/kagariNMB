@@ -58,28 +58,11 @@ class Controller {
 					//print_r($array);
 					$string = '';
 					foreach ($array['response']['areas'] as $arrkey => $arrval) {
-						if ($arrval['parent_area'] == "") {
-							$string .= $arrval['area_name'] . '<br />';
-						} else {
-							$string .= '|' . $arrval['area_name'] . '<br />';
-						}
+						$string .= $arrval['area_id'] . ' ' . $arrval['area_name'] . ' ' . $arrval['parent_area'] . '<br />';
 					}
 					$toReplace = str_replace('%' . $key . '%', $string , $toReplace);
 				}
 				
-			} else if ($key == 'areaPosts') {
-				$data = Array(
-					'area_id' => '',
-					'area_page' => ''
-				);
-				$opts = Array(
-					'http' => Array(
-						'method' => 'POST',
-						'user_agent' => $config['userAgent'],
-						'header' => "Content-type: application/json\r\n",
-						'content' => json_encode($data, JSON_UNESCAPED_UNICODE)
-					)
-				);
 			}
 		}
 		return $toReplace;
