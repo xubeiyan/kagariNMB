@@ -8,6 +8,12 @@ class Template {
 		'welcomeInformation' => '<h3>Kagari匿名版欢迎你！</h3>'
 	);
 	
+	// 匿名版的某些计算后的到的值
+	private static $calculate = Array (
+		'date' => 'dateText',
+		'time' => 'timeText'
+	);
+	
 	// 匿名版里需要从数据库读取的值
 	private static $dbData = Array (
 		'cookie' => 'api/getCookie',
@@ -24,7 +30,8 @@ class Template {
 		$html = Controller::cookies($html);
 		// 数据库数据替换
 		$html = Controller::dbDataReplace(self::$dbData, $html);
-		
+		// 计算后值替换
+		$html = Controller::calculate(self::$calculate, $html);
 		// 固定参数替换
 		$html = Controller::templateReplace(self::$template, $html);
 		
