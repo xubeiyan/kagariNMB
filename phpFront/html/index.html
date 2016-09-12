@@ -6,13 +6,20 @@
 <link rel="stylesheet" type="text/css" href="css/main.css" />
 </head>
 <body>
+<div id="header">
+	<div id="areaList" class="header-text">板块列表</div>
+	<div id="title" class="header-text">%nimingbanTitle%</div>
+	<div id="function" class="header-text">功能</div>
+</div>
 <div class="out left-part">
 	<div>%areaLists%</div>
 	
 </div>
 <div class="out right-part">%welcomeInformation%</div>
-<div class="footer">
-	<div>饼干：%cookie%</div>
+<div id="footer">
+	<div id="cookie">饼干：%cookie%</div>
+	<div id="date_time">%date% %time%</div>
 </div>
+<script src="js/angular.js"></script>
 </body>
 </html>
