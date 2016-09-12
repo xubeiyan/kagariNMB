@@ -23,7 +23,7 @@ class Template {
 		'sendPost' => 'api/sendPost'
 	);
 	
-	// 匿名版替换函数
+	// 匿名版替换函数$html变量为需要替换的html
 	public static function replace($html) {
 		require('controller.php');
 		// Cookie设置函数
