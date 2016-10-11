@@ -19,6 +19,7 @@ div#areaList {
 	background-color: #3B7EFF;
 	border-radius:10px;
 	float:left;
+	cursor:pointer;
 }
 div#title {
 	margin-left:10px;
@@ -39,9 +40,13 @@ div.left-part {
 	width: 20%;
 	background-color: #C2F7D4;
 }
+
+div#areas {
+	display: none;
+}
+
 div.right-part {
 	width: 80%;
-	background-color: #F6FFBD;
 }
 div#footer {
 	width: 100%;
