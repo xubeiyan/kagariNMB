@@ -7,7 +7,7 @@ var kagari = function () {
 		switchListPanel: function () {
 			var area = document.getElementById("areas");
 			console.log('!');
-			if (area.style.display == 'none') {
+			if (area.style.display == '' || area.style.display == 'none') {
 				area.style.display = 'block';
 			} else {
 				area.style.display = 'none';
