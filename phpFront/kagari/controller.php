@@ -43,6 +43,7 @@ class Controller {
 		global $config;
 		foreach ($list as $key => $value) {
 			//print_r($key . '|' . $value);
+			// 板块列表
 			if ($key == 'areaLists') {
 				$opts = Array(
 					'http' => Array(
@@ -58,9 +59,54 @@ class Controller {
 					//print_r($array);
 					$string = '';
 					foreach ($array['response']['areas'] as $arrkey => $arrval) {
-						$string .= $arrval['area_id'] . ' ' . $arrval['area_name'] . ' ' . $arrval['parent_area'] . '<br />';
+						// 是否为母板
+						if ($arrval['parent_area'] == '') {
+							$string .= $arrval['area_id'] . ' <b>' . $arrval['area_name'] . ' ' . $arrval['parent_area'] . '</b><br />';
+						} else {
+							$string .= '-' . $arrval['area_id'] . ' ' . $arrval['area_name'] . ' ' . $arrval['parent_area'] . '<br />';
+						}
 					}
 					$toReplace = str_replace('%' . $key . '%', $string , $toReplace);
+				}
+			// 帖子列表
+			} else if ($key == 'areaPosts') {
+				$data = Array(
+					'area_id' => 2
+				);
+				$opts = Array(
+					'http' => Array(
+						'method' => 'POST',
+						'user_agent' => $config['userAgent'],
+						'header' => "Content-type: application/json\r\n",
+						'content' => json_encode($data, JSON_UNESCAPED_UNICODE)
+					)
+				);
+				$context = stream_context_create($opts);
+				$json = file_get_contents($config['backURI'] . $value, false, $context);
+				$array = json_decode($json, TRUE);
+				$posts = $array['response']['posts'];
+				$out = '';
+				
+				foreach ($posts as $arrval) {
+					$out .= '标题：' . $arrval['post_title'] . '<br />' .
+							'发送者：' . $arrval['user_name'] . '<br />' .
+							'发串时间：' . $arrval['create_time'] . '<br />' .  
+							$arrval['post_content'] . '<br />';
+							
+					if ($arrval['reply_recent_post'] != Array()) {
+						foreach ($arrval['reply_recent_post'] as $replyArray) {
+							$out .= '>>标题：' . $replyArray['post_title'] . '<br />' .
+									'>>发送者：' . $replyArray['user_name'] . '<br />' .
+									'>>发串时间：' . $replyArray['create_time'] . '<br />' .  
+									'>>' . $replyArray['post_content'] . '<br />';
+						}
+						
+					}
+					$out .= '<hr>';
+				}
+				$toReplace = str_replace('%' . $key . '%', $out, $toReplace);
+				if ($posts != array()) {
+					
 				}
 				
 			}

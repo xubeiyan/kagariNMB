@@ -12,3 +12,10 @@
 * `kagari` 主要内容
 * `.htaccess` URI Rewrite使用
 * `index.php` 入口文件
+
+#####路由    
+
+* `a/1/page/1`    
+访问区，调用getAreaPosts这个API，page参数可省略默认为1
+* `p/100000/page/1`
+访问串。调用getPost这个API，page参数可省略默认为1

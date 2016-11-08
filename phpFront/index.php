@@ -24,7 +24,9 @@ if (isset($_GET)) {
 	}
 	// 区访问，截取前两个字符
 	if (substr($_GET['q'], 0, 2) == 'a/') {
-		echo 'area';
+		$html = file_get_contents('html/area.html');
+		$html = Template::replace($html);
+		echo $html;
 		exit();
 	// 串访问
 	} else if (substr($_GET['q'], 0, 2) == 'p/') {
