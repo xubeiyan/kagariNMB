@@ -10,7 +10,7 @@ require('kagari/template.php');
 // 未提交任何GET参数则认为访问主页
 
 if (!isset($_GET) || empty($_GET)) {
-	$html = file_get_contents("html/index.html");
+	$html = Template::index('index.html');
 	$html = Template::replace($html);
 	echo $html;
 	exit();
@@ -24,7 +24,7 @@ if (isset($_GET)) {
 	}
 	// 区访问，截取前两个字符
 	if (substr($_GET['q'], 0, 2) == 'a/') {
-		$html = file_get_contents('html/area.html');
+		$html = Template::index('area.html');
 		$html = Template::replace($html);
 		echo $html;
 		exit();

@@ -8,8 +8,8 @@ class Template {
 	
 	// 匿名版的某些计算后的到的值
 	private static $calculate = Array (
-		'date' => 'dateText',
-		'time' => 'timeText'
+		'date' => 'Y年m月d日',
+		'time' => 'H:i'
 	);
 	
 	// 匿名版里需要从数据库读取的值
@@ -21,6 +21,15 @@ class Template {
 		'sendPost' => 'api/sendPost'
 	);
 	
+	// 选择模板文件
+	public static function index($filename) {
+		if (file_exists('html/' . $filename)) {
+			return file_get_contents('html/' . $filename);
+		} else {
+			return 'file:<b>' . $filename . '</b> not exist...';
+		}
+	}
+	
 	// 匿名版替换函数$html变量为需要替换的html
 	public static function replace($html) {
 		require('controller.php');
@@ -29,7 +38,7 @@ class Template {
 		// 数据库数据替换
 		$html = Controller::dbDataReplace(self::$dbData, $html);
 		// 计算后值替换
-		$html = Controller::calculate(self::$calculate, $html);
+		$html = self::replaceCalculate($html);
 		// 固定参数替换
 		$html = self::replaceTemplate($html);
 		
@@ -54,6 +63,20 @@ class Template {
 	private static function replaceTemplate($html) {
 		foreach (self::$template as $key => $value) {
 			$html = str_replace('%' . $key . '%', $value, $html);
+		}
+		return $html;
+	}
+	
+	// 匿名版计算后数值替换
+	private static function replaceCalculate($html) {
+		foreach (self::$calculate as $key => $value) {
+			if ($key == 'date') {
+				$date = date($value);
+				$html = str_replace('%' . $key . '%', $date, $html);
+			} else if ($key == 'time') {
+				$time = date($value);
+				$html = str_replace('%' . $key . '%', $time, $html);
+			}
 		}
 		return $html;
 	}

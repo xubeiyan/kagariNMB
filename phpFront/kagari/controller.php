@@ -113,20 +113,5 @@ class Controller {
 		}
 		return $toReplace;
 	}
-	
-	// 计算后值替换
-	public static function calculate($template, $toReplace) {
-		foreach ($template as $key => $value) {
-			if ($key == 'date' && $value == 'dateText') {
-				$valueCal = date('Y年m月d日');
-				$toReplace = str_replace('%' . $key . '%', $valueCal, $toReplace);
-			} else if ($key == 'time' && $value == 'timeText') {
-				$valueCal = date('H:i');
-				$toReplace = str_replace('%' . $key . '%', $valueCal, $toReplace);
-			}
-		}
-		return $toReplace;
-	}
-	
 }
 ?>
