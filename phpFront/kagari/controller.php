@@ -58,7 +58,12 @@ class Controller {
 					//print_r($array);
 					$string = '';
 					foreach ($array['response']['areas'] as $arrkey => $arrval) {
-						$string .= $arrval['area_id'] . ' ' . $arrval['area_name'] . ' ' . $arrval['parent_area'] . '<br />';
+						// 是否为母板
+						if ($arrval['parent_area'] == '') {
+							$string .= $arrval['area_id'] . ' <b>' . $arrval['area_name'] . ' ' . $arrval['parent_area'] . '</b><br />';
+						} else {
+							$string .= '-' . $arrval['area_id'] . ' ' . $arrval['area_name'] . ' ' . $arrval['parent_area'] . '<br />';
+						}
 					}
 					$toReplace = str_replace('%' . $key . '%', $string , $toReplace);
 				}
