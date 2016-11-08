@@ -3,40 +3,40 @@
 * 大概是控制器吧
 */
 class Controller {
-	// cookie设置与读取
-	public static function cookies($toReplace) {
+	/**
+	* cookie读取
+	* 参数：用户cookie中的username
+	* 返回：新的cookie中的username
+	* 		或者之前cookie的username
+	*		或者dismatch（现有cookie和数据库中不匹配）
+	*/
+	public static function cookies($username) {
 		global $config;
-		if (!isset($_COOKIE['username'])) {
-			$data = Array(
-				'ip' => $_SERVER['REMOTE_ADDR']
-			);
-			$opts = Array(
-				'http' => Array(
-					'method' => 'POST',
-					'user_agent' => $config['userAgent'],
-					'header' => "Content-type: application/json\r\n",
-					'content' => json_encode($data, JSON_UNESCAPED_UNICODE)
-				)
-			);
-			
-			$context = stream_context_create($opts);
-			$json = file_get_contents($config['backURI'] . 'api/getCookie', false, $context);
-			$string = json_decode($json, TRUE);
-			//print_r($json);
-			setcookie('username', $string['response']['username'], time() + 10 * 60); // 十分钟过期？
-		} else {
-			setcookie('username', $_COOKIE['username'], time() + 10 * 60);
-		}
 		
-		//print_r($_COOKIE);
-		if (isset($_COOKIE['username'])) {
-			$toReplace = str_replace('%cookie%', $_COOKIE['username'], $toReplace);
+		$data = Array(
+			'ip' => $_SERVER['REMOTE_ADDR']
+		);
+		$opts = Array(
+			'http' => Array(
+				'method' => 'POST',
+				'user_agent' => $config['userAgent'],
+				'header' => "Content-type: application/json\r\n",
+				'content' => json_encode($data, JSON_UNESCAPED_UNICODE)
+			)
+		);
+		
+		$context = stream_context_create($opts);
+		$json = file_get_contents($config['backURI'] . 'api/getCookie', false, $context);
+		$string = json_decode($json, TRUE);
+		
+		if ($username == '') {
+			//print_r($json);
+			return $string['response']['username'];
+		} else if ($username == $string['response']['username']){
+			return $username;
 		} else {
-			$toReplace = str_replace('%cookie%', '未获取到饼干' , $toReplace);
+			return 'dismatch';
 		}
-		//print_r($_COOKIE);
-		//print_r($_REQUEST);
-		return $toReplace;
 	}
 	// 数据库值替换
 	public static function dbDataReplace($list, $toReplace) {
@@ -128,16 +128,5 @@ class Controller {
 		return $toReplace;
 	}
 	
-	// 模板替换
-	public static function templateReplace($template, $toReplace) {
-		foreach ($template as $key => $value) {
-			if (is_string($value)) {
-				$toReplace = str_replace('%' . $key . '%', $value, $toReplace);
-			} else if(is_array($value)) {
-				
-			}
-		}
-		return $toReplace;
-	}
 }
 ?>
