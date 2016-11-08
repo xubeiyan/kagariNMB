@@ -1,6 +1,4 @@
 <?php
-
-
 class Template {
 	// 匿名版的某些固定值
 	private static $template = Array (
