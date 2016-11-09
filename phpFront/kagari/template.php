@@ -98,9 +98,25 @@ class Template {
 				$in = FALSE;
 				$templateString = substr($html, $startPos + 1, $endPos - $startPos - 1);
 				
+				//
 				if ($templateString == 'areaLists') {
 					$data = Controller::apis(self::$dbData[$templateString], Array());
 					$string = self::areaLists($data);
+					$html = str_replace('%' . $templateString . '%', $string, $html);
+				} else if ($templateString == 'areaPosts') {
+					$queryArray = explode('-', $_GET['q']);
+					$areaId = $queryArray[1];
+					if (count($queryArray) == 4) {
+						$areaPage = $queryArray[3];
+					} else {
+						$areaPage = 1;
+					}
+					$req = Array(
+						'area_id' => $areaId,
+						'area_page' => $areaPage
+					);
+					$data = Controller::apis(self::$dbData[$templateString], $req);
+					$string = self::areaPosts($data);
 					$html = str_replace('%' . $templateString . '%', $string, $html);
 				}
 			}
@@ -110,14 +126,28 @@ class Template {
 	
 	// 板块列表处理函数
 	private static function areaLists($areaListsArray) {
+		if ($areaListsArray == 'no areas') {
+			return '<b>No Areas...</b>';
+		}
+		
 		$return = '';
 		foreach ($areaListsArray as $value) {
 			if ($value['parent_area'] == '') {
 				$return .= $value['area_id'] . ' <b>' . $value['area_name'] . '</b><br />';
 			} else {
-				$return .= '-' . $value['area_id'] . ' <a href="a/' . $value['area_id'] . '">' . $value['area_name'] . '</a><br />';
+				$return .= '-' . $value['area_id'] . ' <a href="a-' . $value['area_id'] . '">' . $value['area_name'] . '</a><br />';
 			}
 		}
+		return $return;
+	}
+	
+	// 板块串处理函数
+	private static function areaPosts($areaPostsArray) {
+		if ($areaPostsArray == 'no posts') {
+			return '<b>No Posts...</b>';
+		}
+		$return = '';
+		print_r($areaPostsArray);
 		return $return;
 	}
 }

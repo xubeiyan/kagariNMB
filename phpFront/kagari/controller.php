@@ -65,8 +65,24 @@ class Controller {
 				return $arrayResponse['response']['areas'];
 			}
 		// 板块下串列表	
-		} else if ($reqArray['api'] == 'api/getAreaPosts') {
+		} else if ($api == 'api/getAreaPosts') {
+			$opts = Array(
+				'http' => Array(
+					'method' => 'POST',
+					'user_agent' => $config['userAgent'],
+					'header' => "Content-type: application/json\r\n",
+					'content' => json_encode($req, JSON_UNESCAPED_UNICODE)
+				)
+			);
+			$context = stream_context_create($opts);
+			$jsonResponse = file_get_contents($config['backURI'] . $api, false, $context);
+			$arrayResponse = json_decode($jsonResponse, TRUE);
 			
+			if ($arrayResponse['response']['posts'] != Array()) {
+				return $arrayResponse['response']['posts'];
+			} else {
+				return 'no posts';
+			}
 		}
 	}
 	

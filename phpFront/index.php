@@ -17,19 +17,19 @@ if (!isset($_GET) || empty($_GET)) {
 }
 
 if (isset($_GET)) {
-	if (count(explode('/', $_GET['q'])) < 2) {
+	if (count(explode('-', $_GET['q'])) < 2) {
 		$html = 'lack of parameters...';
 		echo $html;
 		exit();
 	}
 	// 区访问，截取前两个字符
-	if (substr($_GET['q'], 0, 2) == 'a/') {
+	if (substr($_GET['q'], 0, 2) == 'a-') {
 		$html = Template::index('area.html');
 		$html = Template::replace($html);
 		echo $html;
 		exit();
 	// 串访问
-	} else if (substr($_GET['q'], 0, 2) == 'p/') {
+	} else if (substr($_GET['q'], 0, 2) == 'p-') {
 		echo 'post';
 		exit();
 	}
