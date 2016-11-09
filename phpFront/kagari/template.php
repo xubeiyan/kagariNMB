@@ -36,7 +36,8 @@ class Template {
 		// Cookie设置函数
 		$html = self::replaceCookies($html);
 		// 数据库数据替换
-		$html = Controller::dbDataReplace(self::$dbData, $html);
+		$html = self::replaceData($html);
+		//$html = Controller::dbDataReplace(self::$dbData, $html);
 		// 计算后值替换
 		$html = self::replaceCalculate($html);
 		// 固定参数替换
@@ -79,6 +80,45 @@ class Template {
 			}
 		}
 		return $html;
+	}
+	
+	// 匿名版数据库替换函数
+	private static function replaceData($html) {
+		require_once('controller.php');
+		$offset = 0;
+		$in = FALSE;
+		while ($pos = strpos($html, '%', $offset)) {
+			if ($in == FALSE) {
+				$startPos = $pos;
+				$in = TRUE;
+				$offset = $pos + 1;
+			} else {
+				$endPos = $pos;
+				$offset = $pos + 1;
+				$in = FALSE;
+				$templateString = substr($html, $startPos + 1, $endPos - $startPos - 1);
+				
+				if ($templateString == 'areaLists') {
+					$data = Controller::apis(self::$dbData[$templateString], Array());
+					$string = self::areaLists($data);
+					$html = str_replace('%' . $templateString . '%', $string, $html);
+				}
+			}
+		}
+		return $html;
+	}
+	
+	// 板块列表处理函数
+	private static function areaLists($areaListsArray) {
+		$return = '';
+		foreach ($areaListsArray as $value) {
+			if ($value['parent_area'] == '') {
+				$return .= $value['area_id'] . ' <b>' . $value['area_name'] . '</b><br />';
+			} else {
+				$return .= '-' . $value['area_id'] . ' <a href="a/' . $value['area_id'] . '">' . $value['area_name'] . '</a><br />';
+			}
+		}
+		return $return;
 	}
 }
 ?>

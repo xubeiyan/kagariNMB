@@ -2,6 +2,14 @@ body {
 	margin:0;
 	font-family:微软雅黑;
 }
+a {
+	color:inherit;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
 div#header {
 	background-color: #498CFF;
 	width:100%;

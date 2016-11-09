@@ -38,6 +38,38 @@ class Controller {
 			return 'dismatch';
 		}
 	}
+	
+	/**
+	* 数据库读取
+	* 参数：调用API名称$api
+	*		调用API的请求本体$req
+	* 返回值：
+	*/
+	public static function apis($api, $req) {
+		global $config;
+		// 板块列表
+		if ($api == 'api/getAreaLists') {
+			$opts = Array(
+				'http' => Array(
+					'method' => 'GET',
+					'user_agent' => $config['userAgent']
+				)
+			);
+			$context = stream_context_create($opts);
+			$jsonResponse = file_get_contents($config['backURI'] . $api, false, $context);
+			$arrayResponse = json_decode($jsonResponse, TRUE);
+			
+			if ($arrayResponse['response']['areas'] == Array()) {
+				return 'no areas';
+			} else {
+				return $arrayResponse['response']['areas'];
+			}
+		// 板块下串列表	
+		} else if ($reqArray['api'] == 'api/getAreaPosts') {
+			
+		}
+	}
+	
 	// 数据库值替换
 	public static function dbDataReplace($list, $toReplace) {
 		global $config;
