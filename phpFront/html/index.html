@@ -4,17 +4,21 @@
 <title>%nimingbanTitle%</title>
 <meta charset="UTF-8" />
 <link rel="stylesheet" type="text/css" href="css/main.css" />
+<link rel="icon" href="favicon.png" type="image/png" />
 </head>
 <body>
 <div id="header">
 	<div id="areaList" class="header-text" onclick="k.switchListPanel()">板块列表</div>
 	<div id="title" class="header-text"><a href=".">%nimingbanTitle%</a></div>
-	<div id="function" class="header-text">功能</div>
+	<div id="functionButton" class="header-text" onclick="k.switchFunctionPanel()">功能</div>
 </div>
 <div class="out left-part" id="areas">
 	<div>%areaLists%</div>
 </div>
-<div class="out right-part">%welcomeInformation%</div>
+<div class="out middle-part">%welcomeInformation%</div>
+<div class="out right-part" id="functions">
+	<div>%functions%</div>
+</div>
 <div id="footer">
 	<div id="cookie">饼干：%cookie%</div>
 	<div id="date_time">%date% %time%</div>

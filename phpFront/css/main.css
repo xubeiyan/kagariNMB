@@ -21,6 +21,7 @@ div.header-text {
 	text-align:center;
 	color:#FFF;
 }
+/* 页眉 */
 div#areaList {
 	width:100px;
 	height:100%;
@@ -33,12 +34,13 @@ div#title {
 	margin-left:10px;
 	float:left;
 }
-div#function {
+div#functionButton {
 	width:60px;
 	height:100%;
 	background-color:#3B7EFF;
 	float:right;
 	border-radius:10px;
+	cursor:pointer;
 }
 div.out {
 	height: 400px;
@@ -52,10 +54,20 @@ div.left-part {
 div#areas {
 	display: none;
 }
-
-div.right-part {
-	width: 80%;
+div.middle-part {
+	width: 60%;
 }
+div.right-part {
+	width: 20%;
+	background-color: #C2F7D4;
+}
+
+div#functions {
+	float: right;
+	display: none;
+}
+/* 页内按钮 */
+/* 页脚 */
 div#footer {
 	width: 100%;
 	height: 50px;
