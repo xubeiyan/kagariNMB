@@ -3,7 +3,9 @@ class Template {
 	// 匿名版的某些固定值
 	private static $template = Array (
 		'nimingbanTitle' => 'kagari匿名版',
-		'welcomeInformation' => '<h3>Kagari匿名版欢迎你！</h3>'
+		'welcomeInformation' => '<h3>Kagari匿名版欢迎你！</h3>',
+		'areaListText' => '版块列表',
+		'functionText' => '功能'
 	);
 	
 	// 匿名版的某些计算后的到的值
@@ -133,9 +135,9 @@ class Template {
 		$return = '';
 		foreach ($areaListsArray as $value) {
 			if ($value['parent_area'] == '') {
-				$return .= '<div class="button menu-first">' . $value['area_id'] . ' <b>' . $value['area_name'] . '</b></div>';
+				$return .= '<div class="button menu-first"><b>' . $value['area_name'] . '</b></div>';
 			} else {
-				$return .= '<div class="button menu-second">' . $value['area_id'] . ' <a href="a-' . $value['area_id'] . '">' . $value['area_name'] . '</a></div>';
+				$return .= '<div class="button menu-second"><a href="a-' . $value['area_id'] . '">' . $value['area_name'] . '</a></div>';
 			}
 		}
 		return $return;
