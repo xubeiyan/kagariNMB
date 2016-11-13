@@ -133,9 +133,9 @@ class Template {
 		$return = '';
 		foreach ($areaListsArray as $value) {
 			if ($value['parent_area'] == '') {
-				$return .= $value['area_id'] . ' <b>' . $value['area_name'] . '</b><br />';
+				$return .= '<div class="button menu-first">' . $value['area_id'] . ' <b>' . $value['area_name'] . '</b></div>';
 			} else {
-				$return .= '-' . $value['area_id'] . ' <a href="a-' . $value['area_id'] . '">' . $value['area_name'] . '</a><br />';
+				$return .= '<div class="button menu-second">' . $value['area_id'] . ' <a href="a-' . $value['area_id'] . '">' . $value['area_name'] . '</a></div>';
 			}
 		}
 		return $return;

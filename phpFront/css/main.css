@@ -25,7 +25,7 @@ div.header-text {
 div#areaList {
 	width:100px;
 	height:100%;
-	background-color: #3B7EFF;
+	
 	border-radius:10px;
 	float:left;
 	cursor:pointer;
@@ -48,7 +48,7 @@ div.out {
 }
 div.left-part {
 	width: 20%;
-	background-color: #C2F7D4;
+	
 }
 
 div#areas {
@@ -67,6 +67,20 @@ div#functions {
 	display: none;
 }
 /* 页内按钮 */
+div.button {
+	width:90%;
+	height:40px;
+	line-height:40px;
+	padding-left:10%;
+	
+}
+div.menu-first {
+	background-color: #C2D7A4;
+}
+
+div.menu-second {
+	background-color: #C2F7D4;
+}
 /* 页脚 */
 div#footer {
 	width: 100%;
