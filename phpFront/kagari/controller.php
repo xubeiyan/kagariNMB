@@ -78,11 +78,8 @@ class Controller {
 			$jsonResponse = file_get_contents($config['backURI'] . $api, false, $context);
 			$arrayResponse = json_decode($jsonResponse, TRUE);
 			
-			if ($arrayResponse['response']['posts'] != Array()) {
-				return $arrayResponse['response']['posts'];
-			} else {
-				return 'no posts';
-			}
+			return $arrayResponse['response'];
+			
 		}
 	}
 	

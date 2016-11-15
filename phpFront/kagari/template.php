@@ -11,7 +11,8 @@ class Template {
 	// 匿名版的某些计算后的到的值
 	private static $calculate = Array (
 		'date' => 'Y年m月d日',
-		'time' => 'H:i'
+		'time' => 'H:i',
+		'admin' => '权限狗认证处'
 	);
 	
 	// 匿名版里需要从数据库读取的值
@@ -79,6 +80,9 @@ class Template {
 			} else if ($key == 'time') {
 				$time = date($value);
 				$html = str_replace('%' . $key . '%', $time, $html);
+			} else if ($key == 'admin') {
+				$string = '<div class="button">' . $value . '</div>';
+				$html = str_replace('%' . $key . '%', $string, $html);
 			}
 		}
 		return $html;
@@ -119,7 +123,10 @@ class Template {
 					);
 					$data = Controller::apis(self::$dbData[$templateString], $req);
 					$string = self::areaPosts($data);
+					
 					$html = str_replace('%' . $templateString . '%', $string, $html);
+					$html = str_replace('%areaId%', $areaId, $html);
+					$html = str_replace('%areaName%', $data['area_name'], $html);
 				}
 			}
 		}
@@ -144,17 +151,18 @@ class Template {
 	}
 	
 	// 板块串处理函数
-	private static function areaPosts($areaPostsArray) {
-		if ($areaPostsArray == 'no posts') {
+	private static function areaPosts($areaArray) {
+		if ($areaArray['posts'] == Array()) {
 			return '<b>No Posts...</b>';
 		}
 		$return = '';
-		print_r($areaPostsArray);
+		$areaPostsArray = $areaArray['posts'];
+		//print_r($areaPostsArray);
 		foreach ($areaPostsArray as $areaPost) {
 			$titlePart = '<div class="post-title-info"><span class="post-title">' 
 			. $areaPost['post_title'] . '</span><span class="author-name">' 
 			. $areaPost['author_name'] . '</span><span class="post-id">No.' 
-			. $areaPost['post_id'] . '</span><span class="create-time">' . $areaPost['create_time'] .'</span><span class="user-name">ID:' . $areaPost['user_name'] . '</span><input class="replay-button" type="button" value="回应" /></div>';
+			. $areaPost['post_id'] . '</span><span class="create-time">' . $areaPost['create_time'] .'</span><span class="user-name">ID:' . $areaPost['user_name'] . '</span><input class="replay-button" onclick="location.href=\'p-' . $areaPost['post_id'] .'\'" type="button" value="回应" /></div>';
 			$postImage = $areaPost['post_images'] == '' ? '' : '<span class="post-images"><a href=""><img class="thumb" src="images-' . $areaPost['post_images'] . '"></a></span>';
 			$contentPart = '<div class="post-content">' . $postImage . '<span class="post-content">' . $areaPost['post_content'] . '</span></div>';
 			$replyPart = '';
