@@ -32,6 +32,9 @@ if (isset($_GET)) {
 	} else if (substr($_GET['q'], 0, 2) == 'p-') {
 		echo 'post';
 		exit();
+	// Í¼Æ¬·ÃÎÊ
+	} else if (substr($_GET['q'], 0, 2) == 'i-') {
+		
 	}
 }
 ?>
