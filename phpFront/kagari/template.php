@@ -131,11 +131,24 @@ class Template {
 					$html = str_replace('%areaId%', $areaId, $html);
 					$html = str_replace('%areaName%', $data['area_name'], $html);
 				} else if ($templateString == 'post') {
+					$queryArray = explode('-', $_GET['q']);
+					$postId = $queryArray[1];
+					if (count($queryArray) == 4) {
+						$postPage = $queryArray[3];
+					} else {
+						$postPage = 1;
+					}
+					$req = Array(
+						'post_id' => $postId,
+						'post_page' => $postPage
+					);
+					
 					$data = Controller::apis(self::$dbData[$templateString], $req);
 					$string = self::post($data);
 					
 					$html = str_replace('%' . $templateString . '%', $string, $html);
-					$html = str_replace('%postId%', $areaId, $html);
+					$html = str_replace('%areaId%', $data['area_id'], $html);
+					$html = str_replace('%postId%', $postId, $html);
 					$html = str_replace('%areaName%', $data['area_name'], $html);
 				}
 			}
@@ -162,7 +175,6 @@ class Template {
 	
 	// 板块串处理函数
 	private static function areaPosts($areaArray) {
-		//print_r($areaArray);
 		// 没有这个板块
 		if (isset($areaArray['error']) ) {
 			return '<b>No such area</b>';
@@ -173,7 +185,7 @@ class Template {
 		}
 		$return = '';
 		$areaPostsArray = $areaArray['posts'];
-		//print_r($areaPostsArray);
+
 		foreach ($areaPostsArray as $areaPost) {
 			$titlePart = '<div class="post-title-info"><span class="post-title">' 
 			. $areaPost['post_title'] . '</span><span class="author-name">' 
@@ -203,6 +215,26 @@ class Template {
 	// 串处理函数
 	private static function post($postArray) {
 		$return = '';
+		//print_r($postArray);
+		
+		$titlePart = '<div class="post-title-info"><span class="post-title">' 
+		. $postArray['post_title'] . '</span><span class="author-name">' 
+		. $postArray['author_name'] . '</span><span class="post-id">No.' 
+		. $postArray['post_id'] . '</span><span class="create-time">' . $postArray['create_time'] .'</span><span class="user-name">ID:' . $postArray['user_name'] . '</span></div>';
+		$postImage = $postArray['post_images'] == '' ? '' : '<span class="post-images"><a href=""><img class="thumb" src="images-' . $postArray['post_images'] . '"></a></span>';
+		$contentPart = '<div class="post-content">' . $postImage . '<span class="post-content">' . $postArray['post_content'] . '</span></div>';
+		$replyPart = '';
+		foreach ($postArray['reply_recent_posts'] as $replyPost) {
+			$replyTitlePart = '<div class="reply post-title-info"><span class="post-title">' 
+			. $replyPost['post_title'] . '</span><span class="author-name">' 
+			. $replyPost['author_name'] . '</span><span class="post_id">No.' 
+			. $replyPost['post_id'] . '</span><span class="create-time">' 
+			. $replyPost['create_time'] . '</span><span class="user-name">ID:' 
+			. $replyPost['user_name'] . '</span></div>';
+			$replyContentPart = '<div class="reply post-content"><span class="post-content">' . $replyPost['post_content'] . '</span></div>';
+			$replyPart .= $replyTitlePart . $replyContentPart;
+		}
+		$return = $titlePart . $contentPart . $replyPart;
 		return $return;
 	}
 }
