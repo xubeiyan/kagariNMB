@@ -28,6 +28,7 @@ if (isset($_GET['create_tbl'])) {
 		user_name varchar(20), 
 		block_time int,
 		last_post_id int,
+		last_post_time datetime DEFAULT CURRENT_TIMESTAMP,
 		PRIMARY KEY(user_id)
 	) COLLATE utf8_general_ci';	
 	// area表
@@ -51,8 +52,8 @@ if (isset($_GET['create_tbl'])) {
 		post_title text(128),
 		post_content text,
 		post_images varchar(60),
-		create_time varchar(20),
-		update_time varchar(20),
+		create_time datetime DEFAULT CURRENT_TIMESTAMP,
+		update_time datetime DEFAULT CURRENT_TIMESTAMP,
 		PRIMARY KEY(post_id)
 	) COLLATE utf8_general_ci';
 	

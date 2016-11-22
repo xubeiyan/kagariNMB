@@ -348,16 +348,23 @@ class API {
 		// 发送请求
 		$sql = 'INSERT INTO ' . $post_table . 
 		'(area_id, user_id, reply_post_id, author_name, author_email, post_title, post_content, post_images, create_time, update_time) VALUES (' . 
-		$area_id . ',' . $user_id . ',' . $reply_post_id . ',"' . $author_name . '","' . $author_email . '","' . $post_title . '","' . $post_content . '","' . $post_image . '","' . self::timestamp() . '","' . self::timestamp() . '")';
+		$area_id . ',' . $user_id . ',' . $reply_post_id . ',"' . $author_name . '","' . $author_email . '","' . $post_title . '","' . $post_content . '","' . $post_image . '", CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)';
 		
 		// 如果reply_post_id不为0，更新主串update_time
 		// 新增：post_title为SAGE则不更新时间（所谓的串被SAGE了）
  		if ($reply_post_id != 0 && $post_title != $conf['sageString']) {
- 			$updatesql = 'UPDATE ' . $post_table . ' SET update_time="' . self::timestamp() . '" WHERE post_id=' . $reply_post_id;
+ 			$updatesql = 'UPDATE ' . $post_table . ' SET update_time=CURRENT_TIMESTAMP WHERE post_id=' . $reply_post_id;
  			if (!mysqli_query($con, $updatesql)) {
  				die(mysqli_error($con));
  			}
  		}
+		
+		// 改写last_post_id以及last_post_time
+		$updatesql = 'UPDATE ' . $user_table . ' SET last_post_time=CURRENT_TIMESTAMP';
+		if (!mysqli_query($con, $updatesql)) {
+			die(mysqli_error($con));
+		}
+		
 		//echo $sql;
 		if (mysqli_query($con, $sql)) {
 			$return['response']['status'] = "OK";

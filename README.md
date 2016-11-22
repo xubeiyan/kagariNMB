@@ -18,6 +18,7 @@ kagari Nimingba(匿名版)
 * user_name(随机生成字符串还是按规律增长的字符串), 
 * block_time(被阻止时间，秒数？分钟数？亦或是被永久),
 * last_post_id(最后发串id？这个功能疑似没啥用啊)
+* last_post_time(最后发串时间，配合最小区域最小发串时间使用)
 
 ######area:(分区)
 * area_id(primary key), 
@@ -245,7 +246,7 @@ kagari Nimingba(匿名版)
   `user_name`(用户名，必需)   
   `area_id`(分区id，必需)     
   `user_ip`(用户ip，必需)
-  `reply_post_id`(回复还是新串，新串为0，为空则为0)    
+  `reply_post_id`(回复还是新串，新串为0，为空则为0)        
   `author_name`   
   `author_email`   
   `post_title`   
