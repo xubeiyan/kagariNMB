@@ -272,6 +272,7 @@ class API {
 	* 发表新串
 	* `user_id`(用户id，必需)
 	* `area_id`(区id，必须)
+	* `user_ip`(用户ip，必须)
 	* `reply_post_id`(回复串id)
 	* `author_name`   
 	* `author_email`   
@@ -291,10 +292,11 @@ class API {
 		// 检查user_id是否合法，检查其是否对得上ip
 		$user_id = is_numeric($post['user_id']) ? $post['user_id'] : 0;
 		
-		$ip = $_SERVER['REMOTE_ADDR'];
+		$ip = $post['user_ip'];
 		$sql = 'SELECT user_id FROM ' . $user_table . ' WHERE ip_address="' . $ip . '" AND user_id=' . $user_id;
 		$result = mysqli_query($con, $sql);
-		//echo $sql;
+		// print $sql;
+		// exit();
 		// 未找到则返回错误
 		if (empty($row = mysqli_fetch_assoc($result))) {
 			$return['response']['error'] = 'Not exists such user';
