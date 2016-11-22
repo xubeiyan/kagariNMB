@@ -189,7 +189,8 @@ kagari Nimingba(匿名版)
 		"request": "getPost",
 		"response": {
 			"timestamp": "2016-05-27 17:06:43",
-			"area_id": 2
+			"area_id": 2,
+			"area_name": "综合版1",
 			"post_id": 10000,
 			"post_page": 1,
 			"posts_per_page": 50,

@@ -207,6 +207,7 @@ class API {
 		
 		$userTable = $conf['databaseName'] . '.' . $conf['databaseTableName']['user'];
 		$postTable = $conf['databaseName'] . '.' . $conf['databaseTableName']['post'];
+		$areaTable = $conf['databaseName'] . '.' . $conf['databaseTableName']['area'];
 		$postsPerPage = $conf['postsPerPage'];
 		// 查询所在post表
 		$sql = 'SELECT * FROM ' . $postTable . ' WHERE post_id=' . $post_id .' AND reply_post_id=0 LIMIT 1';
@@ -226,6 +227,13 @@ class API {
 		$userResultRow = mysqli_fetch_assoc($userResult);
 		
 		$return['response']['area_id'] = intval($mainPostRow['area_id']);
+		
+		// 从中获取板块名称
+		$sql = 'SELECT area_name FROM ' . $areaTable . ' WHERE area_id=' . $mainPostRow['area_id'];
+		$areaResult = mysqli_query($con, $sql);
+		$areaResultRow = mysqli_fetch_assoc($areaResult);
+		$return['response']['area_name'] = $areaResultRow['area_name'];
+		
 		$return['response']['post_id'] = intval($post_id);
 		$return['response']['post_page'] = intval($post_page);
 		$return['response']['postsPerPage'] = intval($postsPerPage);
