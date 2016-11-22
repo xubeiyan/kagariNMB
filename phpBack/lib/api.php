@@ -270,7 +270,7 @@ class API {
 	
 	/**
 	* 发表新串
-	* `user_id`(用户id，必需)
+	* `user_name`(用户名，必需)
 	* `area_id`(区id，必须)
 	* `user_ip`(用户ip，必须)
 	* `reply_post_id`(回复串id)
@@ -289,20 +289,23 @@ class API {
 		$area_table = $conf['databaseName'] . '.' . $conf['databaseTableName']['area'];
 		$post_table = $conf['databaseName'] . '.' . $conf['databaseTableName']['post'];
 		
-		// 检查user_id是否合法，检查其是否对得上ip
-		$user_id = is_numeric($post['user_id']) ? $post['user_id'] : 0;
+		$user_name = $post['user_name'];
 		
 		$ip = $post['user_ip'];
-		$sql = 'SELECT user_id FROM ' . $user_table . ' WHERE ip_address="' . $ip . '" AND user_id=' . $user_id;
+		$sql = 'SELECT user_id FROM ' . $user_table . ' WHERE ip_address="' . $ip . '" AND user_name="' . $user_name . '"';
 		$result = mysqli_query($con, $sql);
-		// print $sql;
+		//print $sql;
 		// exit();
 		// 未找到则返回错误
 		if (empty($row = mysqli_fetch_assoc($result))) {
 			$return['response']['error'] = 'Not exists such user';
 			echo json_encode($return, JSON_UNESCAPED_UNICODE);
 			exit();
-		} 
+		}
+		// 将找到的用户id赋给$user_id
+		$user_id = $row['user_id'];
+		//print $user_id;
+		//exit();
 		// 检查区id
 		$area_id = is_numeric($post['area_id']) ? $post['area_id'] : 0;
 		$sql = 'SELECT area_id FROM ' . $area_table . ' WHERE area_id=' . $area_id;
