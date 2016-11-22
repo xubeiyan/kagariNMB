@@ -225,13 +225,14 @@ class API {
 		$userResult = mysqli_query($con, $sql);
 		$userResultRow = mysqli_fetch_assoc($userResult);
 		
+		$return['response']['area_id'] = intval($mainPostRow['area_id']);
 		$return['response']['post_id'] = intval($post_id);
 		$return['response']['post_page'] = intval($post_page);
 		$return['response']['postsPerPage'] = intval($postsPerPage);
 		$return['response']['post_title'] = $mainPostRow['post_title'];
 		$return['response']['post_content'] = $mainPostRow['post_content'];
 		$return['response']['post_images'] = $mainPostRow['post_images'];
-		$return['response']['user_id'] = $mainPostRow['user_id'];
+		$return['response']['user_id'] = intval($mainPostRow['user_id']);
 		$return['response']['user_name'] = $userResultRow['user_name'];
 		$return['response']['author_name'] = $mainPostRow['author_name'];
 		$return['response']['author_email'] = $mainPostRow['author_email'];
