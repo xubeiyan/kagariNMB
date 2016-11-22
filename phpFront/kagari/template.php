@@ -124,8 +124,18 @@ class Template {
 					$data = Controller::apis(self::$dbData[$templateString], $req);
 					$string = self::areaPosts($data);
 					
+					if ($string == '<b>No such area</b>') {
+						$data['area_name'] = '未知板块';
+					}
 					$html = str_replace('%' . $templateString . '%', $string, $html);
 					$html = str_replace('%areaId%', $areaId, $html);
+					$html = str_replace('%areaName%', $data['area_name'], $html);
+				} else if ($templateString == 'post') {
+					$data = Controller::apis(self::$dbData[$templateString], $req);
+					$string = self::post($data);
+					
+					$html = str_replace('%' . $templateString . '%', $string, $html);
+					$html = str_replace('%postId%', $areaId, $html);
 					$html = str_replace('%areaName%', $data['area_name'], $html);
 				}
 			}
@@ -152,6 +162,12 @@ class Template {
 	
 	// 板块串处理函数
 	private static function areaPosts($areaArray) {
+		//print_r($areaArray);
+		// 没有这个板块
+		if (isset($areaArray['error']) ) {
+			return '<b>No such area</b>';
+		}
+		// 板块没有串
 		if ($areaArray['posts'] == Array()) {
 			return '<b>No Posts...</b>';
 		}
@@ -181,6 +197,12 @@ class Template {
 			
 			$return .= $titlePart . $contentPart . $replyPart . $endPart;
 		}
+		return $return;
+	}
+	
+	// 串处理函数
+	private static function post($postArray) {
+		$return = '';
 		return $return;
 	}
 }

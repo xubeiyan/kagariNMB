@@ -30,7 +30,9 @@ if (isset($_GET)) {
 		exit();
 	// ¥Æ∑√Œ 
 	} else if (substr($_GET['q'], 0, 2) == 'p-') {
-		echo 'post';
+		$html = Template::index('post.html');
+		$html = Template::replace($html);
+		echo $html;
 		exit();
 	// Õº∆¨∑√Œ 
 	} else if (substr($_GET['q'], 0, 2) == 'i-') {
