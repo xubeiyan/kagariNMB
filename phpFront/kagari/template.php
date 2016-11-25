@@ -130,6 +130,7 @@ class Template {
 					$html = str_replace('%' . $templateString . '%', $string, $html);
 					$html = str_replace('%areaId%', $areaId, $html);
 					$html = str_replace('%areaName%', $data['area_name'], $html);
+					$html = str_replace('%functions%', self::newPost(), $html);
 				} else if ($templateString == 'post') {
 					$queryArray = explode('-', $_GET['q']);
 					$postId = $queryArray[1];
@@ -235,6 +236,18 @@ class Template {
 			$replyPart .= $replyTitlePart . $replyContentPart;
 		}
 		$return = $titlePart . $contentPart . $replyPart;
+		return $return;
+	}
+	
+	// 新串
+	private static function newPost() {
+		$return = '<form action="s" method="POST">' .
+					'<span>名称</span><input type="text" name="name"/><br />' .
+					'<span>E-mail</span><input type="text" name="email"/><br />' .
+					'<span>标题</span><input type="text" name="title"/><br />' .
+					'<span>正文</span><textarea name="content"></textarea><br />' .
+					'<span>图片</span><input type="file" name="image"/><br />' .
+					'<input type="submit" value="送出" /></form>';
 		return $return;
 	}
 }
