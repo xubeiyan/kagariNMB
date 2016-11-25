@@ -173,15 +173,6 @@ kagari Nimingba(匿名版)
 	{
 		"request": "getAreaPosts",
 		"response": {
-			"timestamp": "getAreaPosts"
-		}
-	}
-	```    
-(返回未找到板块)
-	```javascript
-	{
-		"request": "getAreaPosts",
-		"response": {
 			"timestamp": "2016-11-25 05:53:42",
 			"area_id": 2,
 			"area_name": "综合版",
@@ -190,6 +181,16 @@ kagari Nimingba(匿名版)
 			"last_reply_posts": 8,
 			"posts": [],
 			"info": "No posts in area with area_id=2"
+		}
+	}
+	```    
+(返回未找到板块)
+	```javascript
+	{
+		"request": "getAreaPosts",
+		"response": {
+			"timestamp": "2016-06-18 17:19:34",
+			"error": "未找到对应的板块"
 		}
 	}
 	```
