@@ -176,7 +176,7 @@ class API {
 		}
 		// 为空则返回
 		if (empty($row) && $forloop == 0) {
-			$return['response']['error'] = 'No posts in area with area_id=' . $area_id;
+			$return['response']['info'] = 'No posts in area with area_id=' . $area_id;
 			echo json_encode($return, JSON_UNESCAPED_UNICODE);
 			exit();
 		}
