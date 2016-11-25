@@ -14,7 +14,7 @@ if (isset($_GET['create_db'])) {
 	if(!mysqli_query($con, $sql)) {
 		die(mysqli_connect_error());
 	} else {
-		echo "create database " . $conf['databaseName'] . " successfully!";
+		echo "create database " . $conf['databaseName'] . " successfully!<br />";
 	}
 }
 
@@ -62,20 +62,20 @@ if (isset($_GET['create_tbl'])) {
 	if(!mysqli_query($con, $usersql)) {
 		die(mysqli_connect_error());
 	} else {
-		echo "create table " . $conf['databaseTableName']['user'] . " successfully!";
+		echo "create table " . $conf['databaseTableName']['user'] . " successfully!<br />";
 	}
 
 	if(!mysqli_query($con, $areasql)) {
 		die(mysqli_connect_error());
 	} else {
-		echo "create table " . $conf['databaseTableName']['area'] . " successfully!";
+		echo "create table " . $conf['databaseTableName']['area'] . " successfully!<br />";
 	}
 
 	if(!mysqli_query($con, $postsql)) {
 		die(mysqli_connect_error());
 	} else {
 		mysqli_query($con, $postidSql);
-		echo "create table " . $conf['databaseTableName']['post'] . " successfully! and the start id of post has been changed to 10000!";
+		echo "create table " . $conf['databaseTableName']['post'] . " successfully! and the start id of post has been changed to 10000!<br />";
 	}
 }
 
@@ -86,7 +86,7 @@ if (isset($_GET['test_area'])) {
 	if(!mysqli_query($con, $test_area_sql)) {
 		die(mysqli_connect_error());
 	} else {
-		echo "insert " . $test_area_sql ." successfully!";
+		echo "insert " . $test_area_sql ." successfully!<br />";
 	}
 	
 	$test_area_sql2 = 'INSERT INTO ' . $conf['databaseName'] . '.' . $conf['databaseTableName']['area'] . 
@@ -95,7 +95,7 @@ if (isset($_GET['test_area'])) {
 	if(!mysqli_query($con, $test_area_sql2)) {
 		die(mysqli_connect_error());
 	} else {
-		echo "insert " . $test_area_sql ." successfully!";
+		echo "insert " . $test_area_sql ." successfully!<br />";
 	}
 	
 	$sql = 'SELECT area_id FROM ' . $conf['databaseName'] . '.' . $conf['databaseTableName']['area'] . ' WHERE area_name="综合版"';
@@ -105,6 +105,21 @@ if (isset($_GET['test_area'])) {
 
 // 暂时没啥用
 if (isset($_GET['test_post'])) {
-	$test_post_sql = 'INSERT INTO ' . $conf['datebaseName'] . '.' . $conf['databaseTableName']['post'] . ' (area_id, user_id, reply_post_id, author_name, author_email, post_title, post_content, post_images, create_time, update_time) VALUES (' . $test_area_id . ')';
+	$test_post_sql = 'INSERT INTO ' . $conf['databaseName'] . '.' . $conf['databaseTableName']['post'] . ' (area_id, user_id, reply_post_id, author_name, author_email, post_title, post_content, post_images, create_time, update_time) VALUES (' . $test_area_id . ')';
+}
+
+if (isset($_GET['drop_all'])) {
+	$sql = 'DROP DATABASE ' . $conf['databaseName'];
+	if (!mysqli_query($con, $sql)) {
+		die('drop failed...');
+	} else {
+		echo 'drop database successfully!<br />';
+	}
+}
+if ($_GET == Array()) {
+	echo 'Full install ->';
+	echo '<a href="index.php?create_db&create_tbl&test_area">Yes</a><br />';
+	echo 'Drop all->';
+	echo '<a href="index.php?drop_all">Yes</a>';
 }
 ?>
