@@ -168,13 +168,28 @@ kagari Nimingba(匿名版)
 		}
 	}
 	```  
+(板块下没有串)   
+	```javascript
+	{
+		"request": "getAreaPosts",
+		"response": {
+			"timestamp": "getAreaPosts"
+		}
+	}
+	```    
 (返回未找到板块)
 	```javascript
 	{
-		"request": "getAreaList",
+		"request": "getAreaPosts",
 		"response": {
-			"timestamp": "2016-06-18 17:19:34",
-			"error": "未找到对应的板块"
+			"timestamp": "2016-11-25 05:53:42",
+			"area_id": 2,
+			"area_name": "综合版",
+			"area_page": 1,
+			"posts_per_page": 50,
+			"last_reply_posts": 8,
+			"posts": [],
+			"info": "No posts in area with area_id=2"
 		}
 	}
 	```
