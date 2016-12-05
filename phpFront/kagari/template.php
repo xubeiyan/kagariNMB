@@ -5,14 +5,16 @@ class Template {
 		'nimingbanTitle' => 'kagari匿名版',
 		'welcomeInformation' => '<h3>Kagari匿名版欢迎你！</h3>',
 		'areaListText' => '版块列表',
-		'functionText' => '功能'
+		'functionText' => '功能',
+		'sendPost' => '发新串',
+		'replyPost' => '回复串'
 	);
 	
 	// 匿名版的某些计算后的到的值
 	private static $calculate = Array (
 		'date' => 'Y年m月d日',
 		'time' => 'H:i',
-		'admin' => '权限狗认证处'
+		'admin' => '权限狗认证处',
 	);
 	
 	// 匿名版里需要从数据库读取的值
@@ -145,8 +147,11 @@ class Template {
 					
 					$data = Controller::apis(self::$dbData[$templateString], $req);
 					$string = self::post($data);
+					$sendPost = self::sendPost($postId);
 					
 					$html = str_replace('%' . $templateString . '%', $string, $html);
+					//$html = str_replace('%')
+					$html = str_replace('%function%', $sendPost, $html);
 					$html = str_replace('%areaId%', $data['area_id'], $html);
 					$html = str_replace('%postId%', $postId, $html);
 					$html = str_replace('%areaName%', $data['area_name'], $html);
@@ -235,6 +240,20 @@ class Template {
 			$replyPart .= $replyTitlePart . $replyContentPart;
 		}
 		$return = $titlePart . $contentPart . $replyPart;
+		return $return;
+	}
+	
+	// 发新串
+	private static function sendPost($id) {
+		$return = '<form action="s-' . $id . '" method="post">' .
+					'<span>标题</span><input type="text" name="title" placeholder="无标题"/><br />' .
+					'<span>名称</span><input type="text" name="name" placeholder="无名氏"/><br />'.
+					'<span>邮箱</span><input type="text" name="email" placeholder=""/><br />'.
+					'<span>附件</span><input type="file" /><br />' .
+					'<span>正文</span><br />' .
+					'<textarea name="content" require="require"></textarea><br />' .
+					'<input type="submit" value="发送" />' .
+					'</form>';
 		return $return;
 	}
 }

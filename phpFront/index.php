@@ -37,6 +37,9 @@ if (isset($_GET)) {
 	// Í¼Æ¬·ÃÎÊ
 	} else if (substr($_GET['q'], 0, 2) == 'i-') {
 		
+	// ·¢ËÍ´®
+	} else if (substr($_GET['q'], 0, 2) == 's-') {
+		
 	}
 }
 ?>
