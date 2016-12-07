@@ -371,10 +371,10 @@ class API {
 			}
 			$post_image_filename = self::randomTimeMd5() . '.' . $ext;
 			$image_file = base64_decode($data);
-			$file = fopen($conf['uploadPath'] . '//' . $post_image_filename, 'w');
-			fwrite($file, $image_file);
-			fclose($file);
-
+			$result = file_put_contents($conf['uploadPath'] . '//' . $post_image_filename, $image_file);
+			if ($result == FALSE) {
+				$post_image_filename = '';
+			}
 		} else {
 			$post_image_filename = '';
 		}

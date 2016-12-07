@@ -262,13 +262,13 @@ kagari Nimingba(匿名版)
 提交内容：   
   `user_name`(用户名，必需)   
   `area_id`(分区id，必需)     
-  `user_ip`(用户ip，必需)
+  `user_ip`(用户ip，必需)   
   `reply_post_id`(回复还是新串，新串为0，为空则为0)        
   `author_name`   
   `author_email`   
   `post_title`   
   `post_content`(串内容，必需)    
-  `post_image`    
+  `post_image`(按data:image/gif;base64,AABBCC==这样的形式使用base64编码上传)    
  返回内容：(正常回帖)    
 	```javascript
 	{
