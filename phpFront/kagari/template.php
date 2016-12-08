@@ -250,8 +250,8 @@ class Template {
 					'<span>名称</span><input type="text" name="name" placeholder="无名氏"/><br />'.
 					'<span>邮箱</span><input type="text" name="email" placeholder=""/><br />'.
 					'<span>附件</span><input type="file" /><br />' .
-					'<span>正文</span><br />' .
-					'<textarea name="content" require="require"></textarea><br />' .
+					'<span style="float:left">正文</span>' .
+					'<textarea style="margin-top:2px" name="content" require="require"></textarea><br />' .
 					'<input type="submit" value="发送" />' .
 					'</form>';
 		return $return;
