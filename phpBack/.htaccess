@@ -2,5 +2,8 @@
 RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^images/(.*)$ image.php?img=$1 [QSA,PT,L]
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^(.*)$ index.php?q=$1 [QSA,PT,L]
  </IfModule>
