@@ -352,12 +352,37 @@ class API {
 			exit();
 		}
 		$post_content = $post['post_content'];
-		$post_image = !isset($post['post_image']) ? '' : $post['post_image'];
+		
+		// 处理提交的base64图片编码
+		//print '123';
+		if (isset($post['post_image'])) {
+			require_once('imagebase64.php');
+			$image = new ImageBase64($post['post_image']);
+			$fileInfo = $image->info();
+			$data = $image->data();
+			if ($fileInfo['type'] == 'image/jpeg') {
+				$ext = 'jpg';
+			} else if ($fileInfo['type'] == 'image/png') {
+				$ext = 'png';
+			} else if ($fileInfo['type'] == 'image/gif') {
+				$ext = 'gif';
+			} else {
+				$ext = 'html';
+			}
+			$post_image_filename = self::randomTimeMd5() . '.' . $ext;
+			$image_file = base64_decode($data);
+			$result = file_put_contents($conf['uploadPath'] . '//' . $post_image_filename, $image_file);
+			if ($result == FALSE) {
+				$post_image_filename = '';
+			}
+		} else {
+			$post_image_filename = '';
+		}
 		
 		// 发送请求
 		$sql = 'INSERT INTO ' . $post_table . 
 		'(area_id, user_id, reply_post_id, author_name, author_email, post_title, post_content, post_images, create_time, update_time) VALUES (' . 
-		$area_id . ',' . $user_id . ',' . $reply_post_id . ',"' . $author_name . '","' . $author_email . '","' . $post_title . '","' . $post_content . '","' . $post_image . '", CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)';
+		$area_id . ',' . $user_id . ',' . $reply_post_id . ',"' . $author_name . '","' . $author_email . '","' . $post_title . '","' . $post_content . '","' . $post_image_filename . '", CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)';
 		
 		// 如果reply_post_id不为0，更新主串update_time
 		// 新增：post_title为SAGE则不更新时间（所谓的串被SAGE了）
@@ -523,8 +548,19 @@ class API {
 	/**
 	* 生成一个当前时间戳
 	*/
-	private static function timestamp() {
-		return date("Y-m-d H:i:s");
+	private static function timestamp($type = '') {
+		if ($type = 'short') {
+			return date("Y-m-d");
+		} else {
+			return date("Y-m-d H:i:s");
+		}
+	}
+	
+	/**
+	* 生成一个随机时间字符串
+	*/
+	private static function randomTimeMd5() {
+		return md5(microtime());
 	}
 }
 ?>
