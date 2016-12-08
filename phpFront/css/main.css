@@ -43,7 +43,7 @@ div#functionButton {
 	cursor:pointer;
 }
 div.out {
-	height: 400px;
+	min-height: 400px;
 	float:left;
 }
 div.left-part {

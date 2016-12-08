@@ -196,7 +196,7 @@ class Template {
 			. $areaPost['post_title'] . '</span><span class="author-name">' 
 			. $areaPost['author_name'] . '</span><span class="post-id">No.' 
 			. $areaPost['post_id'] . '</span><span class="create-time">' . $areaPost['create_time'] .'</span><span class="user-name">ID:' . $areaPost['user_name'] . '</span><input class="replay-button" onclick="location.href=\'p-' . $areaPost['post_id'] .'\'" type="button" value="回应" /></div>';
-			$postImage = $areaPost['post_images'] == '' ? '' : '<span class="post-images"><a href=""><img class="thumb" src="images-' . $areaPost['post_images'] . '"></a></span>';
+			$postImage = $areaPost['post_images'] == '' ? '' : '<span class="post-images"><a href="../phpBack/images/' . $areaPost['post_images'] . '"><img class="thumb" src="../phpBack/images/' . $areaPost['post_images'] . '"></a></span>';
 			$contentPart = '<div class="post-content">' . $postImage . '<span class="post-content">' . $areaPost['post_content'] . '</span></div>';
 			$replyPart = '';
 			foreach ($areaPost['reply_recent_post'] as $replyPost) {
@@ -206,7 +206,8 @@ class Template {
 				. $replyPost['post_id'] . '</span><span class="create-time">' 
 				. $replyPost['create_time'] . '</span><span class="user-name">ID:' 
 				. $replyPost['user_name'] . '</span></div>';
-				$replyContentPart = '<div class="reply post-content"><span class="post-content">' . $replyPost['post_content'] . '</span></div>';
+				$replyPostImage = $replyPost['post_images'] == '' ? '' : '<span class="post-images"><a href="../phpBack/images/' . $replyPost['post_images'] . '"><img class="thumb" src="../phpBack/images/' . $replyPost['post_images'] . '"></a></span>';
+				$replyContentPart = '<div class="reply post-content"><span class="post-content">' . $replyPost['post_content'] . '</span>' . $replyPostImage . '</div>';
 				$replyPart .= $replyTitlePart . $replyContentPart;
 			}
 			
