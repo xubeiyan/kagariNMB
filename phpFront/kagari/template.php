@@ -228,7 +228,7 @@ class Template {
 		. $postArray['author_name'] . '</span><span class="post-id">No.' 
 		. $postArray['post_id'] . '</span><span class="create-time">' . $postArray['create_time'] .'</span><span class="user-name">ID:' . $postArray['user_name'] . '</span></div>';
 		$postImage = $postArray['post_images'] == '' ? '' : '<span class="post-images"><a href="../phpBack/images/' . $postArray['post_images'] . '"><img class="thumb" src="../phpBack/images/' . $postArray['post_images'] . '"></a></span>';
-		$contentPart = '<div class="post-content">' . $postImage . '<span class="post-content">' . $postArray['post_content'] . '</span></div>';
+		$contentPart = '<div class="post-content"><span class="post-content">' . $postArray['post_content'] . '</span>' . $postImage . '</div>';
 		$replyPart = '';
 		foreach ($postArray['reply_recent_posts'] as $replyPost) {
 			$replyTitlePart = '<div class="reply post-title-info"><span class="post-title">' 
