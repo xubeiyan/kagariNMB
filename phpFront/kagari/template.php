@@ -15,6 +15,8 @@ class Template {
 		'date' => 'Y年m月d日',
 		'time' => 'H:i',
 		'admin' => '权限狗认证处',
+		'replyTitle' => Array('发送新串', '回复串'),
+		'sendInfo' => Array('回复成功', '没有饼干', '回复失败')
 	);
 	
 	// 匿名版里需要从数据库读取的值
@@ -85,6 +87,13 @@ class Template {
 			} else if ($key == 'admin') {
 				$string = '<div class="button">' . $value . '</div>';
 				$html = str_replace('%' . $key . '%', $string, $html);
+			} else if ($key == 'replyTitle') {
+				if ($_GET['q'] == 's-0') {
+					$string = $value[0];
+				} else {
+					$string = $value[1];
+				}
+				$html = str_replace('%' . $key . '%', $string, $html);
 			}
 		}
 		return $html;
@@ -105,7 +114,7 @@ class Template {
 				$offset = $pos + 1;
 				$in = FALSE;
 				$templateString = substr($html, $startPos + 1, $endPos - $startPos - 1);
-				
+				//print_r($templateString . ' ');
 				//
 				if ($templateString == 'areaLists') {
 					$data = Controller::apis(self::$dbData[$templateString], Array());
@@ -147,7 +156,7 @@ class Template {
 					
 					$data = Controller::apis(self::$dbData[$templateString], $req);
 					$string = self::post($data);
-					$sendPost = self::sendPost($postId);
+					$sendPost = self::sendPost($postId, $data['area_id']);
 					
 					$html = str_replace('%' . $templateString . '%', $string, $html);
 					//$html = str_replace('%')
@@ -155,6 +164,61 @@ class Template {
 					$html = str_replace('%areaId%', $data['area_id'], $html);
 					$html = str_replace('%postId%', $postId, $html);
 					$html = str_replace('%areaName%', $data['area_name'], $html);
+				} else if ($templateString == 'sendInfo') {
+					// 无论是回复串还是新串$queryArray长度都是4
+					$queryArray = explode('-', $_GET['q']);
+					
+					if (count($queryArray) != 4) {
+						die('the length of queryArray is not 4...');
+					}
+					//print_r($_POST);
+					if (!isset($_POST['content']) || $_POST['content'] == '') {
+						die('content should not be empty');
+					}
+					$id = $queryArray[1];
+					$areaId = $queryArray[3];
+					$cookie = Controller::cookies('');
+					$req = Array(
+						'user_name' => $cookie,
+						'area_id' => $areaId,
+						'user_ip' => $_SERVER['REMOTE_ADDR'],
+						'reply_post_id' => $id,
+						'post_content' => $_POST['content']
+					);
+					if (isset($_POST['title']) && $_POST['title'] != '') {
+						$req['post_title'] = $_POST['title'];
+					}
+					if (isset($_POST['name']) && $_POST['name'] != '') {
+						$req['author_name'] = $_POST['name'];
+					}
+					if (isset($_POST['email']) && $_POST['email'] != '') {
+						$req['author_email'] = $_POST['email'];
+					}
+					//print_r($_FILES);
+					if (isset($_FILES['uploadFile'])) {
+						$uploadDir = '.';
+						if ($_FILES['uploadFile']['error'] == UPLOAD_ERR_OK &&
+							($_FILES['uploadFile']['type'] == 'image/jpeg' || $_FILES['uploadFile']['type'] == 'image/png' || $_FILES['uploadFile']['type'] == 'image/gif')) {
+							if (!move_uploaded_file($_FILES['uploadFile']['tmp_name'], $_FILES['uploadFile']['name'])) {
+								die('seem not to move successfully...');
+							}
+						} else {
+							die('error code is ' . $_FILES['uploadFile']['error'] . '. or type is not jpg/png/gif');
+						}
+						$dataImage = file_get_contents($_FILES['uploadFile']['name']);
+						unlink($_FILES['uploadFile']['name']);
+						$req['post_image'] = 'data:' . $_FILES['uploadFile']['type'] . ';base64,' . base64_encode($dataImage);
+					}
+
+					//print_r(self::$dbData['sendPost']);
+					$data = Controller::apis(self::$dbData['sendPost'], $req);
+					//exit();
+					if (substr($_GET['q'], 0, 3) == 's-0') {
+						$sendInfo = '发新串成功';
+					} else {
+						$sendInfo = '回复串成功';
+					}
+					$html = str_replace('%sendInfo%', $sendInfo, $html);
 				}
 			}
 		}
@@ -246,12 +310,14 @@ class Template {
 	}
 	
 	// 发新串
-	private static function sendPost($id) {
-		$return = '<form action="s-' . $id . '" method="post">' .
+	private static function sendPost($id, $areaId) {
+		$action = 's-' . $id . '-a-' . $areaId;
+		
+		$return = '<form action="' . $action . '" method="post" enctype="multipart/form-data">' .
 					'<span>标题</span><input type="text" name="title" placeholder="无标题"/><br />' .
 					'<span>名称</span><input type="text" name="name" placeholder="无名氏"/><br />'.
 					'<span>邮箱</span><input type="text" name="email" placeholder=""/><br />'.
-					'<span>附件</span><input type="file" /><br />' .
+					'<span>附件</span><input type="file" name="uploadFile"/><br />' .
 					'<span style="float:left">正文</span>' .
 					'<textarea style="margin-top:2px" name="content" require="require"></textarea><br />' .
 					'<input type="submit" value="发送" />' .

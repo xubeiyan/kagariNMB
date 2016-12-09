@@ -39,7 +39,11 @@ if (isset($_GET)) {
 		
 	// ·¢ËÍ´®
 	} else if (substr($_GET['q'], 0, 2) == 's-') {
-		
+		$html = Template::index('send.html');
+		$html = Template::replace($html);
+		//print_r($_POST);
+		echo $html;
+		exit();
 	}
 }
 ?>
