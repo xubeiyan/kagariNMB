@@ -254,6 +254,7 @@ class Template {
 	
 	// 板块串处理函数
 	private static function areaPosts($areaArray) {
+		global $config;
 		// 没有这个板块
 		if (isset($areaArray['error']) ) {
 			return '<b>No such area</b>';
@@ -273,6 +274,10 @@ class Template {
 			$postImage = $areaPost['post_images'] == '' ? '' : '<span class="post-images"><a href="../phpBack/images/' . $areaPost['post_images'] . '"><img class="thumb" src="../phpBack/images/' . $areaPost['post_images'] . '"></a></span>';
 			$contentPart = '<div class="post-content">' . $postImage . '<span class="post-content">' . $areaPost['post_content'] . '</span></div>';
 			$replyPart = '';
+			//require_once('../config/config.php');
+			if ($areaPost['reply_num'] > $config['lastReplyPosts']) {
+				$contentPart .= '<p>一共有' . $areaPost['reply_num'] . '条回复，当前只显示最新' . $config['lastReplyPosts'] . '条回复，选择“回应”查看所有回复。</p>';
+			}
 			foreach ($areaPost['reply_recent_post'] as $replyPost) {
 				$replyTitlePart = '<div class="reply post-title-info"><span class="post-title">' 
 				. $replyPost['post_title'] . '</span><span class="author-name">' 
