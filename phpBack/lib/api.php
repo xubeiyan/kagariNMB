@@ -116,7 +116,7 @@ class API {
 		$return['response']['posts'] = Array();
 		
 		// 查询所在post表
-		$sql = 'SELECT * FROM ' . $postTable . ' WHERE area_id=' . $area_id .' AND reply_post_id=0 LIMIT ' . $postsPerPage . ' OFFSET ' . ($area_page - 1) * $postsPerPage;
+		$sql = 'SELECT * FROM ' . $postTable . ' WHERE area_id=' . $area_id .' AND reply_post_id=0 ORDER BY update_time DESC LIMIT ' . $postsPerPage . ' OFFSET ' . ($area_page - 1) * $postsPerPage;
 		//echo $sql;
 		$result = mysqli_query($con, $sql);
 		
