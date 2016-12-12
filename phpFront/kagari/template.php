@@ -88,7 +88,7 @@ class Template {
 				$string = '<div class="button">' . $value . '</div>';
 				$html = str_replace('%' . $key . '%', $string, $html);
 			} else if ($key == 'replyTitle') {
-				if ($_GET['q'] == 's-0') {
+				if (isset($_GET['q']) && $_GET['q'] == 's-0') {
 					$string = $value[0];
 				} else {
 					$string = $value[1];
