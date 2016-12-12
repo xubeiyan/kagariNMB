@@ -87,14 +87,16 @@ class Template {
 			} else if ($key == 'admin') {
 				$string = '<div class="button">' . $value . '</div>';
 				$html = str_replace('%' . $key . '%', $string, $html);
-			} else if ($key == 'replyTitle') {
-				if (isset($_GET['q']) && $_GET['q'] == 's-0') {
-					$string = $value[0];
-				} else {
-					$string = $value[1];
-				}
-				$html = str_replace('%' . $key . '%', $string, $html);
 			}
+			// } else if ($key == 'replyTitle') {
+				// var_dump($key);
+				// if (isset($_GET['q']) && $_GET['q'] == 's-0') {
+					// $string = $value[0];
+				// } else {
+					// $string = $value[1];
+				// }
+				// $html = str_replace('%' . $key . '%', $string, $html);
+			// }
 		}
 		return $html;
 	}
@@ -141,6 +143,8 @@ class Template {
 					$html = str_replace('%' . $templateString . '%', $string, $html);
 					$html = str_replace('%areaId%', $areaId, $html);
 					$html = str_replace('%areaName%', $data['area_name'], $html);
+					$newPost = self::sendPost(0, $areaId);
+					$html = str_replace('%newPost%', $newPost, $html);
 				} else if ($templateString == 'post') {
 					$queryArray = explode('-', $_GET['q']);
 					$postId = $queryArray[1];
@@ -195,7 +199,7 @@ class Template {
 						$req['author_email'] = $_POST['email'];
 					}
 					//print_r($_FILES);
-					if (isset($_FILES['uploadFile'])) {
+					if (isset($_FILES['uploadFile']) && $_FILES['uploadFile']['error'] != UPLOAD_ERR_NO_FILE) {
 						$uploadDir = '.';
 						if ($_FILES['uploadFile']['error'] == UPLOAD_ERR_OK &&
 							($_FILES['uploadFile']['type'] == 'image/jpeg' || $_FILES['uploadFile']['type'] == 'image/png' || $_FILES['uploadFile']['type'] == 'image/gif')) {
@@ -215,10 +219,16 @@ class Template {
 					//exit();
 					if (substr($_GET['q'], 0, 3) == 's-0') {
 						$sendInfo = '发新串成功';
+						$replyTitle = self::$calculate['replyTitle'][0];
+						$toURI = 'a-' . $areaId;
 					} else {
 						$sendInfo = '回复串成功';
+						$replyTitle = self::$calculate['replyTitle'][1];
+						$toURI = 'p-' . $id;
 					}
 					$html = str_replace('%sendInfo%', $sendInfo, $html);
+					$html = str_replace('%replyTitle%', $sendInfo, $html);
+					header("refresh:5;url=$toURI");
 				}
 			}
 		}
