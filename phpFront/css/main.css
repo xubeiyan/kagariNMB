@@ -110,6 +110,10 @@ div.reply {
 span.post-content {
 	margin:2px;
 }
+p.tip {
+	background-color:#EEE;
+	margin:2px;
+}
 /* 页脚 */
 div#footer {
 	width: 100%;
