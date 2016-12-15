@@ -117,11 +117,12 @@ class Template {
 				$in = FALSE;
 				$templateString = substr($html, $startPos + 1, $endPos - $startPos - 1);
 				//print_r($templateString . ' ');
-				//
+				// 版块列表
 				if ($templateString == 'areaLists') {
 					$data = Controller::apis(self::$dbData[$templateString], Array());
 					$string = self::areaLists($data);
 					$html = str_replace('%' . $templateString . '%', $string, $html);
+				// 版块下所有串
 				} else if ($templateString == 'areaPosts') {
 					$queryArray = explode('-', $_GET['q']);
 					$areaId = $queryArray[1];
@@ -145,6 +146,7 @@ class Template {
 					$html = str_replace('%areaName%', $data['area_name'], $html);
 					$newPost = self::sendPost(0, $areaId);
 					$html = str_replace('%newPost%', $newPost, $html);
+				// 某个串
 				} else if ($templateString == 'post') {
 					$queryArray = explode('-', $_GET['q']);
 					$postId = $queryArray[1];
@@ -168,6 +170,7 @@ class Template {
 					$html = str_replace('%areaId%', $data['area_id'], $html);
 					$html = str_replace('%postId%', $postId, $html);
 					$html = str_replace('%areaName%', $data['area_name'], $html);
+				// 发送串
 				} else if ($templateString == 'sendInfo') {
 					// 无论是回复串还是新串$queryArray长度都是4
 					$queryArray = explode('-', $_GET['q']);
