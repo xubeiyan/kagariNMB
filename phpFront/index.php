@@ -36,7 +36,9 @@ if (isset($_GET)) {
 		exit();
 	// Õº∆¨∑√Œ 
 	} else if (substr($_GET['q'], 0, 2) == 'i-') {
-		
+		$filename = substr($_GET['q'],2);
+		require('kagari/imageThumb.php');
+		ImageThumb::request($filename);
 	// ∑¢ÀÕ¥Æ
 	} else if (substr($_GET['q'], 0, 2) == 's-') {
 		$html = Template::index('send.html');
