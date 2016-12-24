@@ -46,6 +46,11 @@ if (isset($_GET)) {
 		//print_r($_POST);
 		echo $html;
 		exit();
+	// 无法处理的请求
+	} else {
+		$html = 'unknown handler for ' . $_GET['q'] . '...';
+		echo $html;
+		exit();
 	}
 }
 ?>
