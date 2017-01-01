@@ -10,9 +10,13 @@
 * `config` 配置文件 
 * `css` CSS主题文件
 * `html` html页面
+* `js` 某些js库
 * `kagari` 主要内容
+* `thumbs` 图片缓存
 * `.htaccess` URI Rewrite使用
+* `favicon.png` 某图标
 * `index.php` 入口文件
+* `readme.MD` 就是本文件
 
 #####路由    
 
