@@ -274,7 +274,7 @@ class Template {
 			. $areaPost['post_title'] . '</span><span class="author-name">' 
 			. $areaPost['author_name'] . '</span><span class="post-id">No.' 
 			. $areaPost['post_id'] . '</span><span class="create-time">' . $areaPost['create_time'] .'</span><span class="user-name">ID:' . $areaPost['user_name'] . '</span><input class="replay-button" onclick="location.href=\'p-' . $areaPost['post_id'] .'\'" type="button" value="回应" /></div>';
-			$postImage = $areaPost['post_images'] == '' ? '' : '<span class="post-images"><a href="../phpBack/images/' . $areaPost['post_images'] . '"><img class="thumb" src="i-' . $areaPost['post_images'] . '"></a></span>';
+			$postImage = $areaPost['post_images'] == '' ? '' : '<span class="post-images"><a href="' . $config['imgURI'] . $areaPost['post_images'] . '"><img class="thumb" src="i-' . $areaPost['post_images'] . '"></a></span>';
 			$contentPart = '<div class="post-content">' . $postImage . '<span class="post-content">' . $areaPost['post_content'] . '</span></div>';
 			$replyPart = '';
 			//require_once('../config/config.php');
@@ -288,7 +288,7 @@ class Template {
 				. $replyPost['post_id'] . '</span><span class="create-time">' 
 				. $replyPost['create_time'] . '</span><span class="user-name">ID:' 
 				. $replyPost['user_name'] . '</span></div>';
-				$replyPostImage = $replyPost['post_images'] == '' ? '' : '<span class="post-images"><a href="../phpBack/images/' . $replyPost['post_images'] . '"><img class="thumb" src="i-' . $replyPost['post_images'] . '"></a></span>';
+				$replyPostImage = $replyPost['post_images'] == '' ? '' : '<span class="post-images"><a href="' . $config['imgURI'] . $replyPost['post_images'] . '"><img class="thumb" src="i-' . $replyPost['post_images'] . '"></a></span>';
 				$replyContentPart = '<div class="reply post-content"><span class="post-content">' . $replyPost['post_content'] . '</span>' . $replyPostImage . '</div>';
 				$replyPart .= $replyTitlePart . $replyContentPart;
 			}
@@ -304,12 +304,13 @@ class Template {
 	private static function post($postArray) {
 		$return = '';
 		//print_r($postArray);
+		global $config;
 		
 		$titlePart = '<div class="post-title-info"><span class="post-title">' 
 		. $postArray['post_title'] . '</span><span class="author-name">' 
 		. $postArray['author_name'] . '</span><span class="post-id">No.' 
 		. $postArray['post_id'] . '</span><span class="create-time">' . $postArray['create_time'] .'</span><span class="user-name">ID:' . $postArray['user_name'] . '</span></div>';
-		$postImage = $postArray['post_images'] == '' ? '' : '<span class="post-images"><a href="../phpBack/images/' . $postArray['post_images'] . '"><img class="thumb" src="../phpBack/images/' . $postArray['post_images'] . '"></a></span>';
+		$postImage = $postArray['post_images'] == '' ? '' : '<span class="post-images"><a href="' . $config['imgURI'] . $postArray['post_images'] . '"><img class="thumb" src="' . $config['imgURI'] . $postArray['post_images'] . '"></a></span>';
 		$contentPart = '<div class="post-content"><span class="post-content">' . $postArray['post_content'] . '</span>' . $postImage . '</div>';
 		$replyPart = '';
 		foreach ($postArray['reply_recent_posts'] as $replyPost) {
@@ -319,7 +320,7 @@ class Template {
 			. $replyPost['post_id'] . '</span><span class="create-time">' 
 			. $replyPost['create_time'] . '</span><span class="user-name">ID:' 
 			. $replyPost['user_name'] . '</span></div>';
-			$replyPostImage = $replyPost['post_images'] == '' ? '' : '<span class="post-images"><a href="../phpBack/images/' . $replyPost['post_images'] . '"><img class="thumb" src="../phpBack/images/' . $replyPost['post_images'] . '"></a></span>';
+			$replyPostImage = $replyPost['post_images'] == '' ? '' : '<span class="post-images"><a href="'. $config['imgURI'] . $replyPost['post_images'] . '"><img class="thumb" src="' . $config['imgURI'] . $replyPost['post_images'] . '"></a></span>';
 			$replyContentPart = '<div class="reply post-content"><span class="post-content">' . $replyPost['post_content'] . '</span>' . $replyPostImage . '</div>';
 			$replyPart .= $replyTitlePart . $replyContentPart;
 		}

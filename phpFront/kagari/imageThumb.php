@@ -11,6 +11,7 @@ class ImageThumb {
 			exit();
 		}
 		
+		
 		// 不存在时则需要从后台图片地址读取
 		$nameArray = explode('.', $name);
 		if (!isset($nameArray[1])) {
@@ -32,16 +33,17 @@ class ImageThumb {
 		$width = imagesx($image);
 		$height = imagesy($image);
 		if ($width < $height) {
-			$newWidth = $config['thunmbSize'] * $width / $height;
+			$newWidth = $config['thumbSize'] * $width / $height;
 			$newHeight = $config['thumbSize'];
 		} else {
 			$newWidth = $config['thumbSize'];
 			$newHeight = $config['thumbSize'] * $height / $width;
 		}
-		
+		// print_r($path);
+		// exit();
 		$newImage = imagecreatetruecolor($newWidth, $newHeight);
 		imagecopyresampled($newImage, $image, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
-		//print_r($path);
+		
 		if ($nameArray[1] == 'jpg' || $nameArray[1] == 'jpeg') {
 			imagejpeg($newImage, $path);
 		} else if ($nameArray[1] == 'png') {
