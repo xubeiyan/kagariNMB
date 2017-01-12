@@ -394,7 +394,7 @@ class API {
  		}
 		
 		// 改写last_post_id以及last_post_time
-		$updatesql = 'UPDATE ' . $user_table . ' SET last_post_time=CURRENT_TIMESTAMP';
+		$updatesql = 'UPDATE ' . $user_table . ' SET last_post_time=CURRENT_TIMESTAMP WHERE user_id=' . $user_id;
 		if (!mysqli_query($con, $updatesql)) {
 			die(mysqli_error($con));
 		}
