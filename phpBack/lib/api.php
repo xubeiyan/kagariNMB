@@ -502,7 +502,7 @@ class API {
  		$post_id = is_numeric($post['post_id']) && $post['post_id'] > 0 ? $post['post_id'] : 0;
  		
  		global $con, $conf;
- 		$postTable = $conf['databaseName'] . '.' . $conf['databaseTableName']['user'];
+ 		$postTable = $conf['databaseName'] . '.' . $conf['databaseTableName']['post'];
  		
  		// 查询指定的串
  		$sql = 'SELECT reply_post_id FROM ' . $postTable . ' WHERE post_id=' . $post_id;
@@ -525,7 +525,7 @@ class API {
  		// 删除该记录
  		$sql = 'DELETE FROM ' . $postTable . ' WHERE post_id=' . $post_id;
  		$result = mysqli_query($con, $sql);
- 		print_r($result);
+ 		//print_r($result);
  		$return['response']['status'] = 'OK';
  		echo json_encode($return, JSON_UNESCAPED_UNICODE);
  		exit();
