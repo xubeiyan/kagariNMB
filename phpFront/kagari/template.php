@@ -126,7 +126,7 @@ class Template {
 				} else if ($templateString == 'areaPosts') {
 					$queryArray = explode('-', $_GET['q']);
 					$areaId = $queryArray[1];
-					if (count($queryArray) == 4) {
+					if (count($queryArray) == 4 && is_numeric($queryArray[3])) {
 						$areaPage = $queryArray[3];
 					} else {
 						$areaPage = 1;
@@ -144,6 +144,7 @@ class Template {
 					$html = str_replace('%' . $templateString . '%', $string, $html);
 					$html = str_replace('%areaId%', $areaId, $html);
 					$html = str_replace('%areaName%', $data['area_name'], $html);
+					$html = str_replace('%areaPage%', $areaPage, $html);
 					$newPost = self::sendPost(0, $areaId);
 					$html = str_replace('%newPost%', $newPost, $html);
 				// 某个串
@@ -170,6 +171,7 @@ class Template {
 					$html = str_replace('%areaId%', $data['area_id'], $html);
 					$html = str_replace('%postId%', $postId, $html);
 					$html = str_replace('%areaName%', $data['area_name'], $html);
+					$html = str_replace('%postPage%', $postPage, $html);
 				// 发送串
 				} else if ($templateString == 'sendInfo') {
 					// 无论是回复串还是新串$queryArray长度都是4
