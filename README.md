@@ -18,3 +18,8 @@ kagari Nimingba(匿名版)
 3. 修改phpBack/conf/conf.php中数据库连接地址，访问phpBack/install/index.php，生成初始数据库(Full install)
 4. 修改phpFront/config/config.php中后端和图片地址至合适的值
 5. 试着访问phpFront/index.php
+
+###目前的问题
+
+* 显示某个area有多少页以及某个post有多少页，若是使用SELECT COUNT(*)，在日后数据库庞大之后，肯定会消耗巨大的资源，现在的想法就是设一个status的表来储存每个area和post有多少记录数~
+* 老问题，ImageBrick实在是没找到怎么用……
