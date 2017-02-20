@@ -114,6 +114,17 @@ p.tip {
 	background-color:#EEE;
 	margin:2px;
 }
+/* 页码部分 */
+span.unavailable {
+	color: #EEE;
+}
+span.available {
+	color: #000;
+	background-color:#DDD;
+}
+span.current {
+	font-weight:bold;
+}
 /* 页脚 */
 div#footer {
 	width: 100%;
