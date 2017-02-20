@@ -306,19 +306,19 @@ class Template {
 		// 页码部分
 		// 第一页不显示<
 		if ($areaArray['area_page'] == 1) {
-			$prev = '<span>&lt;</span>';
+			$prev = '<span class="unavailable">&lt;</span>';
 		} else {
 			$prevPage = $areaArray['area_page'] - 1;
-			$prev = '<span><a href="a-' . $areaArray['area_id'] .'-p-' . $prevPage . '">&lt;</a></span>';
+			$prev = '<span class="available"><a href="a-' . $areaArray['area_id'] .'-p-' . $prevPage . '" title="上一页">&lt;</a></span>';
 		}
 		// 最后一页不显示>
 		if (floor($areaArray['posts_num'] / $areaArray['posts_per_page']) + 1 == $areaArray['area_page']) {
-			$next = '<span>&gt;</span>';
+			$next = '<span class="unavailable">&gt;</span>';
 		} else {
 			$nextPage = $areaArray['area_page'] + 1;
-			$next = '<span><a href="a-' . $areaArray['area_id'] .'-p-' . $nextPage . '">&gt;</a></span>';
+			$next = '<span class="available"><a href="a-' . $areaArray['area_id'] .'-p-' . $nextPage . '" title="下一页">&gt;</a></span>';
 		}
-		$current = '<span>' . $areaArray['area_page'] . '</span>';
+		$current = '<span class="current" title="当前">' . $areaArray['area_page'] . '</span>';
 		$pageNumberPart = '<div class="page-number">' . $prev . ' ' . $current . ' ' . $next . '</div>';
 		$return .= $pageNumberPart;
 		return $return;
@@ -349,7 +349,25 @@ class Template {
 			$replyPart .= $replyTitlePart . $replyContentPart;
 		}
 		$return = $titlePart . $contentPart . $replyPart;
-		return $return;
+		// 页码部分
+		// 第一页不显示<
+		if ($postArray['post_page'] == 1) {
+			$prev = '<span class="unavailable">&lt;</span>';
+		} else {
+			$prevPage = $postArray['post_page'] - 1;
+			$prev = '<span class="available"><a href="p-' . $postArray['post_id'] . '-page-' . $prevPage . '" title="上一页">&lt;</a></span>';
+		}
+		// 最后一页不显示>
+		if ($postArray['post_page'] == 1) {
+			$next = '<span class="unavailable">&gt;</span>';
+		} else {
+			$nextPage = $postArray['post_page'] + 1;
+			$netx = '<span class="available"><a href="p-' . $postArray['post_id'] . '-page-' . $nextPage . '" title="下一页">&gt;</a></span>';
+		}
+		$current = '<span class="current" title="当前">' . $postArray['post_page'] . '</span>';
+		$pageNumberPart = '<div class="page-number">' . $prev . ' ' . $current . ' ' . $next . '</div>';
+		$return .= $pageNumberPart;
+		return $return;       
 	}
 	
 	// 发新串
