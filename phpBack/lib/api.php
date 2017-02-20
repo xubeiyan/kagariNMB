@@ -93,12 +93,13 @@ class API {
 		
 		// 查询所在area是否存在
 		$areaTable = $conf['databaseName'] . '.' . $conf['databaseTableName']['area'];
-		$sql = 'SELECT area_id, area_name FROM ' . $areaTable . ' WHERE area_id=' . $area_id;
+		$sql = 'SELECT area_id, area_name, posts_num FROM ' . $areaTable . ' WHERE area_id=' . $area_id;
 		$result = mysqli_query($con, $sql);
 		// 检查结果是否非空
 		if (!empty($row = mysqli_fetch_assoc($result))) {
 			$return['response']['area_id'] = intval($row['area_id']);
 			$return['response']['area_name'] = $row['area_name'];
+			$postsNum = $row['posts_num'];
 		} else {
 			$return['response']['error'] = 'Not such area with area_id=' . $area_id;
 			echo json_encode($return, JSON_UNESCAPED_UNICODE);
@@ -112,6 +113,7 @@ class API {
 		
 		$return['response']['area_page'] = intval($area_page);
 		$return['response']['posts_per_page'] = intval($postsPerPage);
+		$return['response']['posts_num'] = intval($postsNum);
 		$return['response']['last_reply_posts'] = intval($lastReplyPosts);
 		$return['response']['posts'] = Array();
 		
@@ -236,7 +238,7 @@ class API {
 		
 		$return['response']['post_id'] = intval($post_id);
 		$return['response']['post_page'] = intval($post_page);
-		$return['response']['postsPerPage'] = intval($postsPerPage);
+		$return['response']['posts_per_page'] = intval($postsPerPage);
 		$return['response']['post_title'] = $mainPostRow['post_title'];
 		$return['response']['post_content'] = $mainPostRow['post_content'];
 		$return['response']['post_images'] = $mainPostRow['post_images'];
@@ -246,7 +248,7 @@ class API {
 		$return['response']['author_email'] = $mainPostRow['author_email'];
 		$return['response']['create_time'] = $mainPostRow['create_time'];
 		$return['response']['update_time'] = $mainPostRow['update_time'];
-		$return['response']['reply_num'] = 0;
+		$return['response']['reply_posts_num'] = $mainPostRow['reply_posts_num'];
 		$return['response']['reply_recent_posts'] = Array();
 		
 		// 回帖处理
@@ -270,7 +272,7 @@ class API {
 			$replyArray['create_time'] = $replyRow['create_time'];
 			$replyArray['update_time'] = $replyRow['update_time'];
 			array_push($return['response']['reply_recent_posts'], $replyArray);
-			$return['response']['reply_num'] += 1;
+			//$return['response']['reply_num'] += 1;
 		}
 		
 		echo json_encode($return, JSON_UNESCAPED_UNICODE);
@@ -317,28 +319,33 @@ class API {
 		//exit();
 		// 检查区id
 		$area_id = is_numeric($post['area_id']) ? $post['area_id'] : 0;
-		$sql = 'SELECT area_id FROM ' . $area_table . ' WHERE area_id=' . $area_id;
+		$sql = 'SELECT area_id, posts_num FROM ' . $area_table . ' WHERE area_id=' . $area_id;
 		$result = mysqli_query($con, $sql);
 		if (!$row = mysqli_fetch_assoc($result)) {
 			$return['response']['error'] = 'Not exist such area';
 			echo json_encode($return, JSON_UNESCAPED_UNICODE);
 			exit();
+		} else {
+			$postsNum = $row['posts_num'];
 		}
 		// 检查reply_post_id，只检查不为空的情况
 		$reply_post_id = isset($post['reply_post_id']) && is_numeric($post['reply_post_id']) ? $post['reply_post_id'] : 0;
 		if ($reply_post_id != 0) {
-			$sql = 'SELECT reply_post_id FROM ' . $post_table . ' WHERE post_id=' . $reply_post_id;
+			$sql = 'SELECT reply_post_id, reply_posts_num FROM ' . $post_table . ' WHERE post_id=' . $reply_post_id;
 			$result = mysqli_query($con, $sql);
 			// 先检查回帖是否存在
 			if (empty($row = mysqli_fetch_assoc($result))) {
 				$return['response']['error'] = 'Post not exists';
 				echo json_encode($return, JSON_UNESCAPED_UNICODE);
 				exit();
-			// 再检查回复的帖子是否为主贴
+			// 再检查回复的帖子是否为主串
 			} else if ($row['reply_post_id'] != 0) {
 				$return['response']['error'] = 'Post is reply post';
 				echo json_encode($return, JSON_UNESCAPED_UNICODE);
 				exit();
+			// 是主串
+			} else {
+				$replyPostsNum = $row['reply_posts_num'];
 			}
 		}
 		
@@ -346,6 +353,7 @@ class API {
 		$author_name = !isset($post['author_name']) ? $conf['default_author_name'] : $post['author_name'];
 		$author_email = !isset($post['author_email']) ? '' : $post['author_email'];
 		$post_title = !isset($post['post_title']) ? $conf['default_post_title'] : $post['post_title'];
+		// 如果串内容为空则返回错误
 		if (!isset($post['post_content']) && $post['post_content'] == '') {
 			$return['response']['error'] = 'content can not be empty';
 			echo json_encode($return, JSON_UNESCAPED_UNICODE);
@@ -379,22 +387,40 @@ class API {
 			$post_image_filename = '';
 		}
 		
+		
 		// 发送请求
 		$sql = 'INSERT INTO ' . $post_table . 
 		'(area_id, user_id, reply_post_id, author_name, author_email, post_title, post_content, post_images, create_time, update_time) VALUES (' . 
 		$area_id . ',' . $user_id . ',' . $reply_post_id . ',"' . $author_name . '","' . $author_email . '","' . $post_title . '","' . $post_content . '","' . $post_image_filename . '", CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)';
 		
-		// 如果reply_post_id不为0，更新主串update_time
-		// 新增：post_title为SAGE则不更新时间（所谓的串被SAGE了）
- 		if ($reply_post_id != 0 && $post_title != $conf['sageString']) {
- 			$updatesql = 'UPDATE ' . $post_table . ' SET update_time=CURRENT_TIMESTAMP WHERE post_id=' . $reply_post_id;
+		// 如果reply_post_id不为0（为回复串），更新主串update_time，并增加主串回帖数记录
+ 		if ($reply_post_id != 0) {
+			// 新增：post_title为SAGE则不更新时间（所谓的串被SAGE了）
+			if ($post_title != $conf['sageString']) {
+				$notSageSql = ', update_time=CURRENT_TIMESTAMP';
+			} else {
+				$notSageSql = '';
+			}
+ 			// 增加主串回帖数目记录
+			$replyPostsNum += 1;
+			$updatesql = 'UPDATE ' . $post_table . ' SET reply_posts_num=' . $replyPostsNum . $notSageSql . ' WHERE post_id=' . $reply_post_id;
  			if (!mysqli_query($con, $updatesql)) {
  				die(mysqli_error($con));
  			}
  		}
 		
+		
+		
 		// 改写last_post_id以及last_post_time
 		$updatesql = 'UPDATE ' . $user_table . ' SET last_post_time=CURRENT_TIMESTAMP WHERE user_id=' . $user_id;
+		if (!mysqli_query($con, $updatesql)) {
+			die(mysqli_error($con));
+		}
+		
+		// 改写posts_num
+		$postsNum += 1;
+		$updatesql = 'UPDATE ' . $area_table . ' SET posts_num=' . $postsNum . ' WHERE area_id=' . $area_id;
+		//print_r($updatesql);
 		if (!mysqli_query($con, $updatesql)) {
 			die(mysqli_error($con));
 		}
