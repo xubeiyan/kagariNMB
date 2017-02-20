@@ -297,8 +297,30 @@ class Template {
 			
 			$endPart = '<hr>';
 			
+			// print_r($areaArray);
+			// exit();
+			
+			
 			$return .= $titlePart . $contentPart . $replyPart . $endPart;
 		}
+		// 页码部分
+		// 第一页不显示<
+		if ($areaArray['area_page'] == 1) {
+			$prev = '<span>&lt;</span>';
+		} else {
+			$prevPage = $areaArray['area_page'] - 1;
+			$prev = '<span><a href="a-' . $areaArray['area_id'] .'-p-' . $prevPage . '">&lt;</a></span>';
+		}
+		// 最后一页不显示>
+		if (floor($areaArray['posts_num'] / $areaArray['posts_per_page']) + 1 == $areaArray['area_page']) {
+			$next = '<span>&gt;</span>';
+		} else {
+			$nextPage = $areaArray['area_page'] + 1;
+			$next = '<span><a href="a-' . $areaArray['area_id'] .'-p-' . $nextPage . '">&gt;</a></span>';
+		}
+		$current = '<span>' . $areaArray['area_page'] . '</span>';
+		$pageNumberPart = '<div class="page-number">' . $prev . ' ' . $current . ' ' . $next . '</div>';
+		$return .= $pageNumberPart;
 		return $return;
 	}
 	
