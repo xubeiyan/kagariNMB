@@ -36,7 +36,21 @@ if (isset($_GET)) {
 		exit();
 	// 图片访问
 	} else if (substr($_GET['q'], 0, 2) == 'i-') {
-		
+		$filename = substr($_GET['q'],2);
+		require('kagari/imageThumb.php');
+		ImageThumb::request($filename);
+	// 发送串
+	} else if (substr($_GET['q'], 0, 2) == 's-') {
+		$html = Template::index('send.html');
+		$html = Template::replace($html);
+		//print_r($_POST);
+		echo $html;
+		exit();
+	// 无法处理的请求
+	} else {
+		$html = 'unknown handler for ' . $_GET['q'] . '...';
+		echo $html;
+		exit();
 	}
 }
 ?>

@@ -30,11 +30,12 @@ $conf = Array(
 	'installerPath' => 'install/install.php',
 	'allowedRequest' => 'GET|POST',
 	'responseType' => 'json',
-	'postsPerPage' => 50,
+	'postsPerPage' => 50, // 每页多少串
 	'lastReplyPosts' => 8, // 最多显示多少条post的回复
 	'default_author_name' => '无名氏',
 	'default_post_title' => '无标题',
-	'sageString' => 'SAGE' // 不顶起串回复标题填写值
+	'sageString' => 'SAGE', // 不顶起串回复标题填写值
+	'uploadPath' => 'upload' // 上传文件地址
 );
 
 ?>

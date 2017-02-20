@@ -94,6 +94,21 @@ class Controller {
 			$arrayResponse = json_decode($jsonResponse, TRUE);
 			
 			return $arrayResponse['response'];
+		// 新串
+		} else if ($api == 'api/sendPost') {
+			$opts = Array(
+				'http' => Array(
+					'method' => 'POST',
+					'user_agent' => $config['userAgent'],
+					'header' => "Content-type: application/json\r\n",
+					'content' => json_encode($req, JSON_UNESCAPED_UNICODE)
+				)
+			);
+			$context = stream_context_create($opts);
+			$jsonResponse = file_get_contents($config['backURI'] . $api, false, $context);
+			//print_r($opts['http']['content']);
+			$arrayResponse = json_decode($jsonResponse, TRUE);
+			return $arrayResponse['response'];
 		}
 	}
 	
