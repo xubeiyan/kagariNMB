@@ -351,15 +351,15 @@ class API {
 		
 		// 补全其他字段
 		$author_name = !isset($post['author_name']) ? $conf['default_author_name'] : $post['author_name'];
-		$author_email = !isset($post['author_email']) ? '' : $post['author_email'];
-		$post_title = !isset($post['post_title']) ? $conf['default_post_title'] : $post['post_title'];
+		$author_email = !isset($post['author_email']) ? '' : htmlspecialchars($post['author_email']);
+		$post_title = !isset($post['post_title']) ? $conf['default_post_title'] : htmlspecialchars($post['post_title']);
 		// 如果串内容为空则返回错误
 		if (!isset($post['post_content']) && $post['post_content'] == '') {
 			$return['response']['error'] = 'content can not be empty';
 			echo json_encode($return, JSON_UNESCAPED_UNICODE);
 			exit();
 		}
-		$post_content = $post['post_content'];
+		$post_content = htmlspecialchars($post['post_content']);
 		
 		// 处理提交的base64图片编码
 		//print '123';
