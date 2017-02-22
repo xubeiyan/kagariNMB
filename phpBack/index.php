@@ -1,69 +1,69 @@
-<?php
+ï»¿<?php
 /**
-* kagariNMBÈë¿ÚÎÄ¼şindex.php
+* kagariNMBå…¥å£æ–‡ä»¶index.php
 */
-$userAgentString = $_SERVER['HTTP_USER_AGENT'];	// ä¯ÀÀÆ÷×Ö·û´®
-$remoteAddr = $_SERVER['REMOTE_ADDR']; 			// ¿Í»§¶ËµØÖ·
+$userAgentString = $_SERVER['HTTP_USER_AGENT'];	// æµè§ˆå™¨å­—ç¬¦ä¸²
+$remoteAddr = $_SERVER['REMOTE_ADDR']; 			// å®¢æˆ·ç«¯åœ°å€
 
-// »ñÈ¡Ö´ĞĞÎÄ¼şÃû
+// è·å–æ‰§è¡Œæ–‡ä»¶å
 $scriptArray = explode("/", $_SERVER['SCRIPT_FILENAME']);
 $scriptFilename = array_pop($scriptArray);
 
-require 'conf/conf.php'; 	// ÒıÈë$conf±äÁ¿
-require 'lib/error.php';	// ´íÎóĞÅÏ¢
+require 'conf/conf.php'; 	// å¼•å…¥$confå˜é‡
+require 'lib/error.php';	// é”™è¯¯ä¿¡æ¯
 
-// Ê¹ÓÃjson»¹ÊÇhtml×÷Îª·µ»Ø¸ñÊ½
+// ä½¿ç”¨jsonè¿˜æ˜¯htmlä½œä¸ºè¿”å›æ ¼å¼
 if (!isset($conf['responseType']) || $conf['responseType'] == 'json') {
 	header('content-type:application/json;charset=utf-8');
 } else if ($conf['responseType'] == 'html') {
 	header('content-type:text/html;charset=utf-8');
 }
 
-// ÇëÇó·½·¨·ÇÖ¸¶¨µÄÒ»ÂÉ¾Ü¾ø Ä¬ÈÏÎªGET|POST
+// è¯·æ±‚æ–¹æ³•éæŒ‡å®šçš„ä¸€å¾‹æ‹’ç» é»˜è®¤ä¸ºGET|POST
 $allowedRequest = explode('|', $conf['allowedRequest']);
 if (!in_array($_SERVER['REQUEST_METHOD'], $allowedRequest)) {
 	$paras = Array($_SERVER['REQUEST_METHOD']);
 	die(Error::errMsg('notAllowedRequestMethod', $paras));
 }
 
-// ÅĞ¶ÏÊÇ·ñÖ´ĞĞ¹ı°²×°
+// åˆ¤æ–­æ˜¯å¦æ‰§è¡Œè¿‡å®‰è£…
 // if (file_exists($conf['installerPath'])) {
 	// $paras = [$conf['installerPath']];
 	// die(Error::errMsg('notInstalled', $paras));
 // }
 
-require 'lib/database.php';	// ·ÃÎÊÊı¾İ¿â
+require 'lib/database.php';	// è®¿é—®æ•°æ®åº“
 
-// ¼ì²éÇëÇóµÄÎÄ¼şÊÇ·ñÊÇindex.php£¬µ«ÊÇÓÉÓÚrewriteÄ£¿éµÄ´æÔÚÕâ¸öÒÉËÆÃ»É¶ÓÃ
+// æ£€æŸ¥è¯·æ±‚çš„æ–‡ä»¶æ˜¯å¦æ˜¯index.phpï¼Œä½†æ˜¯ç”±äºrewriteæ¨¡å—çš„å­˜åœ¨è¿™ä¸ªç–‘ä¼¼æ²¡å•¥ç”¨
 if ($scriptFilename != $conf['scriptFilename']) {
 	$paras = Array($conf['scriptFilename'], $scriptFilename);
 	die(Error::errMsg('requestInvalidURI', $paras));
 }
-// ¼ì²éUser-AgentÊÇ·ñÎªÖ¸¶¨Öµ
+// æ£€æŸ¥User-Agentæ˜¯å¦ä¸ºæŒ‡å®šå€¼
 if ($conf['customUserAgent'] != '') {
 	if ($_SERVER['HTTP_USER_AGENT'] != $conf['customUserAgent']) {
 		$paras = Array($_SERVER['HTTP_USER_AGENT']);
 		die(Error::errMsg('notSpecificUserAgent', $paras));
 	}	
 }
-// ¼ì²éÌá½»APIÊÇ·ñÎª¿Õ£¬ÊÇÔò·µ»Ø»¶Ó­Ò³Ãæ
+// æ£€æŸ¥æäº¤APIæ˜¯å¦ä¸ºç©ºï¼Œæ˜¯åˆ™è¿”å›æ¬¢è¿é¡µé¢
 if ($_SERVER['QUERY_STRING'] == '') {
 	echo file_get_contents('welcome.html');
 	exit();
 }
-// ¼ì²éÌá½»µÄAPIÊÇ·ñÔÚÖ¸¶¨µÄAPIÁĞ±íÄÚ
+// æ£€æŸ¥æäº¤çš„APIæ˜¯å¦åœ¨æŒ‡å®šçš„APIåˆ—è¡¨å†…
 $queryString = explode("=", $_SERVER['QUERY_STRING'])[1];
 if (!in_array($queryString, $conf['apiLists'])) {
 	$paras = Array($queryString);
 	die(Error::errMsg('notAllowedAPI', $paras));
 }
 
-// Ê¹ÓÃapi.php
+// ä½¿ç”¨api.php
 require 'lib/api.php';
-// »ñÈ¡Ìá½»ÄÚÈİ
+// è·å–æäº¤å†…å®¹
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 	//echo 'Request API: ' . $queryString . '<br />';
-	header('connection:close'); // close²»Òªkeep-alive
+	header('connection:close'); // closeä¸è¦keep-alive
 	switch ($queryString) {
 		case 'api/getAreaLists':
 			API::getAreaLists();
@@ -73,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 	}
 } else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$inputJSON = file_get_contents("php://input");
-	$input = json_decode($inputJSON, true); // true·µ»Øarray
+	$input = json_decode($inputJSON, true); // trueè¿”å›array
 	if ($input == NULL) {
 		die(Error::errMsg('badJSON', []));
 	}

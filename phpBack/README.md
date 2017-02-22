@@ -1,49 +1,49 @@
-###Êı¾İ¿âÉè¼Æ
-####MySQLÊı¾İ¿â£º(¿âÃûkagari_Nimingban)
-#####Êı¾İ±íÃû£º(±íÃûÇ°×ºkagari_)
-######user:(ÓÃ»§ĞÅÏ¢)
+ï»¿###æ•°æ®åº“è®¾è®¡
+####MySQLæ•°æ®åº“ï¼š(åº“åkagari_Nimingban)
+#####æ•°æ®è¡¨åï¼š(è¡¨åå‰ç¼€kagari_)
+######user:(ç”¨æˆ·ä¿¡æ¯)
 * user_id(primary key), 
-* ip_address(IPµØÖ·), 
-* user_name(Ëæ»úÉú³É×Ö·û´®»¹ÊÇ°´¹æÂÉÔö³¤µÄ×Ö·û´®), 
-* block_time(±»×èÖ¹Ê±¼ä£¬ÃëÊı£¿·ÖÖÓÊı£¿Òà»òÊÇ±»ÓÀ¾Ã),
-* last_post_id(×îºó·¢´®id£¿Õâ¸ö¹¦ÄÜÒÉËÆÃ»É¶ÓÃ°¡)
-* last_post_time(×îºó·¢´®Ê±¼ä£¬ÅäºÏ×îĞ¡ÇøÓò×îĞ¡·¢´®Ê±¼äÊ¹ÓÃ)
+* ip_address(IPåœ°å€), 
+* user_name(éšæœºç”Ÿæˆå­—ç¬¦ä¸²è¿˜æ˜¯æŒ‰è§„å¾‹å¢é•¿çš„å­—ç¬¦ä¸²), 
+* block_time(è¢«é˜»æ­¢æ—¶é—´ï¼Œç§’æ•°ï¼Ÿåˆ†é’Ÿæ•°ï¼Ÿäº¦æˆ–æ˜¯è¢«æ°¸ä¹…),
+* last_post_id(æœ€åå‘ä¸²idï¼Ÿè¿™ä¸ªåŠŸèƒ½ç–‘ä¼¼æ²¡å•¥ç”¨å•Š)
+* last_post_time(æœ€åå‘ä¸²æ—¶é—´ï¼Œé…åˆæœ€å°åŒºåŸŸæœ€å°å‘ä¸²æ—¶é—´ä½¿ç”¨)
 
-######area:(·ÖÇø)
+######area:(åˆ†åŒº)
 * area_id(primary key), 
-* area_name(ÇøÃû), 
-* area_sort(ÅÅĞò£¬ÔÚ»ñÈ¡°å¿éÁĞ±íµÄÊ±ºòµÄË³Ğò),
-* block_status(±»×èÖ¹µÄ×´Ì¬£¬½û»Ø¸´£¬½û·¢Ìû£¬×ªÏòµÚÒ»¸ö×Ó·ÖÇø), 
-* parent_area(´Ë·ÖÇøµÄ¸¸·ÖÇø), 
-* min_post(×îĞ¡·¢´®¼ä¸ô)
+* area_name(åŒºå), 
+* area_sort(æ’åºï¼Œåœ¨è·å–æ¿å—åˆ—è¡¨çš„æ—¶å€™çš„é¡ºåº),
+* block_status(è¢«é˜»æ­¢çš„çŠ¶æ€ï¼Œç¦å›å¤ï¼Œç¦å‘å¸–ï¼Œè½¬å‘ç¬¬ä¸€ä¸ªå­åˆ†åŒº), 
+* parent_area(æ­¤åˆ†åŒºçš„çˆ¶åˆ†åŒº), 
+* min_post(æœ€å°å‘ä¸²é—´éš”)
 
-######post:(´®)
+######post:(ä¸²)
 * post_id(primary key), 
-* area_id(ËùÊôÇøid), 
-* user_id(·¢²¼ÓÃ»§id), 
-* reply_post_id(¸ú´®id£¬¾ÍÊÇÊÇÔÚÄÄ¸ö´®ÏÂÃæµÄID£¬Ã»ÓĞÔòÊÇÖ÷´®), 
-* author_name(×÷ÕßÃû), 
-* author_email(×÷ÕßÓÊÏäÃû), 
-* post_title(´®±êÌâ), 
-* post_content(´®ÄÚÈİ), 
-* post_images(Í¼Æ¬£¬Ó¦¸ÃÊÇ¿ÉÒÔÖ§³Ö¶àÕÅÍ¼Æ¬µÄ),
-* create_time(´Ë´®·¢²¼Ê±¼ä),
-* update_time(´Ë´®¸üĞÂÊ±¼ä£¬ÆÕÍ¨»Ø¸´¸üĞÂ£¬SAGEÔò²»¸üĞÂ)
+* area_id(æ‰€å±åŒºid), 
+* user_id(å‘å¸ƒç”¨æˆ·id), 
+* reply_post_id(è·Ÿä¸²idï¼Œå°±æ˜¯æ˜¯åœ¨å“ªä¸ªä¸²ä¸‹é¢çš„IDï¼Œæ²¡æœ‰åˆ™æ˜¯ä¸»ä¸²), 
+* author_name(ä½œè€…å), 
+* author_email(ä½œè€…é‚®ç®±å), 
+* post_title(ä¸²æ ‡é¢˜), 
+* post_content(ä¸²å†…å®¹), 
+* post_images(å›¾ç‰‡ï¼Œåº”è¯¥æ˜¯å¯ä»¥æ”¯æŒå¤šå¼ å›¾ç‰‡çš„),
+* create_time(æ­¤ä¸²å‘å¸ƒæ—¶é—´),
+* update_time(æ­¤ä¸²æ›´æ–°æ—¶é—´ï¼Œæ™®é€šå›å¤æ›´æ–°ï¼ŒSAGEåˆ™ä¸æ›´æ–°)
 
-###APIÉè¼ÆÁĞ±í
->»áÍ¬Ê±½ÓÊÜJSONºÍmultipart/form-data(ÒòÎª»áÉÏ´«Í¼Æ¬)
+###APIè®¾è®¡åˆ—è¡¨
+>ä¼šåŒæ—¶æ¥å—JSONå’Œmultipart/form-data(å› ä¸ºä¼šä¸Šä¼ å›¾ç‰‡)
 
-####ÓÃ»§¼¶±ğ:
-* »ñÈ¡±ı¸É    
+####ç”¨æˆ·çº§åˆ«:
+* è·å–é¥¼å¹²    
   `/api/getCookie`    
-Ìá½»ÄÚÈİ£º
+æäº¤å†…å®¹ï¼š
 ```javascript
 {
 	"ip": "::1"
 }
 ```     
-·µ»ØÄÚÈİ£º(¾ÙÀı)    
-(ÕıÈ·ipµØÖ·)     
+è¿”å›å†…å®¹ï¼š(ä¸¾ä¾‹)    
+(æ­£ç¡®ipåœ°å€)     
 ```javascript
 {
 	"request": "getCookie",
@@ -54,20 +54,20 @@
 	}
 }
 ```
-(·Ç·¨ipµØÖ·)
+(éæ³•ipåœ°å€)
 ```javascript
 {
 	"request": "getCookie",
 	"response": {
 		"timestamp": "2016-06-06 10:15:34",
-		"error": "Õâ¸öIPµØÖ·²»·ûºÏ¹æ¶¨ÄØ"
+		"error": "è¿™ä¸ªIPåœ°å€ä¸ç¬¦åˆè§„å®šå‘¢"
 	}
 }
 ```
-* »ñÈ¡°å¿éÁĞ±í  
+* è·å–æ¿å—åˆ—è¡¨  
   `/api/getAreaLists`   
-Ìá½»ÄÚÈİ£º(ÔİÎŞ)  
-·µ»ØÄÚÈİ£º(¾ÙÀı)    
+æäº¤å†…å®¹ï¼š(æš‚æ— )  
+è¿”å›å†…å®¹ï¼š(ä¸¾ä¾‹)    
 	```javascript
 	{
 		"request": "getAreaList", 
@@ -76,41 +76,41 @@
 			"areas": [
 			{
 				"area_id": 1,
-				"area_name": "×ÛºÏ",
+				"area_name": "ç»¼åˆ",
 				"parent_area": ""
 			},
 			{
 				"area_id": 2,
-				"area_name": "×ÛºÏ°æ1",
+				"area_name": "ç»¼åˆç‰ˆ1",
 				"parent_area": 1
 			}]
 		}
 	}
 	```
 
-* »ñÈ¡°å¿é´®   
+* è·å–æ¿å—ä¸²   
   `/api/getAreaPosts`  
-Ìá½»ÄÚÈİ£º    
+æäº¤å†…å®¹ï¼š    
   `area_id`    
   `area_page`    
-·µ»ØÄÚÈİ£º(¾ÙÀı)(·µ»Ø½á¹û)  
+è¿”å›å†…å®¹ï¼š(ä¸¾ä¾‹)(è¿”å›ç»“æœ)  
 	```javascript
 	{
 		"request": "getAreaPosts",
 		"response": {
 			"timestamp": "2016-05-27 16:26:24",
 			"area_id": 2,
-			"area_name": "×ÛºÏ°æ1",
+			"area_name": "ç»¼åˆç‰ˆ1",
 			"area_page": 1,
 			"posts_per_page": 50,
 			"posts": [{
 				"post_id": 10000,
-				"post_title": "ÎŞ±êÌâ",
+				"post_title": "æ— æ ‡é¢˜",
 				"post_content": "aaabbbccc",
 				"post_images": "1.png",
 				"user_id": 1,
 				"user_name": "1wuQKIZ",
-				"author_name": "ÎŞÃûÊÏ",
+				"author_name": "æ— åæ°",
 				"author_email": "",
 				"create_time": "2016-05-27 16:37:45",
 				"update_time": "2016-05-27 16:38:56",
@@ -119,9 +119,9 @@
 					"post_id": 10001,
 					"user_id": 1,
 					"user_name": "1wuQKIZ",
-					"author_name": "ÎŞÃûÊÏ",
+					"author_name": "æ— åæ°",
 					"author_email": "",
-					"post_title": "ÎŞ±êÌâ",
+					"post_title": "æ— æ ‡é¢˜",
 					"post_content": "dddeeefff",
 					"post_images": "2.png,3.jpg",
 					"create_time": "2016-05-27 16:38:45",
@@ -131,9 +131,9 @@
 					"post_id": 10002,
 					"user_id": 2,
 					"user_name": "1mjIUYJ",
-					"author_name": "ÎŞÃûÊÏ",
+					"author_name": "æ— åæ°",
 					"author_email": "",
-					"post_title": "ÎŞ±êÌâ",
+					"post_title": "æ— æ ‡é¢˜",
 					"post_content": "ggghhhiii",
 					"post_images": "",
 					"create_time": "2016-05-27 16:40:45",
@@ -142,12 +142,12 @@
 			},
 			{
 				"post_id": 10003,
-				"post_title": "ÎŞ±êÌâ",
+				"post_title": "æ— æ ‡é¢˜",
 				"post_content": "aaabbbccc",
 				"post_images": "1.png",
 				"user_id": 1,
 				"user_name": "1mjIUYJ",
-				"author_name": "ÎŞÃûÊÏ",
+				"author_name": "æ— åæ°",
 				"author_email": "",
 				"create_time": "2016-05-27 16:37:45",
 				"update_time": "2016-05-27 16:38:56",
@@ -157,7 +157,7 @@
 		}
 	}
 	```  
-(°å¿éÏÂÃ»ÓĞ´®)   
+(æ¿å—ä¸‹æ²¡æœ‰ä¸²)   
 	```javascript
 	{
 		"request": "getAreaPosts",
@@ -166,14 +166,14 @@
 		}
 	}
 	```    
-(·µ»ØÎ´ÕÒµ½°å¿é)
+(è¿”å›æœªæ‰¾åˆ°æ¿å—)
 	```javascript
 	{
 		"request": "getAreaPosts",
 		"response": {
 			"timestamp": "2016-11-25 05:53:42",
 			"area_id": 2,
-			"area_name": "×ÛºÏ°æ",
+			"area_name": "ç»¼åˆç‰ˆ",
 			"area_page": 1,
 			"posts_per_page": 50,
 			"last_reply_posts": 8,
@@ -182,28 +182,28 @@
 		}
 	}
 	```
-* »ñÈ¡´®ÄÚÈİ   
+* è·å–ä¸²å†…å®¹   
   `/api/getPost`   
-Ìá½»ÄÚÈİ£º  
+æäº¤å†…å®¹ï¼š  
   `post_id`   
   `post_page`    
-·µ»ØÄÚÈİ£º(¾ÙÀı)(·µ»Ø½á¹û)     
+è¿”å›å†…å®¹ï¼š(ä¸¾ä¾‹)(è¿”å›ç»“æœ)     
 	```javascript
 	{
 		"request": "getPost",
 		"response": {
 			"timestamp": "2016-05-27 17:06:43",
 			"area_id": 2,
-			"area_name": "×ÛºÏ°æ1",
+			"area_name": "ç»¼åˆç‰ˆ1",
 			"post_id": 10000,
 			"post_page": 1,
 			"posts_per_page": 50,
-			"post_title": "ÎŞ±êÌâ",
+			"post_title": "æ— æ ‡é¢˜",
 			"post_content": "aaabbbccc",
 			"post_images": "1.png",
 			"user_id": 1,
 			"user_name": "1wuQKIZ",
-			"author_name": "ÎŞÃûÊÏ",
+			"author_name": "æ— åæ°",
 			"author_email": "",
 			"create_time": "2016-05-27 16:37:45",
 			"update_time": "2016-05-27 16:38:56",
@@ -212,9 +212,9 @@
 				"post_id": 10001,
 				"user_id": 1,
 				"user_name": "1wuQKIZ",
-				"author_name": "ÎŞÃûÊÏ",
+				"author_name": "æ— åæ°",
 				"author_email": "",
-				"post_title": "ÎŞ±êÌâ",
+				"post_title": "æ— æ ‡é¢˜",
 				"post_content": "dddeeefff",
 				"post_images": "2.png,3.jpg",
 				"create_time": "2016-05-27 16:38:45",
@@ -224,9 +224,9 @@
 				"post_id": 10002,
 				"user_id": 2,
 				"user_name": "1mjIUYJ",
-				"author_name": "ÎŞÃûÊÏ",
+				"author_name": "æ— åæ°",
 				"author_email": "",
-				"post_title": "ÎŞ±êÌâ",
+				"post_title": "æ— æ ‡é¢˜",
 				"post_content": "ggghhhiii",
 				"post_images": "",
 				"create_time": "2016-05-27 16:40:45",
@@ -235,30 +235,30 @@
 		}
 	}
 	```
-(·µ»ØÎ´ÕÒµ½Ìû×Ó)
+(è¿”å›æœªæ‰¾åˆ°å¸–å­)
 	```javascript
 	{
 		"request": "getPost",
 		"response": {
 			"timestamp": "2016-06-28 11:05:12",
-			"error": "Î´ÕÒµ½ÏàÓ¦Ìû×Ó"
+			"error": "æœªæ‰¾åˆ°ç›¸åº”å¸–å­"
 		}
 	}
 	```
 
-* ·¢±íĞÂ´®   
+* å‘è¡¨æ–°ä¸²   
   `/api/sendPost`     
-Ìá½»ÄÚÈİ£º   
-  `user_name`(ÓÃ»§Ãû£¬±ØĞè)   
-  `area_id`(·ÖÇøid£¬±ØĞè)     
-  `user_ip`(ÓÃ»§ip£¬±ØĞè)   
-  `reply_post_id`(»Ø¸´»¹ÊÇĞÂ´®£¬ĞÂ´®Îª0£¬Îª¿ÕÔòÎª0)        
+æäº¤å†…å®¹ï¼š   
+  `user_name`(ç”¨æˆ·åï¼Œå¿…éœ€)   
+  `area_id`(åˆ†åŒºidï¼Œå¿…éœ€)     
+  `user_ip`(ç”¨æˆ·ipï¼Œå¿…éœ€)   
+  `reply_post_id`(å›å¤è¿˜æ˜¯æ–°ä¸²ï¼Œæ–°ä¸²ä¸º0ï¼Œä¸ºç©ºåˆ™ä¸º0)        
   `author_name`   
   `author_email`   
   `post_title`   
-  `post_content`(´®ÄÚÈİ£¬±ØĞè)    
-  `post_image`(°´data:image/gif;base64,AABBCC==ÕâÑùµÄĞÎÊ½Ê¹ÓÃbase64±àÂëÉÏ´«)    
- ·µ»ØÄÚÈİ£º(Õı³£»ØÌû)    
+  `post_content`(ä¸²å†…å®¹ï¼Œå¿…éœ€)    
+  `post_image`(æŒ‰data:image/gif;base64,AABBCC==è¿™æ ·çš„å½¢å¼ä½¿ç”¨base64ç¼–ç ä¸Šä¼ )    
+ è¿”å›å†…å®¹ï¼š(æ­£å¸¸å›å¸–)    
 	```javascript
 	{
 		"request": "sendPost",
@@ -268,33 +268,33 @@
 		}
 	}
 	```
-(²»´æÔÚµÄÌû×Ó)     
+(ä¸å­˜åœ¨çš„å¸–å­)     
 	```javascript
 	{
 		"request": "sendPost",
 		"response": {
 			"timestamp": "2016-06-29 13:17:09",
-			"error": "»Ø¸´´®²»´æÔÚ"
+			"error": "å›å¤ä¸²ä¸å­˜åœ¨"
 		}
 	}
 	```
-(ËùÔÚµÄÌû×ÓÎª»Ø¸´Ìû×Ó)     
+(æ‰€åœ¨çš„å¸–å­ä¸ºå›å¤å¸–å­)     
 	```javascript
 	{
 		"request": "sendPost",
 		"response": {
 			"timestamp": "2016-06-29 13:21:35",
-			"error": "»Ø¸´µÄ´®²»ÊÇÖ÷´®"
+			"error": "å›å¤çš„ä¸²ä¸æ˜¯ä¸»ä¸²"
 		}
 	}
 	```
 
-* Ôö¼ÓĞÂ°å¿é    
+* å¢åŠ æ–°æ¿å—    
 `api/addArea`
-Ìá½»ÄÚÈİ£º      	
-`area_name` °å¿éÃû     
-`parent_area` ÎªÄ³°å¿éµÄ×Ó°æ¿é£¬0ÎªÎŞ    
-·µ»ØÄÚÈİ£º(Ôö¼Ó³É¹¦)    
+æäº¤å†…å®¹ï¼š      	
+`area_name` æ¿å—å     
+`parent_area` ä¸ºæŸæ¿å—çš„å­ç‰ˆå—ï¼Œ0ä¸ºæ—     
+è¿”å›å†…å®¹ï¼š(å¢åŠ æˆåŠŸ)    
 	```javascript
 	{
 		"request": "addArea",
@@ -304,32 +304,32 @@
 		}
 	}
 	```
-(°å¿éÃûÎª¿Õ)
+(æ¿å—åä¸ºç©º)
 	```javascript
 	{
 		"request": "addArea",
 		"response": {
 			"timestamp": "2016-08-21 20:24:33",
-			"error": "°å¿éÃû²»ÄÜÎª¿Õ"
+			"error": "æ¿å—åä¸èƒ½ä¸ºç©º"
 		}
 	}
 	```
-(°å¿éÃûºÍÏÖÓĞµÄÒ»Ñù)
+(æ¿å—åå’Œç°æœ‰çš„ä¸€æ ·)
 	```javascript
 	{
 		"request": "addArea",
 		"response": {
 			"timestamp": "2016-08-21 20:24:33",
-			"error": "°å¿éÃûabcÒÑ´æÔÚÓÚÄ¸°å1Ö®ÏÂ"
+			"error": "æ¿å—åabcå·²å­˜åœ¨äºæ¯æ¿1ä¹‹ä¸‹"
 		}
 	}
 	```
 	
-* É¾³ıÄ³¸öÇø    
+* åˆ é™¤æŸä¸ªåŒº    
 `api/deleteArea`
-Ìá½»ÄÚÈİ£º    
-`area_id`(ÒªÉ¾³ıµÄÇøµÄid)    
-·µ»ØÄÚÈİ£º(É¾³ı³É¹¦)    
+æäº¤å†…å®¹ï¼š    
+`area_id`(è¦åˆ é™¤çš„åŒºçš„id)    
+è¿”å›å†…å®¹ï¼š(åˆ é™¤æˆåŠŸ)    
 	```javascript
 	{
 		"request": "deleteArea",
@@ -340,22 +340,22 @@
 		
 	}
 	```
-(²»´æÔÚµÄÇø)    
+(ä¸å­˜åœ¨çš„åŒº)    
 	```javascript
 	{
 		"request": "deleteArea",
 		"response": {
 			"timestamp": "2016-07-18 18:12:25",
-			"error": "É¾³ıµÄÇø²»´æÔÚ"
+			"error": "åˆ é™¤çš„åŒºä¸å­˜åœ¨"
 		}
 	}
 	```
 
-* É¾³ıÄ³¸ö´®    
+* åˆ é™¤æŸä¸ªä¸²    
 `/api/deletePost`    
-Ìá½»ÄÚÈİ£º    
-`post_id`(É¾³ıµÄ´®µÄid)     
-·µ»ØÄÚÈİ£º(É¾³ı³É¹¦)     
+æäº¤å†…å®¹ï¼š    
+`post_id`(åˆ é™¤çš„ä¸²çš„id)     
+è¿”å›å†…å®¹ï¼š(åˆ é™¤æˆåŠŸ)     
 	```javascript
 	{
 		"request": "deletePost",
@@ -366,13 +366,13 @@
 		
 	}
 	```
-(²»´æÔÚµÄÌû×Ó)    
+(ä¸å­˜åœ¨çš„å¸–å­)    
 	```javascript
 	{
 		"request": "deletePost",
 		"response": {
 			"timestamp": "2016-07-07 11:53:25",
-			"error": "É¾³ıµÄ´®²»´æÔÚ"
+			"error": "åˆ é™¤çš„ä¸²ä¸å­˜åœ¨"
 		}
 	}
 	```
