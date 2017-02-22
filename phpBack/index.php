@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
 * kagariNMB入口文件index.php
 */

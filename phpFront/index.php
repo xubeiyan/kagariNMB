@@ -1,13 +1,13 @@
 <?php
 /**
-* ËùÓÐ·ÃÎÊµÄÈë¿Ú
+* æ‰€æœ‰è®¿é—®çš„å…¥å£
 */
-// ÉèÖÃÎÄ¼þ
+// è®¾ç½®æ–‡ä»¶
 require('config/config.php');
-// Ä£°å
+// æ¨¡æ¿
 require('kagari/template.php');
 
-// Î´Ìá½»ÈÎºÎGET²ÎÊýÔòÈÏÎª·ÃÎÊÖ÷Ò³
+// æœªæäº¤ä»»ä½•GETå‚æ•°åˆ™è®¤ä¸ºè®¿é—®ä¸»é¡µ
 
 if (!isset($_GET) || empty($_GET)) {
 	$html = Template::index('index.html');
@@ -22,31 +22,31 @@ if (isset($_GET)) {
 		echo $html;
 		exit();
 	}
-	// Çø·ÃÎÊ£¬½ØÈ¡Ç°Á½¸ö×Ö·û
+	// åŒºè®¿é—®ï¼Œæˆªå–å‰ä¸¤ä¸ªå­—ç¬¦
 	if (substr($_GET['q'], 0, 2) == 'a-') {
 		$html = Template::index('area.html');
 		$html = Template::replace($html);
 		echo $html;
 		exit();
-	// ´®·ÃÎÊ
+	// ä¸²è®¿é—®
 	} else if (substr($_GET['q'], 0, 2) == 'p-') {
 		$html = Template::index('post.html');
 		$html = Template::replace($html);
 		echo $html;
 		exit();
-	// Í¼Æ¬·ÃÎÊ
+	// å›¾ç‰‡è®¿é—®
 	} else if (substr($_GET['q'], 0, 2) == 'i-') {
 		$filename = substr($_GET['q'],2);
 		require('kagari/imageThumb.php');
 		ImageThumb::request($filename);
-	// ·¢ËÍ´®
+	// å‘é€ä¸²
 	} else if (substr($_GET['q'], 0, 2) == 's-') {
 		$html = Template::index('send.html');
 		$html = Template::replace($html);
 		//print_r($_POST);
 		echo $html;
 		exit();
-	// ÎÞ·¨´¦ÀíµÄÇëÇó
+	// æ— æ³•å¤„ç†çš„è¯·æ±‚
 	} else {
 		$html = 'unknown handler for ' . $_GET['q'] . '...';
 		echo $html;

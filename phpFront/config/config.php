@@ -1,15 +1,15 @@
 <?php
 /**
-* ÉèÖÃÎÄ¼þ
+* è®¾ç½®æ–‡ä»¶
 */
 $config = Array(
-	'backURI' => 'http://localhost/kagariNMB/phpBack/', // ºóÌ¨µØÖ·
-	'imgURI' => 'http://localhost/kagariNMB/phpBack/images/', // Í¼Æ¬µØÖ·
+	'backURI' => 'http://localhost/kagariNMB/phpBack/', // åŽå°åœ°å€
+	'imgURI' => 'http://localhost/kagariNMB/phpBack/images/', // å›¾ç‰‡åœ°å€
 	'responseType' => 'json',
-	'thumbDir' => 'thumbs', // ÂÔËõÍ¼Î»ÖÃ
-	'thumbSize' => 250, // ÂÔËõÍ¼´óÐ¡
-	'userAgent' => 'KagariNMBFront', // ¿Í»§¶ËÖ¸¶¨´®
-	'lastReplyPosts' => 8 // ×î¶àÏÔÊ¾¶àÉÙÌõ×îÐÂ»Ø¸´
+	'thumbDir' => 'thumbs', // ç•¥ç¼©å›¾ä½ç½®
+	'thumbSize' => 250, // ç•¥ç¼©å›¾å¤§å°
+	'userAgent' => 'KagariNMBFront', // å®¢æˆ·ç«¯æŒ‡å®šä¸²
+	'lastReplyPosts' => 8 // æœ€å¤šæ˜¾ç¤ºå¤šå°‘æ¡æœ€æ–°å›žå¤
 );
 
 ?>
