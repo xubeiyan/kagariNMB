@@ -248,7 +248,7 @@ class API {
 		$return['response']['author_email'] = $mainPostRow['author_email'];
 		$return['response']['create_time'] = $mainPostRow['create_time'];
 		$return['response']['update_time'] = $mainPostRow['update_time'];
-		$return['response']['reply_posts_num'] = inval($mainPostRow['reply_posts_num']);
+		$return['response']['reply_posts_num'] = intval($mainPostRow['reply_posts_num']);
 		$return['response']['reply_recent_posts'] = Array();
 		
 		// 回帖处理
