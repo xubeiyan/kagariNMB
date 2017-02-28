@@ -109,6 +109,7 @@ div.reply {
 }
 span.post-content {
 	margin:2px;
+	white-space:pre;
 }
 p.tip {
 	background-color:#EEE;
