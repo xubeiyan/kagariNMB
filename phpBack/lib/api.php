@@ -407,24 +407,23 @@ class API {
  			if (!mysqli_query($con, $updatesql)) {
  				die(mysqli_error($con));
  			}
- 		}
-		
-		
+		// 如果reply_post_id为0（即为主串），增加area表内主串数记录
+ 		} else {
+			// 改写area表主串数posts_num
+			$postsNum += 1;
+			$updatesql = 'UPDATE ' . $area_table . ' SET posts_num=' . $postsNum . ' WHERE area_id=' . $area_id;
+			//print_r($updatesql);
+			if (!mysqli_query($con, $updatesql)) {
+				die(mysqli_error($con));
+			}
+		}
 		
 		// 改写last_post_id以及last_post_time
 		$updatesql = 'UPDATE ' . $user_table . ' SET last_post_time=CURRENT_TIMESTAMP WHERE user_id=' . $user_id;
 		if (!mysqli_query($con, $updatesql)) {
 			die(mysqli_error($con));
 		}
-		
-		// 改写posts_num
-		$postsNum += 1;
-		$updatesql = 'UPDATE ' . $area_table . ' SET posts_num=' . $postsNum . ' WHERE area_id=' . $area_id;
-		//print_r($updatesql);
-		if (!mysqli_query($con, $updatesql)) {
-			die(mysqli_error($con));
-		}
-		
+			
 		//echo $sql;
 		if (mysqli_query($con, $sql)) {
 			$return['response']['status'] = "OK";
