@@ -192,7 +192,7 @@ class API {
 	* `post_page` (默认为1)
 	*/
 	public static function getPost($post) {
-		$return['request'] = 'getPosts';
+		$return['request'] = 'getPost';
 		$return['response']['timestamp'] = self::timestamp();
 		
 		if (!isset($post['post_id']) && !is_numeric($post['post_id']) && $post['post_id'] < 10000) {
@@ -248,7 +248,7 @@ class API {
 		$return['response']['author_email'] = $mainPostRow['author_email'];
 		$return['response']['create_time'] = $mainPostRow['create_time'];
 		$return['response']['update_time'] = $mainPostRow['update_time'];
-		$return['response']['reply_posts_num'] = $mainPostRow['reply_posts_num'];
+		$return['response']['reply_posts_num'] = inval($mainPostRow['reply_posts_num']);
 		$return['response']['reply_recent_posts'] = Array();
 		
 		// 回帖处理
@@ -261,8 +261,8 @@ class API {
 			$userResult = mysqli_query($con, $sql);
 			$userResultRow = mysqli_fetch_assoc($userResult);
 			
-			$replyArray['post_id'] = $replyRow['post_id'];
-			$replyArray['user_id'] = $replyRow['user_id'];
+			$replyArray['post_id'] = intval($replyRow['post_id']);
+			$replyArray['user_id'] = intval($replyRow['user_id']);
 			$replyArray['user_name'] = $userResultRow['user_name'];
 			$replyArray['author_name'] = $replyRow['author_name'];
 			$replyArray['author_email'] = $replyRow['author_email'];
