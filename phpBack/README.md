@@ -103,6 +103,8 @@
 			"area_name": "综合版1",
 			"area_page": 1,
 			"posts_per_page": 50,
+			"posts_num": 2,
+			"last_reply_posts": 10002,
 			"posts": [{
 				"post_id": 10000,
 				"post_title": "无标题",
@@ -162,7 +164,15 @@
 	{
 		"request": "getAreaPosts",
 		"response": {
-			"timestamp": "getAreaPosts"
+			"timestamp": "2017-02-28",
+			"area_id": 1,
+			"area_name": "综合",
+			"area_page": 2,
+			"posts_per_page": 10,
+			"posts_num": 0,
+			"last_reply_posts": 8,
+			"posts": [],
+			"info": "area_id=1的区里没有串"
 		}
 	}
 	```    
@@ -171,14 +181,8 @@
 	{
 		"request": "getAreaPosts",
 		"response": {
-			"timestamp": "2016-11-25 05:53:42",
-			"area_id": 2,
-			"area_name": "综合版",
-			"area_page": 1,
-			"posts_per_page": 50,
-			"last_reply_posts": 8,
-			"posts": [],
-			"info": "No posts in area with area_id=2"
+			"timestamp": "2017-02-28",
+			"error": "找不到area_id=3的区"
 		}
 	}
 	```
@@ -207,7 +211,7 @@
 			"author_email": "",
 			"create_time": "2016-05-27 16:37:45",
 			"update_time": "2016-05-27 16:38:56",
-			"reply_num": 2,
+			"reply_posts_num": 2,
 			"reply_recent_posts": [{
 				"post_id": 10001,
 				"user_id": 1,
