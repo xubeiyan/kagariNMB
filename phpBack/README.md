@@ -15,7 +15,8 @@
 * area_sort(排序，在获取板块列表的时候的顺序),
 * block_status(被阻止的状态，禁回复，禁发帖，转向第一个子分区), 
 * parent_area(此分区的父分区), 
-* min_post(最小发串间隔)
+* min_post(最小发串间隔),
+* posts_num(该区下主串数)
 
 ######post:(串)
 * post_id(primary key), 
@@ -29,6 +30,7 @@
 * post_images(图片，应该是可以支持多张图片的),
 * create_time(此串发布时间),
 * update_time(此串更新时间，普通回复更新，SAGE则不更新)
+* reply_posts_num(主串下此值为回复条数，回复串为0)
 
 ###API设计列表
 >会同时接受JSON和multipart/form-data(因为会上传图片)
