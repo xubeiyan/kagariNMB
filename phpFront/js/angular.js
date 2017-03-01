@@ -5,13 +5,16 @@
 var kagari = function () {
 	var that = {
 		switchListPanel: function () {
-			var area = document.getElementById("areas");
+			var area = document.getElementById("areas"),
+				areap = document.getElementById("areas-p");
 			if (area.style.display == '' || area.style.display == 'none') {
 				console.log('areas list show~');
 				area.style.display = 'block';
+				areap.style.display = 'none';
 			} else {
 				console.log('areas list hide~');
 				area.style.display = 'none';
+				areap.style.display = 'block';
 			}
 		},
 		switchFunctionPanel: function () {
