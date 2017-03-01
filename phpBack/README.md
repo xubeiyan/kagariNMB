@@ -382,3 +382,38 @@
 		}
 	}
 	```
+	
+* 获取用户列表    
+`/api/getUserLists`
+提交内容：   
+`user_per_page`(每页多少信息，超过50自动设为50)      
+`pages`(可选，页数)     
+返回内容:     
+	```javascript
+	{
+		"request": "getUserLists",
+		"response": {
+			"timestamp": "2017-03-01",
+			"user_per_page": 10,
+			"pages": 1,
+			"users": [
+				{
+					"user_id": "1",
+					"ip_address": "::1",
+					"user_name": "1cfBDZD",
+					"block_time": "0",
+					"last_post_id": "0",
+					"last_post_time": "2017-02-20 18:03:47"
+				},
+				{
+					"user_id": "2",
+					"ip_address": "127.0.0.1",
+					"user_name": "1cfZHQG",
+					"block_time": "0",
+					"last_post_id": "0",
+					"last_post_time": "2017-01-12 22:12:51"
+				}
+			]
+		}
+	}
+	```
