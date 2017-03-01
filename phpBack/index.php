@@ -114,6 +114,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 				API::deletePost($input);
 			}
  			break;
+		case 'api/getUserLists':
+			if (isset($input['user_per_page'])) {
+				API::getUserLists($input);
+			}
+			break;
 		default:
 			die('>w<');
 	}

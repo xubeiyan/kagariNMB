@@ -557,6 +557,45 @@ class API {
  	}
 	
 	/**
+	* 获取用户信息（要求权限
+	* `user_per_page` 每页的用户数（最大为50）
+	* `pages` 请求的页数（省略则为1
+	*/
+	public static function getUserLists($post) {
+		if (!is_numeric($post['user_per_page']) || $post['user_per_page'] > 50) {
+			$user_per_page = 50;
+		} else {
+			$user_per_page = $post['user_per_page'];
+		}
+		
+		$pages = isset($post['pages']) && is_numeric($post['pages']) && $post['pages'] > 0 ? $post['pages'] : 1;
+		
+		global $con, $conf;
+		$userTable = $conf['databaseName'] . '.' . $conf['databaseTableName']['user'];
+		
+		$return['request'] = 'getUserLists';
+		$return['response']['timestamp'] = self::timestamp();
+		
+		$return['response']['user_per_page'] = $user_per_page;
+		$return['response']['pages'] = $pages;
+		
+		$pages -= 1;
+		
+		$sql = 'SELECT * FROM ' . $userTable . ' LIMIT ' . $user_per_page . ' OFFSET ' . ($pages * $user_per_page);
+
+		$result = mysqli_query($con, $sql);
+
+		$return['response']['users'] = Array();
+		
+		for ($row = mysqli_fetch_assoc($result); !empty($row); $row = mysqli_fetch_assoc($result)) {
+			array_push($return['response']['users'], $row);
+		}
+		echo json_encode($return, JSON_UNESCAPED_UNICODE);
+		exit();
+		
+	}
+	
+	/**
 	* 获得某个数字对应的用户名
 	*/
 	private static function randomString($num) {
