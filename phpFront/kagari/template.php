@@ -7,7 +7,8 @@ class Template {
 		'areaListText' => '版块列表',
 		'functionText' => '功能',
 		'sendPost' => '发新串',
-		'replyPost' => '回复串'
+		'replyPost' => '回复串',
+		'adminListPanel' => '管理列表'
 	);
 	
 	// 匿名版的某些计算后的到的值
@@ -16,7 +17,8 @@ class Template {
 		'time' => 'H:i',
 		'admin' => '权限狗认证处',
 		'replyTitle' => Array('发送新串', '回复串'),
-		'sendInfo' => Array('回复成功', '没有饼干', '回复失败')
+		'sendInfo' => Array('回复成功', '没有饼干', '回复失败'),
+		'adminLists' => Array('用户管理')
 	);
 	
 	// 匿名版里需要从数据库读取的值
@@ -25,7 +27,8 @@ class Template {
 		'areaLists' => 'api/getAreaLists',
 		'areaPosts' => 'api/getAreaPosts',
 		'post' => 'api/getPost',
-		'sendPost' => 'api/sendPost'
+		'sendPost' => 'api/sendPost',
+		'userLists' => 'api/getUserLists'
 	);
 	
 	// 选择模板文件
@@ -86,6 +89,9 @@ class Template {
 				$html = str_replace('%' . $key . '%', $time, $html);
 			} else if ($key == 'admin') {
 				$string = '<div class="button">' . $value . '</div>';
+				$html = str_replace('%' . $key . '%', $string, $html);
+			} else if ($key == 'adminLists') {
+				$string = '<div class="button menu-first">' . $value[0] . '</div>';
 				$html = str_replace('%' . $key . '%', $string, $html);
 			}
 			// } else if ($key == 'replyTitle') {
@@ -234,6 +240,15 @@ class Template {
 					$html = str_replace('%sendInfo%', $sendInfo, $html);
 					$html = str_replace('%replyTitle%', $sendInfo, $html);
 					header("refresh:5;url=$toURI");
+				} else if ($templateString == 'userLists') {
+					$req = Array();
+					$req['user_per_page'] = 50;
+					$data = Controller::apis(self::$dbData['userLists'], $req);
+					$userInfo = '';
+					foreach ($data['users'] as $user) {
+						$userInfo .= 'id: ' . $user['user_id'] .' IP地址: ' . $user['ip_address'] . ' 用户名: ' . $user['user_name'];
+					}
+					$html = str_replace('%userLists%', $userInfo, $html);
 				}
 			}
 		}

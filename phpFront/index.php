@@ -17,6 +17,14 @@ if (!isset($_GET) || empty($_GET)) {
 }
 
 if (isset($_GET)) {
+	if ($_GET['q'] == 'admin') {
+		// require('kagari/admin.php');
+		$html = Template::index('admin.html');
+		$html = Template::replace($html);
+		
+		echo $html;
+		exit();
+	}
 	if (count(explode('-', $_GET['q'])) < 2) {
 		$html = 'lack of parameters...';
 		echo $html;
