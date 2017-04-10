@@ -58,6 +58,13 @@ if (!in_array($queryString, $conf['apiLists'])) {
 	die(Error::errMsg('notAllowedAPI', $paras));
 }
 
+// 检查使用时区
+if(isset($conf['timeZone'])) {
+	date_default_timezone_set($conf['timeZone']);
+} else {
+	date_default_timezone_set("Asia/Shanghai");
+}
+
 // 使用api.php
 require 'lib/api.php';
 // 获取提交内容

@@ -225,20 +225,34 @@ class Template {
 						$req['post_image'] = 'data:' . $_FILES['uploadFile']['type'] . ';base64,' . base64_encode($dataImage);
 					}
 
-					//print_r(self::$dbData['sendPost']);
+					//print_r($req);
 					$data = Controller::apis(self::$dbData['sendPost'], $req);
-					//exit();
-					if (substr($_GET['q'], 0, 3) == 's-0') {
-						$sendInfo = '发新串成功';
-						$replyTitle = self::$calculate['replyTitle'][0];
-						$toURI = 'a-' . $areaId;
+					//print_r($data);
+					// exit();
+					// 根据是否具有error字段判断发串成功与否
+					if (isset($data['error'])) {
+						if ($data['error'] == 'Last post time interval too short') {
+							date_default_timezone_set("Asia/Shanghai");
+							$sendInfo = '发串时间间隔过短，上次发帖时间为：' . $data['last_post_time'] . '下次可发串时间为：' . date('Y-m-d H:i:s');
+							$replyTitle = '发串过快';
+						// 为以后预留？
+						} else {
+							$sendInfo = '未知错误~';
+							$replyTitle = '不知道出了什么问题……';
+						}
 					} else {
-						$sendInfo = '回复串成功';
-						$replyTitle = self::$calculate['replyTitle'][1];
-						$toURI = 'p-' . $id;
+						if (substr($_GET['q'], 0, 3) == 's-0') {
+							$sendInfo = '发新串成功';
+							$replyTitle = self::$calculate['replyTitle'][0];
+							$toURI = 'a-' . $areaId;
+						} else {
+							$sendInfo = '回复串成功';
+							$replyTitle = self::$calculate['replyTitle'][1];
+							$toURI = 'p-' . $id;
+						}					
 					}
 					$html = str_replace('%sendInfo%', $sendInfo, $html);
-					$html = str_replace('%replyTitle%', $sendInfo, $html);
+					$html = str_replace('%replyTitle%', $replyTitle, $html);
 					header("refresh:5;url=$toURI");
 				} else if ($templateString == 'userLists') {
 					$req = Array();

@@ -294,7 +294,18 @@
 		}
 	}
 	```
-
+(发串过快)
+	```javascript
+	{
+		"request": "sendPost",
+		"response": {
+			"timestamp": "2017-04-10 23:35:26",
+			"error": "发串间隔太短",
+			"last_post_time": "2017-04-10 23:39:10"
+		}
+	}
+	
+	```
 * 增加新板块    
 `api/addArea`
 提交内容：      	

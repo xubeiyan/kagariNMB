@@ -303,9 +303,9 @@ class API {
 		$user_name = $post['user_name'];
 		
 		$ip = $post['user_ip'];
-		$sql = 'SELECT user_id FROM ' . $user_table . ' WHERE ip_address="' . $ip . '" AND user_name="' . $user_name . '"';
+		$sql = 'SELECT user_id, last_post_time FROM ' . $user_table . ' WHERE ip_address="' . $ip . '" AND user_name="' . $user_name . '"';
 		$result = mysqli_query($con, $sql);
-		//print $sql;
+		// print $sql;
 		// exit();
 		// 未找到则返回错误
 		if (empty($row = mysqli_fetch_assoc($result))) {
@@ -315,11 +315,13 @@ class API {
 		}
 		// 将找到的用户id赋给$user_id
 		$user_id = $row['user_id'];
-		//print $user_id;
-		//exit();
+		// 最后发串时间 类似2017-03-14 12:53:52
+		$last_post_time = $row['last_post_time'];
+		// print $last_post_time;
+		// exit();
 		// 检查区id
 		$area_id = is_numeric($post['area_id']) ? $post['area_id'] : 0;
-		$sql = 'SELECT area_id, posts_num FROM ' . $area_table . ' WHERE area_id=' . $area_id;
+		$sql = 'SELECT area_id, posts_num, min_post FROM ' . $area_table . ' WHERE area_id=' . $area_id;
 		$result = mysqli_query($con, $sql);
 		if (!$row = mysqli_fetch_assoc($result)) {
 			$return['response']['error'] = 'Not exist such area';
@@ -327,6 +329,22 @@ class API {
 			exit();
 		} else {
 			$postsNum = $row['posts_num'];
+			$minPostSeconds = $row['min_post'];
+		}
+		// 检查最小发串时间
+		
+		$current_unix_timestamp = strtotime("now");
+		$last_post_timestamp = strtotime($last_post_time);
+		// print_r(date('Y-m-d H:i:s', $current_unix_timestamp));
+		// print_r(date('Y-m-d H:i:s', $last_post_timestamp));
+		// print $minPostSeconds;
+		// exit();
+		if ($current_unix_timestamp - $last_post_timestamp < $minPostSeconds) {
+			$return['response']['error'] = 'Post time interval too short';
+			$return['response']['last_post_time'] = $last_post_time;
+			//$return['response']['next_post_time'] = 
+			echo json_encode($return, JSON_UNESCAPED_UNICODE);
+			exit();
 		}
 		// 检查reply_post_id，只检查不为空的情况
 		$reply_post_id = isset($post['reply_post_id']) && is_numeric($post['reply_post_id']) ? $post['reply_post_id'] : 0;
@@ -612,12 +630,8 @@ class API {
 	/**
 	* 生成一个当前时间戳
 	*/
-	private static function timestamp($type = '') {
-		if ($type = 'short') {
-			return date("Y-m-d");
-		} else {
-			return date("Y-m-d H:i:s");
-		}
+	private static function timestamp() {
+		return date("Y-m-d H:i:s");
 	}
 	
 	/**
