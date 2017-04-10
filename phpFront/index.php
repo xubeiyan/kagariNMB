@@ -4,6 +4,7 @@
 */
 // 设置文件
 require('config/config.php');
+
 // 模板
 require('kagari/template.php');
 

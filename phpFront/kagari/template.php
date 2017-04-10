@@ -80,11 +80,17 @@ class Template {
 	
 	// 匿名版计算后数值替换
 	private static function replaceCalculate($html) {
+		global $config;
 		foreach (self::$calculate as $key => $value) {
 			if ($key == 'date') {
 				$date = date($value);
 				$html = str_replace('%' . $key . '%', $date, $html);
 			} else if ($key == 'time') {
+				if (isset($config['timeZone'])) {
+					date_default_timezone_set($config['timeZone']);
+				} else {
+					date_default_timezone_set('Asia/Shanghai');
+				}
 				$time = date($value);
 				$html = str_replace('%' . $key . '%', $time, $html);
 			} else if ($key == 'admin') {

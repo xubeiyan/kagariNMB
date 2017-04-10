@@ -9,7 +9,8 @@ $config = Array(
 	'thumbDir' => 'thumbs', // 略缩图位置
 	'thumbSize' => 250, // 略缩图大小
 	'userAgent' => 'KagariNMBFront', // 客户端指定串
-	'lastReplyPosts' => 8 // 最多显示多少条最新回复
+	'lastReplyPosts' => 8, // 最多显示多少条最新回复
+	'timeZone' => 'Asia/Shanghai' // 时区
 );
 
 ?>
