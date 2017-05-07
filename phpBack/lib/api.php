@@ -332,7 +332,6 @@ class API {
 			$minPostSeconds = $row['min_post'];
 		}
 		// 检查最小发串时间
-		
 		$current_unix_timestamp = strtotime("now");
 		$last_post_timestamp = strtotime($last_post_time);
 		// print_r(date('Y-m-d H:i:s', $current_unix_timestamp));
