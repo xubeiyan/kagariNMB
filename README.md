@@ -11,7 +11,7 @@ kagari Nimingba(匿名版)
 
 >目前php前端和后端基本上完成了(管理界面暂时没完成，就默认第一个IP是管理员吗
 
-###使用方式
+### 使用方式
 
 1. 首先安装好php(>=5.4)和MySQL
 2. 把phpFront(前端)和phpBack(后端)两个文件夹，放到合适的目录下
@@ -19,7 +19,7 @@ kagari Nimingba(匿名版)
 4. 修改phpFront/config/config.php中后端和图片地址至合适的值
 5. 试着访问phpFront/index.php
 
-###目前的问题
+### 目前的问题
 
 * 显示某个area有多少页以及某个post有多少页，若是使用SELECT COUNT(*)，在日后数据库庞大之后，肯定会消耗巨大的资源，现在的想法就是设一个status的表来储存每个area和post有多少记录数~ (已解决)
 * 老问题，ImageBrick实在是没找到怎么用……
