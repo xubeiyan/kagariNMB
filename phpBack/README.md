@@ -306,8 +306,8 @@
 }
 ```
 * 增加新板块    
-`api/addArea`
-提交内容：      	
+`api/addArea`    
+提交内容：     
 `area_name` 板块名     
 `parent_area` 为某板块的子版块，0为无    
 返回内容：(增加成功)    
@@ -342,7 +342,7 @@
 ```
 	
 * 删除某个区    
-`api/deleteArea`
+`api/deleteArea`    
 提交内容：    
 `area_id`(要删除的区的id)    
 返回内容：(删除成功)    
@@ -394,7 +394,7 @@
 ```
 	
 * 获取用户列表    
-`/api/getUserLists`
+`/api/getUserLists`    
 提交内容：   
 `user_per_page`(每页多少信息，超过50自动设为50)      
 `pages`(可选，页数)     
