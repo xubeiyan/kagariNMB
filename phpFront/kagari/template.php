@@ -13,9 +13,8 @@ class Template {
 	
 	// 匿名版的某些计算后的到的值
 	private static $calculate = Array (
-		'date' => 'Y年m月d日',
-		'time' => 'H:i',
-		'admin' => '权限狗认证处',
+		'datetime' => 'Y年m月d日 H:i',
+		'funcLists' => '权限狗认证处',
 		'replyTitle' => Array('发送新串', '回复串'),
 		'sendInfo' => Array('回复成功', '没有饼干', '回复失败'),
 		'adminLists' => Array('用户管理')
@@ -82,17 +81,9 @@ class Template {
 	private static function replaceCalculate($html) {
 		global $config;
 		foreach (self::$calculate as $key => $value) {
-			if ($key == 'date') {
+			if ($key == 'datetime') {
 				$date = date($value);
 				$html = str_replace('%' . $key . '%', $date, $html);
-			} else if ($key == 'time') {
-				if (isset($config['timeZone'])) {
-					date_default_timezone_set($config['timeZone']);
-				} else {
-					date_default_timezone_set('Asia/Shanghai');
-				}
-				$time = date($value);
-				$html = str_replace('%' . $key . '%', $time, $html);
 			} else if ($key == 'admin') {
 				$string = '<div class="button">' . $value . '</div>';
 				$html = str_replace('%' . $key . '%', $string, $html);

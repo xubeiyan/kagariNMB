@@ -2,32 +2,26 @@
 * angular是某个库，反正和Angular.js没太大关系
 */
 
-var kagari = function () {
-	var that = {
-		switchListPanel: function () {
-			var area = document.getElementById("areas"),
-				areap = document.getElementById("areas-p");
-			if (area.style.display == '' || area.style.display == 'none') {
-				console.log('areas list show~');
-				area.style.display = 'block';
-				areap.style.display = 'none';
-			} else {
-				console.log('areas list hide~');
-				area.style.display = 'none';
-				areap.style.display = 'block';
-			}
-		},
-		switchFunctionPanel: function () {
-			var area = document.getElementById("functions");
-			if (area.style.display == '' || area.style.display == 'none') {
-				console.log('functions list show~');
-				area.style.display = 'block';
-			} else {
-				console.log('functions list hide~');
-				area.style.display = 'none';
-			}
-		}
-	};
-	return that;
-	},
-	k = kagari();
+var areaListButton = document.getElementsByClassName('area-list')[0],
+	areaList = document.getElementsByClassName('area-list-menu')[0],
+	funcListButton = document.getElementsByClassName('add-func')[0],
+	funcList = document.getElementsByClassName('func-list-menu')[0];
+	
+// 板块列表显示
+areaListButton.addEventListener('click', function () {
+	if (areaList.style.display != 'none') {
+		areaList.style.display = 'none';
+		
+	} else {
+		areaList.style.display = 'inline-block';
+	}
+});
+
+// 功能列表显示
+funcListButton.addEventListener('click', function () {
+	if (funcList.style.display != 'none') {
+		funcList.style.display = 'none';
+	} else {
+		funcList.style.display = 'inline-block';
+	}
+})
