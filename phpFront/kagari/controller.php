@@ -19,14 +19,14 @@ class Controller {
 		$opts = Array(
 			'http' => Array(
 				'method' => 'POST',
-				'user_agent' => $config['userAgent'],
+				'user_agent' => $config['back']['userAgent'],
 				'header' => "Content-type: application/json\r\n",
 				'content' => json_encode($data, JSON_UNESCAPED_UNICODE)
 			)
 		);
 		
 		$context = stream_context_create($opts);
-		$json = file_get_contents($config['backURI'] . 'api/getCookie', false, $context);
+		$json = file_get_contents($config['uri']['backURI'] . 'api/getCookie', false, $context);
 		$string = json_decode($json, TRUE);
 		
 		if ($username == '') {
@@ -52,11 +52,11 @@ class Controller {
 			$opts = Array(
 				'http' => Array(
 					'method' => 'GET',
-					'user_agent' => $config['userAgent']
+					'user_agent' => $config['back']['userAgent']
 				)
 			);
 			$context = stream_context_create($opts);
-			$jsonResponse = file_get_contents($config['backURI'] . $api, false, $context);
+			$jsonResponse = file_get_contents($config['uri']['backURI'] . $api, false, $context);
 			$arrayResponse = json_decode($jsonResponse, TRUE);
 			
 			if ($arrayResponse['response']['areas'] == Array()) {
@@ -69,13 +69,13 @@ class Controller {
 			$opts = Array(
 				'http' => Array(
 					'method' => 'POST',
-					'user_agent' => $config['userAgent'],
+					'user_agent' => $config['back']['userAgent'],
 					'header' => "Content-type: application/json\r\n",
 					'content' => json_encode($req, JSON_UNESCAPED_UNICODE)
 				)
 			);
 			$context = stream_context_create($opts);
-			$jsonResponse = file_get_contents($config['backURI'] . $api, false, $context);
+			$jsonResponse = file_get_contents($config['uri']['backURI'] . $api, false, $context);
 			$arrayResponse = json_decode($jsonResponse, TRUE);
 			
 			return $arrayResponse['response'];
@@ -84,13 +84,13 @@ class Controller {
 			$opts = Array(
 				'http' => Array(
 					'method' => 'POST',
-					'user_agent' => $config['userAgent'],
+					'user_agent' => $config['back']['userAgent'],
 					'header' => "Content-type: application/json\r\n",
 					'content' => json_encode($req, JSON_UNESCAPED_UNICODE)
 				)
 			);
 			$context = stream_context_create($opts);
-			$jsonResponse = file_get_contents($config['backURI'] . $api, false, $context);
+			$jsonResponse = file_get_contents($config['uri']['backURI'] . $api, false, $context);
 			$arrayResponse = json_decode($jsonResponse, TRUE);
 			
 			return $arrayResponse['response'];
@@ -99,13 +99,13 @@ class Controller {
 			$opts = Array(
 				'http' => Array(
 					'method' => 'POST',
-					'user_agent' => $config['userAgent'],
+					'user_agent' => $config['back']['userAgent'],
 					'header' => "Content-type: application/json\r\n",
 					'content' => json_encode($req, JSON_UNESCAPED_UNICODE)
 				)
 			);
 			$context = stream_context_create($opts);
-			$jsonResponse = file_get_contents($config['backURI'] . $api, false, $context);
+			$jsonResponse = file_get_contents($config['uri']['backURI'] . $api, false, $context);
 			//print_r($opts['http']['content']);
 			$arrayResponse = json_decode($jsonResponse, TRUE);
 			return $arrayResponse['response'];
@@ -114,13 +114,13 @@ class Controller {
 			$opts = Array(
 				'http' => Array(
 					'method' => 'POST',
-					'user_agent' => $config['userAgent'],
+					'user_agent' => $config['back']['userAgent'],
 					'header' => "Content-type: application/json\r\n",
 					'content' => json_encode($req, JSON_UNESCAPED_UNICODE)
 				)
 			);
 			$context = stream_context_create($opts);
-			$jsonResponse = file_get_contents($config['backURI'] . $api, false, $context);
+			$jsonResponse = file_get_contents($config['uri']['backURI'] . $api, false, $context);
 			//print_r($opts['http']['content']);
 			$arrayResponse = json_decode($jsonResponse, TRUE);
 			return $arrayResponse['response'];
@@ -138,11 +138,11 @@ class Controller {
 				$opts = Array(
 					'http' => Array(
 						'method' => 'GET',
-						'user_agent' => $config['userAgent']
+						'user_agent' => $config['back']['userAgent']
 					)
 				);
 				$context = stream_context_create($opts);
-				$json = file_get_contents($config['backURI'] . $value, false, $context);
+				$json = file_get_contents($config['uri']['backURI'] . $value, false, $context);
 				$array = json_decode($json, TRUE);
 				//print_r($array);
 				if (isset($array['response']['areas'])) {
@@ -166,13 +166,13 @@ class Controller {
 				$opts = Array(
 					'http' => Array(
 						'method' => 'POST',
-						'user_agent' => $config['userAgent'],
+						'user_agent' => $config['back']['userAgent'],
 						'header' => "Content-type: application/json\r\n",
 						'content' => json_encode($data, JSON_UNESCAPED_UNICODE)
 					)
 				);
 				$context = stream_context_create($opts);
-				$json = file_get_contents($config['backURI'] . $value, false, $context);
+				$json = file_get_contents($config['uri']['backURI'] . $value, false, $context);
 				$array = json_decode($json, TRUE);
 				$posts = $array['response']['posts'];
 				$out = '';

@@ -2,8 +2,6 @@
 /**
 * 所有访问的入口
 */
-// 设置文件
-require('config/config.php');
 
 // 模板
 require('kagari/template.php');
