@@ -2,8 +2,6 @@
 /**
 * 所有访问的入口
 */
-// 设置文件
-require('config/config.php');
 
 // 模板
 require('kagari/template.php');
@@ -17,49 +15,49 @@ if (!isset($_GET) || empty($_GET)) {
 	exit();
 }
 
-if (isset($_GET)) {
-	if ($_GET['q'] == 'admin') {
-		// require('kagari/admin.php');
-		$html = Template::index('admin.html');
-		$html = Template::replace($html);
-		
-		echo $html;
-		exit();
-	}
-	if (count(explode('-', $_GET['q'])) < 2) {
-		$html = 'lack of parameters...';
-		echo $html;
-		exit();
-	}
-	// 区访问，截取前两个字符
-	if (substr($_GET['q'], 0, 2) == 'a-') {
-		$html = Template::index('area.html');
-		$html = Template::replace($html);
-		echo $html;
-		exit();
-	// 串访问
-	} else if (substr($_GET['q'], 0, 2) == 'p-') {
-		$html = Template::index('post.html');
-		$html = Template::replace($html);
-		echo $html;
-		exit();
-	// 图片访问
-	} else if (substr($_GET['q'], 0, 2) == 'i-') {
-		$filename = substr($_GET['q'],2);
-		require('kagari/imageThumb.php');
-		ImageThumb::request($filename);
-	// 发送串
-	} else if (substr($_GET['q'], 0, 2) == 's-') {
-		$html = Template::index('send.html');
-		$html = Template::replace($html);
-		//print_r($_POST);
-		echo $html;
-		exit();
-	// 无法处理的请求
-	} else {
-		$html = 'unknown handler for ' . $_GET['q'] . '...';
-		echo $html;
-		exit();
-	}
+// admin
+if (isset($_GET['admin'])) {
+	// require('kagari/admin.php');
+	$html = Template::index('admin.html');
+	$html = Template::replace($html);
+	echo $html;
+// 区访问，截取前两个字符
+} else if (isset($_GET['a'])) {
+	$area = is_numeric($_GET['a']) ? $_GET['a'] : 0;
+	$param = Array (
+		'area' => $area,
+	);
+	$html = Template::index('area.html', $param);
+	$html = Template::replace($html);
+	echo $html;
+// 串访问
+} else if (isset($_GET['p'])) {
+	$post = is_numeric($_GET['p']) ? $_GET['p'] : 0;
+	$param = Array (
+		'post' => $post,
+	);
+	$html = Template::index('post.html');
+	$html = Template::replace($html);
+	echo $html;
+// 图片访问
+} else if (isset($_GET['i'])) {
+	$image = is_string($_GET['i']) ? $_GET['i'] : 'r18';
+	require('kagari/imageThumb.php');
+	ImageThumb::request($image);
+// 发送串
+} else if (isset($_GET['s'])) {
+	$html = Template::index('send.html');
+	$html = Template::replace($html);
+	//print_r($_POST);
+	echo $html;
+// 回复串
+} else if (isset($_GET['r'])) {
+	
+
+// 无法处理的请求
+} else {
+	$html = 'unknown handler for ' . $_GET['q'] . '...';
+	echo $html;
+	exit();
 }
 ?>

@@ -3,7 +3,7 @@ class ImageThumb {
 	// 请求$name值的图像
 	public static function request($name) {
 		global $config;
-		$path = $config['thumbDir'] . '//' . $name;
+		$path = $config['folder']['thumbDir'] . '//' . $name;
 		if (file_exists($path)) {
 			$nameArray = explode('.', $name);
 			self::imageType($nameArray[1]);
@@ -18,26 +18,26 @@ class ImageThumb {
 			$nameArray[1] = 'jpg';
 		}
 		if ($nameArray[1] == 'jpg' || $nameArray[1] == 'jpeg') {
-			$image = imagecreatefromjpeg($config['imgURI'] . $name);
+			$image = imagecreatefromjpeg($config['uri']['imgURI'] . $name);
 		} else if ($nameArray[1] == 'png') {
-			$image = imagecreatefrompng($config['imgURI'] . $name);
+			$image = imagecreatefrompng($config['uri']['imgURI'] . $name);
 		} else if ($nameArray[1] == 'gif') {
-			$image = imagecreatefromgif($config['imgURI'] . $name);
+			$image = imagecreatefromgif($config['uri']['imgURI'] . $name);
 		}
 		
 		if (!$image) {
-			die('Seem not to be able to open image on "' . $config['imgURI'] . $name . '"');
+			die('Seem not to be able to open image on "' . $config['uri']['imgURI'] . $name . '"');
 		}
 		
 		self::imageType($nameArray[1]);
 		$width = imagesx($image);
 		$height = imagesy($image);
 		if ($width < $height) {
-			$newWidth = $config['thumbSize'] * $width / $height;
-			$newHeight = $config['thumbSize'];
+			$newWidth = $config['display']['thumbSize'] * $width / $height;
+			$newHeight = $config['display']['thumbSize'];
 		} else {
-			$newWidth = $config['thumbSize'];
-			$newHeight = $config['thumbSize'] * $height / $width;
+			$newWidth = $config['display']['thumbSize'];
+			$newHeight = $config['display']['thumbSize'] * $height / $width;
 		}
 		// print_r($path);
 		// exit();
@@ -58,6 +58,7 @@ class ImageThumb {
 		exit();
 	}
 	
+	// 根据扩展名决定Content-Type类型
 	private static function imageType($extname) {
 		if ($extname == 'jpg' || $extname == 'jpeg') {
 			header('Content-Type:image/jpeg');
@@ -67,6 +68,5 @@ class ImageThumb {
 			header('Content-Type:image/gif');
 		}
 	}
-	
 }
 ?>

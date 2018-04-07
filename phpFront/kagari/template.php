@@ -1,4 +1,7 @@
 <?php
+
+require 'config/config.php';
+
 class Template {
 	// 匿名版的某些固定值
 	private static $template = Array (
@@ -32,8 +35,10 @@ class Template {
 	
 	// 选择模板文件
 	public static function index($filename) {
-		if (file_exists('html/' . $filename)) {
-			return file_get_contents('html/' . $filename);
+		global $config;
+		$fullPath = $config['folder']['templateDir'] . '/' . $filename;
+		if (file_exists($fullPath)) {
+			return file_get_contents($fullPath);
 		} else {
 			return 'file:<b>' . $filename . '</b> not exist...';
 		}
@@ -302,12 +307,12 @@ class Template {
 			. $areaPost['post_title'] . '</span><span class="author-name">' 
 			. $areaPost['author_name'] . '</span><span class="post-id">No.' 
 			. $areaPost['post_id'] . '</span><span class="create-time">' . $areaPost['create_time'] .'</span><span class="user-name">ID:' . $areaPost['user_name'] . '</span><input class="replay-button" onclick="location.href=\'p-' . $areaPost['post_id'] .'\'" type="button" value="回应" /></div>';
-			$postImage = $areaPost['post_images'] == '' ? '' : '<span class="post-images"><a href="' . $config['imgURI'] . $areaPost['post_images'] . '"><img class="thumb" src="i-' . $areaPost['post_images'] . '"></a></span>';
+			$postImage = $areaPost['post_images'] == '' ? '' : '<span class="post-images"><a href="' . $config['uri']['imgURI'] . $areaPost['post_images'] . '"><img class="thumb" src="i-' . $areaPost['post_images'] . '"></a></span>';
 			$contentPart = '<div class="post-content">' . $postImage . '<span class="post-content">' . $areaPost['post_content'] . '</span></div>';
 			$replyPart = '';
 			//require_once('../config/config.php');
-			if ($areaPost['reply_num'] > $config['lastReplyPosts']) {
-				$contentPart .= '<p class="tip">一共有' . $areaPost['reply_num'] . '条回复，当前只显示最新' . $config['lastReplyPosts'] . '条回复，选择“回应”查看所有回复。</p>';
+			if ($areaPost['reply_num'] > $config['display']['lastReplyPosts']) {
+				$contentPart .= '<p class="tip">一共有' . $areaPost['reply_num'] . '条回复，当前只显示最新' . $config['display']['lastReplyPosts'] . '条回复，选择“回应”查看所有回复。</p>';
 			}
 			foreach ($areaPost['reply_recent_post'] as $replyPost) {
 				$replyTitlePart = '<div class="reply post-title-info"><span class="post-title">' 
@@ -316,7 +321,7 @@ class Template {
 				. $replyPost['post_id'] . '</span><span class="create-time">' 
 				. $replyPost['create_time'] . '</span><span class="user-name">ID:' 
 				. $replyPost['user_name'] . '</span></div>';
-				$replyPostImage = $replyPost['post_images'] == '' ? '' : '<span class="post-images"><a href="' . $config['imgURI'] . $replyPost['post_images'] . '"><img class="thumb" src="i-' . $replyPost['post_images'] . '"></a></span>';
+				$replyPostImage = $replyPost['post_images'] == '' ? '' : '<span class="post-images"><a href="' . $config['folder']['imgURI'] . $replyPost['post_images'] . '"><img class="thumb" src="i-' . $replyPost['post_images'] . '"></a></span>';
 				$replyContentPart = '<div class="reply post-content">' . $replyPostImage . '<span class="post-content">' . $replyPost['post_content'] . '</span></div>';
 				$replyPart .= $replyTitlePart . $replyContentPart;
 			}
@@ -360,7 +365,7 @@ class Template {
 		. $postArray['post_title'] . '</span><span class="author-name">' 
 		. $postArray['author_name'] . '</span><span class="post-id">No.' 
 		. $postArray['post_id'] . '</span><span class="create-time">' . $postArray['create_time'] .'</span><span class="user-name">ID:' . $postArray['user_name'] . '</span></div>';
-		$postImage = $postArray['post_images'] == '' ? '' : '<span class="post-images"><a href="' . $config['imgURI'] . $postArray['post_images'] . '"><img class="thumb" src="' . $config['imgURI'] . $postArray['post_images'] . '"></a></span>';
+		$postImage = $postArray['post_images'] == '' ? '' : '<span class="post-images"><a href="' . $config['uri']['imgURI'] . $postArray['post_images'] . '"><img class="thumb" src="' . $config['uri']['imgURI'] . $postArray['post_images'] . '"></a></span>';
 		$contentPart = '<div class="post-content">' . $postImage . '<span class="post-content">' . $postArray['post_content'] . '</span></div>';
 		$replyPart = '';
 		foreach ($postArray['reply_recent_posts'] as $replyPost) {
@@ -370,7 +375,7 @@ class Template {
 			. $replyPost['post_id'] . '</span><span class="create-time">' 
 			. $replyPost['create_time'] . '</span><span class="user-name">ID:' 
 			. $replyPost['user_name'] . '</span></div>';
-			$replyPostImage = $replyPost['post_images'] == '' ? '' : '<span class="post-images"><a href="'. $config['imgURI'] . $replyPost['post_images'] . '"><img class="thumb" src="' . $config['imgURI'] . $replyPost['post_images'] . '"></a></span>';
+			$replyPostImage = $replyPost['post_images'] == '' ? '' : '<span class="post-images"><a href="'. $config['uri']['imgURI'] . $replyPost['post_images'] . '"><img class="thumb" src="' . $config['uri']['imgURI'] . $replyPost['post_images'] . '"></a></span>';
 			$replyContentPart = '<div class="reply post-content">' . $replyPostImage . '<span class="post-content">' . $replyPost['post_content'] . '</span></div>';
 			$replyPart .= $replyTitlePart . $replyContentPart;
 		}

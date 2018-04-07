@@ -659,17 +659,24 @@ class API {
 	}
 	
 	/**
-	* 获得某个数字对应的用户名
+	* 获得某个数字对应的用户名(修复原来randomString值总量太小的问题)
 	*/
 	private static function randomString($num) {
-		$numberList = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
-		$smallList = ['cf', 'bb', 'ac', 'nm', 'wc'];
-		$capitalList = ['NSSC', 'BDZD', 'ZHQG', 'YHGJ', 'MDZZ'];
-	
-		$first = $numberList[($num / (count($capitalList) * count($smallList))) % count($numberList)];
-		$second = $smallList[($num / count($capitalList)) % count($smallList)];
-		$third = $capitalList[$num % count($capitalList)];
-		return $first . $second . $third;
+		// 25的7次约为6e9和256的4次持平（IPv4地址总量个数）
+		$str = 'N1M2B5a0c9T4m3D6s7x8CiSdI';
+		$toNum = base_convert($num, 10, 25);
+		$startIndex = [8, 6, 5, 1, 3, 0, 2];
+		$userStr = '';
+		// 根据数字生成7位字符串
+		for ($i = 0; $i < 7; ++$i) {
+			// print '-->';
+			$digit = base_convert(substr($toNum, $i, 1), 25, 10);
+			$index = ($digit + $startIndex[$i]) % 25;
+			// print $index;
+			$userStr .= $str[$index];
+			// print '<--';
+		}
+		return $userStr;
 	}
 	
 	/**
