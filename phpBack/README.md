@@ -33,7 +33,7 @@
 * reply_posts_num(主串下此值为回复条数，回复串为0)
 
 ### API设计列表
->会同时接受JSON和multipart/form-data(因为会上传图片)
+>~~会同时接受JSON和multipart/form-data(因为会上传图片)~~图片改用base64编码（咕咕咕    
 
 #### 用户级别:
 * 获取饼干    
@@ -305,6 +305,37 @@
 	}
 }
 ```
+
+#### 管理员级别    
+> 除了管理员登录之外都需要额外提供secretKey     
+
+* 管理员登录     
+`api/adminLogin`    
+提交内容：    
+`username` 用户名    
+`password` 密码    
+返回内容：(登录成功)
+```javascript
+{
+	"request": "adminLogin",
+	"response": {
+		"status": "OK",
+		"secretKey": "",
+		"timestamp": "2018-04-07 19:23:22",
+		"expireTime": "2018-04-07 19:53:22"
+	}
+}
+```
+(登录失败)
+```javascript
+{
+	"request": "adminLogin",
+	"response": {
+		"error": "username or password wrong",
+		"timestamp": "2018-04-07 19:33:09"
+	}
+}
+```
 * 增加新板块    
 `api/addArea`    
 提交内容：     
@@ -353,10 +384,9 @@
 		"timestamp": "2016-07-18 18:12:29",
 		"status": "OK"
 	}
-	
 }
 ```
-(不存在的区)    
+(不存在的区)     
 ```javascript
 {
 	"request": "deleteArea",
@@ -379,7 +409,6 @@
 		"timestamp": "2016-07-07 11:53:19",
 		"status": "OK"
 	}
-	
 }
 ```
 (不存在的帖子)    
