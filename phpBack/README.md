@@ -32,6 +32,13 @@
 * update_time(此串更新时间，普通回复更新，SAGE则不更新)
 * reply_posts_num(主串下此值为回复条数，回复串为0)
 
+###### admin:(管理员)
+* admin_id(primary key),
+* username(用户名),
+* password(密码),
+* secretKey(提供给用户的一个认证)
+* expireTime(过期时间)
+
 ### API设计列表
 >~~会同时接受JSON和multipart/form-data(因为会上传图片)~~图片改用base64编码（咕咕咕    
 
@@ -306,9 +313,6 @@
 }
 ```
 
-#### 管理员级别    
-> 除了管理员登录之外都需要额外提供secretKey     
-
 * 管理员登录     
 `api/adminLogin`    
 提交内容：    
@@ -335,6 +339,10 @@
 		"timestamp": "2018-04-07 19:33:09"
 	}
 }
+
+#### 管理员级别    
+> 需要额外提供secretKey     
+
 ```
 * 增加新板块    
 `api/addArea`    

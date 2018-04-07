@@ -10,22 +10,25 @@ $conf = Array(
 	'databaseName' =>		'kagari_Nimingban',
 	'databasePort' =>		'3306',
 	'databaseTableName' => 	Array(
-			'user' => 'user',
-			'area' => 'area',
-			'post' => 'post'
+		'user' => 'user',
+		'area' => 'area',
+		'post' => 'post',
+		'admin' => 'admin'
+	),
+	// API列表
+	'apiLists' => Array(
+		'api/getCookie',
+		'api/getAreaLists',
+		'api/getAreaPosts',
+		'api/getPost',
+		'api/sendPost',
+		'api/adminLogin',
+		'api/addArea',
+		'api/deleteArea',
+		'api/delatePost',
+		'api/getUserLists',
 	),
 	// 匿名版设置
-	'apiLists' => Array(
-			'api/getCookie',
-			'api/getAreaLists',
-			'api/getAreaPosts',
-			'api/getPost',
-			'api/sendPost',
-			'api/deletePost',
-			'api/deleteArea',
-			'api/addArea',
-			'api/getUserLists'
-	),
 	'customUserAgent' => '',
 	'scriptFilename' => 'index.php',
 	'installerPath' => 'install/install.php',

@@ -59,6 +59,14 @@ if (isset($_GET['create_tbl'])) {
 		PRIMARY KEY(post_id)
 	) COLLATE utf8_general_ci';
 	
+	$adminsql = 'CREATE TABLE ' . $conf['datebaseTableName']['post'] . ' (
+		admin_id int NOT NULL AUTO_INCREMENT,
+		username varchar(20),
+		password varchar(20),
+		secretKey varchar(10),
+		expireTime datetime DEFAULT CURRENT_TIMESTAMP
+	) COLLATE utf8_general_ci';
+	
 	$postidSql = 'ALTER TABLE ' . $conf['databaseTableName']['post'] . 'AUTO_INCREMENT=10000';
 
 	if(!mysqli_query($con, $usersql)) {
@@ -78,6 +86,13 @@ if (isset($_GET['create_tbl'])) {
 	} else {
 		mysqli_query($con, $postidSql);
 		echo "create table " . $conf['databaseTableName']['post'] . " successfully! and the start id of post has been changed to 10000!<br />";
+	}
+	
+	if(!mysqli_query($con, $postsql)) {
+		die(mysqli_connect_error());
+	} else {
+		mysqli_query($con, $postidSql);
+		echo "create table " . $conf['databaseTableName']['admin'] . " successfully!<br />";
 	}
 }
 
@@ -103,6 +118,16 @@ if (isset($_GET['test_area'])) {
 	$sql = 'SELECT area_id FROM ' . $conf['databaseName'] . '.' . $conf['databaseTableName']['area'] . ' WHERE area_name="综合版"';
 	$row = mysqli_fetch_assoc(mysqli_query($con, $sql));
 	$test_area_id = $row['area_id'];
+}
+
+if (isset($_GET['admin_user'])) {
+	$admin_sql = 'INSERT INTO ' . $conf['databaseName'] . '.' . $conf['databaseTableName']['admin'] . 
+	' (username, password) VALUES ("kagari", "kana")';
+	if(!mysqli_query($con, $admin_sql)) {
+		die(mysqli_connect_error());
+	} else {
+		echo "insert " . $admin_sql ." successfully!<br />";
+	} 
 }
 
 // 暂时没啥用

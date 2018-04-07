@@ -450,6 +450,52 @@ class API {
 			die(mysqli_error($con));
 		}
 	}
+	
+	/**
+	* 管理员登录
+	* `username` 用户名
+	* `password` 密码
+	*/
+	public static function adminLogin($post) {
+		$return['request'] = 'adminLogin';
+		$return['response']['timestamp'] = self::timestamp();
+		
+		global $conf, $con;
+		
+		$sql = 'SELECT password FROM ' . $conf['databaseTableName']['admin'] . ' WHERE username = "' .
+			$post['username'] '" LIMIT 1';
+		$result = mysqli_query($con, $sql);
+
+		if (mysqli_num_rows($result) == 0) {
+			$return['response']['error'] = 'username or password wrong';
+			echo json_encode($resturn, JSON_UNESCAPED_UNICODE);
+			exit();	
+		}
+		
+		$row = mysqli_fetch_assoc($result);
+		
+		if ($row['password'] != $post['password']) {
+			$return['response']['error'] = 'username or password wrong';
+			echo json_encode($resturn, JSON_UNESCAPED_UNICODE);
+			exit();
+		}
+		
+		$return['response']['secretKey'] = substr(md5(date_create()), 0, 10);
+		$date_in_30min = date_add(date_create(), date_interval_create_from_date_string('30 minutes'));
+		$return['response']['expireTime'] = date_format($date_in_30min, 'Y-m-d H:i:s');
+		$updateSql = 'UPDATE ' . $conf['databaseTableName']['admin'] . ' SET secretKey = "' . 
+			$return['response']['secretKey'] . '", expireTime = "' . $return['response']['expireTime'] . '"';
+			
+		if (!mysqli_query($con, $updateSql)) {
+			die(mysqli_error($con));
+		}
+		
+		$return['response']['status'] = 'OK';
+		echo json_encode($return, JSON_UNESCAPED_UNICODE);
+		exit(); 
+		
+	}
+	
 	/**
 	* 增加板块(需要权限)
 	* `area_name` 板块名
