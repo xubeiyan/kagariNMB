@@ -463,7 +463,7 @@ class API {
 		global $conf, $con;
 		
 		$sql = 'SELECT password FROM ' . $conf['databaseTableName']['admin'] . ' WHERE username = "' .
-			$post['username'] '" LIMIT 1';
+			$post['username'] . '" LIMIT 1';
 		$result = mysqli_query($con, $sql);
 
 		if (mysqli_num_rows($result) == 0) {

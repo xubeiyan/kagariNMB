@@ -25,7 +25,7 @@ $config = Array(
 	// 后端交互设置
 	'back' => Array (
 		'responseType' => 'json',
-		'userAgent' => 'KagariNMBFront', // 客户端指定User-Agent
+		'userAgent' => 'KagariNMBFront', // 客户端指定User-Agent，留空则为不限制
 	),
 	// 区域化设置
 	'locale' => Array (

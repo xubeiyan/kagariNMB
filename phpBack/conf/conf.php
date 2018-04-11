@@ -29,7 +29,7 @@ $conf = Array(
 		'api/getUserLists',
 	),
 	// 匿名版设置
-	'customUserAgent' => '',
+	'customUserAgent' => 'KagariNMBFront', // 留空则不限制特定的UserAgent
 	'scriptFilename' => 'index.php',
 	'installerPath' => 'install/install.php',
 	'allowedRequest' => 'GET|POST',

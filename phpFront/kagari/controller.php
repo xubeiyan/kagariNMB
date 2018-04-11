@@ -19,7 +19,7 @@ class Controller {
 		$opts = Array(
 			'http' => Array(
 				'method' => 'POST',
-				'user_agent' => $config['back']['userAgent'],
+				'user_agent' => $userAgent,
 				'header' => "Content-type: application/json\r\n",
 				'content' => json_encode($data, JSON_UNESCAPED_UNICODE)
 			)
@@ -47,12 +47,13 @@ class Controller {
 	*/
 	public static function apis($api, $req) {
 		global $config;
+		$userAgent = $config['back']['userAgent'] == '' ? '' : $config['back']['userAgent'];
 		// 板块列表
 		if ($api == 'api/getAreaLists') {
 			$opts = Array(
 				'http' => Array(
 					'method' => 'GET',
-					'user_agent' => $config['back']['userAgent']
+					'user_agent' => $userAgent,
 				)
 			);
 			$context = stream_context_create($opts);
@@ -69,7 +70,7 @@ class Controller {
 			$opts = Array(
 				'http' => Array(
 					'method' => 'POST',
-					'user_agent' => $config['back']['userAgent'],
+					'user_agent' => $userAgent,
 					'header' => "Content-type: application/json\r\n",
 					'content' => json_encode($req, JSON_UNESCAPED_UNICODE)
 				)
@@ -84,7 +85,7 @@ class Controller {
 			$opts = Array(
 				'http' => Array(
 					'method' => 'POST',
-					'user_agent' => $config['back']['userAgent'],
+					'user_agent' => $userAgent,
 					'header' => "Content-type: application/json\r\n",
 					'content' => json_encode($req, JSON_UNESCAPED_UNICODE)
 				)
@@ -99,7 +100,7 @@ class Controller {
 			$opts = Array(
 				'http' => Array(
 					'method' => 'POST',
-					'user_agent' => $config['back']['userAgent'],
+					'user_agent' => $userAgent,
 					'header' => "Content-type: application/json\r\n",
 					'content' => json_encode($req, JSON_UNESCAPED_UNICODE)
 				)
@@ -114,7 +115,7 @@ class Controller {
 			$opts = Array(
 				'http' => Array(
 					'method' => 'POST',
-					'user_agent' => $config['back']['userAgent'],
+					'user_agent' => $userAgent,
 					'header' => "Content-type: application/json\r\n",
 					'content' => json_encode($req, JSON_UNESCAPED_UNICODE)
 				)
@@ -138,7 +139,7 @@ class Controller {
 				$opts = Array(
 					'http' => Array(
 						'method' => 'GET',
-						'user_agent' => $config['back']['userAgent']
+						'user_agent' => $userAgent
 					)
 				);
 				$context = stream_context_create($opts);
@@ -166,7 +167,7 @@ class Controller {
 				$opts = Array(
 					'http' => Array(
 						'method' => 'POST',
-						'user_agent' => $config['back']['userAgent'],
+						'user_agent' => $userAgent,
 						'header' => "Content-type: application/json\r\n",
 						'content' => json_encode($data, JSON_UNESCAPED_UNICODE)
 					)
