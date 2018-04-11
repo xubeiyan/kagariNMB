@@ -12,6 +12,7 @@ class Controller {
 	*/
 	public static function cookies($username) {
 		global $config;
+		$userAgent = $config['back']['userAgent'] == '' ? '' : $config['back']['userAgent'];
 		
 		$data = Array(
 			'ip' => $_SERVER['REMOTE_ADDR']

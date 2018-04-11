@@ -132,13 +132,11 @@ class Template {
 					$html = str_replace('%' . $templateString . '%', $string, $html);
 				// 版块下所有串
 				} else if ($templateString == 'areaPosts') {
-					$queryArray = explode('-', $_GET['q']);
-					$areaId = $queryArray[1];
-					if (count($queryArray) == 4 && is_numeric($queryArray[3])) {
-						$areaPage = $queryArray[3];
-					} else {
-						$areaPage = 1;
-					}
+					// 判断分区值是否为数字，不是给予值0
+					$areaId = is_numeric($_GET['a']) ? $_GET['a'] : 0; 
+					// 判断页数是否为设置且是数字，不是给予值1
+					$areaPage = isset($_GET['page']) && is_numeric($_GET['page']) ? $_GET['page'] : 1;
+					
 					$req = Array(
 						'area_id' => $areaId,
 						'area_page' => $areaPage
@@ -282,7 +280,7 @@ class Template {
 			if ($value['parent_area'] == '') {
 				$return .= '<div class="button menu-first"><b>' . $value['area_name'] . '</b></div>';
 			} else {
-				$return .= '<div class="button menu-second"><a href="a-' . $value['area_id'] . '">' . $value['area_name'] . '</a></div>';
+				$return .= '<div class="button menu-second"><a href="?a=' . $value['area_id'] . '">' . $value['area_name'] . '</a></div>';
 			}
 		}
 		return $return;

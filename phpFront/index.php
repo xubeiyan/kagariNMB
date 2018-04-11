@@ -27,7 +27,7 @@ if (isset($_GET['admin'])) {
 	$param = Array (
 		'area' => $area,
 	);
-	$html = Template::index('area.html', $param);
+	$html = Template::index('area_page.html', $param);
 	$html = Template::replace($html);
 	echo $html;
 // 串访问
@@ -56,7 +56,12 @@ if (isset($_GET['admin'])) {
 
 // 无法处理的请求
 } else {
-	$html = 'unknown handler for ' . $_GET['q'] . '...';
+	$get_str = '';
+	foreach ($_GET as $key => $value) {
+		$get_str .= $key . '=>' . $value . ' ';
+	}
+	$html = Template::index('error.html');
+	$html = Template::replace($html);
 	echo $html;
 	exit();
 }
