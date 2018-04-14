@@ -36,7 +36,7 @@ if (isset($_GET['admin'])) {
 	$param = Array (
 		'post' => $post,
 	);
-	$html = Template::index('post.html');
+	$html = Template::index('post_page.html');
 	$html = Template::replace($html);
 	echo $html;
 // 图片访问
@@ -46,13 +46,16 @@ if (isset($_GET['admin'])) {
 	ImageThumb::request($image);
 // 发送串
 } else if (isset($_GET['s'])) {
-	$html = Template::index('send.html');
+	$html = Template::index('send_page.html');
 	$html = Template::replace($html);
 	//print_r($_POST);
 	echo $html;
 // 回复串
 } else if (isset($_GET['r'])) {
-	
+	$html = Template::index('reply_page.html');
+	$html = Template::replace($html);
+	//print_r($_POST);
+	echo $html;
 
 // 无法处理的请求
 } else {

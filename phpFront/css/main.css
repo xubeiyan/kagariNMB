@@ -83,6 +83,59 @@ a:hover {
 		display: inline-block;
 	}
 	
+	/* 串标题栏 */
+	main div.main-part div.post-title-info {
+		height: 30px;
+		line-height: 30px;
+	}
+	
+	main div.main-part span.post-title {
+		color: #F00;
+		margin-left: 5px;
+		margin-right: 5px;
+	}
+	
+	main div.main-part span.author-name {
+		color: #00F;
+		margin-right: 5px;
+	}
+	
+	main div.main-part span.post-id {
+		margin-right: 5px;
+	}
+	
+	main div.main-part span.create-time {
+		margin-right: 5px;
+	}
+	
+	main div.main-part span.user-name {
+		margin-right: 5px;
+	}
+	
+	main div.main-part input.reply-button {
+		border: 0;
+		background-color: #CCC;
+		width: 50px;
+		height: 25px;
+		cursor: pointer;
+	}
+	
+	main div.main-part input.reply-button:hover {
+		background-color: #EEE;
+	}
+	
+	/* 串内容 */
+	main div.main-part div.post-content {
+		margin-left: 5px;
+	}
+	
+	/* 页码部分 */
+	main div.main-part div.page-number {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	
 	/* 功能列表 */
 	main div.func-list-menu {
 		width: 200px;

@@ -151,17 +151,12 @@ class Template {
 					$html = str_replace('%areaId%', $areaId, $html);
 					$html = str_replace('%areaName%', $data['area_name'], $html);
 					$html = str_replace('%areaPage%', $areaPage, $html);
-					$newPost = self::sendPost(0, $areaId);
+					$newPost = self::sendPost($areaId);
 					$html = str_replace('%newPost%', $newPost, $html);
-				// 某个串
+				// 浏览某个串
 				} else if ($templateString == 'post') {
-					$queryArray = explode('-', $_GET['q']);
-					$postId = $queryArray[1];
-					if (count($queryArray) == 4) {
-						$postPage = $queryArray[3];
-					} else {
-						$postPage = 1;
-					}
+					$postId = is_numeric($_GET['p']) ? $_GET['p'] : 0;
+					$postPage = isset($_GET['page']) && is_numeric($_GET['page']) ? $_GET['page'] : 1; 
 					$req = Array(
 						'post_id' => $postId,
 						'post_page' => $postPage
@@ -180,24 +175,24 @@ class Template {
 					$html = str_replace('%postPage%', $postPage, $html);
 				// 发送串
 				} else if ($templateString == 'sendInfo') {
-					// 无论是回复串还是新串$queryArray长度都是4
-					$queryArray = explode('-', $_GET['q']);
-					
-					if (count($queryArray) != 4) {
-						die('the length of queryArray is not 4...');
+					// s参数不为数字
+					if (!is_numeric($_GET['s'])) {
+
+						die('area id not a num...');
 					}
+					
 					//print_r($_POST);
 					if (!isset($_POST['content']) || $_POST['content'] == '') {
 						die('content should not be empty');
 					}
-					$id = $queryArray[1];
-					$areaId = $queryArray[3];
+
+					$areaId = $_GET['s'];
 					$cookie = Controller::cookies('');
 					$req = Array(
 						'user_name' => $cookie,
 						'area_id' => $areaId,
 						'user_ip' => $_SERVER['REMOTE_ADDR'],
-						'reply_post_id' => $id,
+						'reply_post_id' => 0,
 						'post_content' => $_POST['content']
 					);
 					if (isset($_POST['title']) && $_POST['title'] != '') {
@@ -241,15 +236,9 @@ class Template {
 							$replyTitle = '不知道出了什么问题……';
 						}
 					} else {
-						if (substr($_GET['q'], 0, 3) == 's-0') {
-							$sendInfo = '发新串成功';
-							$replyTitle = self::$calculate['replyTitle'][0];
-							$toURI = 'a-' . $areaId;
-						} else {
-							$sendInfo = '回复串成功';
-							$replyTitle = self::$calculate['replyTitle'][1];
-							$toURI = 'p-' . $id;
-						}					
+						$sendInfo = '发新串成功';
+						$replyTitle = self::$calculate['replyTitle'][0];
+						$toURI = '?a=' . $areaId;
 					}
 					$html = str_replace('%sendInfo%', $sendInfo, $html);
 					$html = str_replace('%replyTitle%', $replyTitle, $html);
@@ -304,7 +293,7 @@ class Template {
 			$titlePart = '<div class="post-title-info"><span class="post-title">' 
 			. $areaPost['post_title'] . '</span><span class="author-name">' 
 			. $areaPost['author_name'] . '</span><span class="post-id">No.' 
-			. $areaPost['post_id'] . '</span><span class="create-time">' . $areaPost['create_time'] .'</span><span class="user-name">ID:' . $areaPost['user_name'] . '</span><input class="replay-button" onclick="location.href=\'p-' . $areaPost['post_id'] .'\'" type="button" value="回应" /></div>';
+			. $areaPost['post_id'] . '</span><span class="create-time">' . $areaPost['create_time'] .'</span><span class="user-name">ID:' . $areaPost['user_name'] . '</span><input class="reply-button" onclick="location.href=\'?p=' . $areaPost['post_id'] .'\'" type="button" value="回应" /></div>';
 			$postImage = $areaPost['post_images'] == '' ? '' : '<span class="post-images"><a href="' . $config['uri']['imgURI'] . $areaPost['post_images'] . '"><img class="thumb" src="i-' . $areaPost['post_images'] . '"></a></span>';
 			$contentPart = '<div class="post-content">' . $postImage . '<span class="post-content">' . $areaPost['post_content'] . '</span></div>';
 			$replyPart = '';
@@ -400,8 +389,8 @@ class Template {
 	}
 	
 	// 发新串
-	private static function sendPost($id, $areaId) {
-		$action = 's-' . $id . '-a-' . $areaId;
+	private static function sendPost($areaId) {
+		$action = '?s=' . $areaId;
 		
 		$return = '<form action="' . $action . '" method="post" enctype="multipart/form-data">' .
 					'<span>标题</span><input type="text" name="title" placeholder="无标题"/><br />' .
