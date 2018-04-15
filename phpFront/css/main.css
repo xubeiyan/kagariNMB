@@ -80,6 +80,7 @@ a:hover {
 	/* 页面内容 */
 	main div.main-part {
 		width: 600px;
+		min-height: 400px;
 		display: inline-block;
 	}
 	
@@ -126,7 +127,16 @@ a:hover {
 	
 	/* 串内容 */
 	main div.main-part div.post-content {
-		margin-left: 5px;
+		padding-left: 5px;
+	}
+	
+	main div.main-part span.post-images img.thumb {
+		max-width: 590px;
+	}
+	
+	/* 回复部分 */
+	main div.main-part div.reply {
+		border-left: 5px solid #BBB;
 	}
 	
 	/* 页码部分 */
@@ -140,6 +150,40 @@ a:hover {
 	main div.func-list-menu {
 		width: 200px;
 		display: inline-block;
+	}
+	
+	/* 发串回复内容 */
+	main div.func-list-menu input[type=text] {
+		display: block;
+		padding-left: 2px;
+		padding-right: 2px;
+		width: calc(100% - 6px);
+	}
+	
+	main div.func-list-menu textarea {
+		padding-left: 2px;
+		padding-right: 2px;
+		display: block;
+		width: calc(100% - 6px);
+		height: 100px;
+		margin-bottom: 5px;
+		resize: none;
+	}
+	
+	main div.func-list-menu input[type=submit] {
+		width: 90%;
+		height: 40px;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 5px;
+		border: 0;
+		background-color: #CCC;
+		display: block;
+		cursor: pointer;
+	}
+	
+	main div.func-list-menu input[type=submit]:hover {
+		background-color: #EEE;
 	}
 	
 	/* 页脚 */

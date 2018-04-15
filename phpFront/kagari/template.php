@@ -93,7 +93,7 @@ class Template {
 				$string = '<div class="button">' . $value . '</div>';
 				$html = str_replace('%' . $key . '%', $string, $html);
 			} else if ($key == 'adminLists') {
-				$string = '<div class="button menu-first">' . $value[0] . '</div>';
+				$string = '<div class="button menu-first"><a href="?admin">' . $value[0] . '</a></div>';
 				$html = str_replace('%' . $key . '%', $string, $html);
 			}
 			// } else if ($key == 'replyTitle') {
@@ -164,7 +164,7 @@ class Template {
 					
 					$data = Controller::apis(self::$dbData[$templateString], $req);
 					$string = self::post($data);
-					$sendPost = self::sendPost($postId, $data['area_id']);
+					$sendPost = self::sendReply($postId, $data['area_id']);
 					
 					$html = str_replace('%' . $templateString . '%', $string, $html);
 					//$html = str_replace('%')
@@ -177,13 +177,12 @@ class Template {
 				} else if ($templateString == 'sendInfo') {
 					// s参数不为数字
 					if (!is_numeric($_GET['s'])) {
-
-						die('area id not a num...');
+						die('area id not a num...<a href="javascript:history.go(-1)">click here</a> to return');
 					}
 					
 					//print_r($_POST);
 					if (!isset($_POST['content']) || $_POST['content'] == '') {
-						die('content should not be empty');
+						die('content should not be empty...<a href="javascript:history.go(-1)">click here</a> to return');
 					}
 
 					$areaId = $_GET['s'];
@@ -243,6 +242,79 @@ class Template {
 					$html = str_replace('%sendInfo%', $sendInfo, $html);
 					$html = str_replace('%replyTitle%', $replyTitle, $html);
 					header("refresh:5;url=$toURI");
+				// 回复串
+				} else if ($templateString == 'replyInfo') {
+					// s参数不为数字
+					if (!is_numeric($_GET['r'])) {
+						die('reply post id not a num...<a href="javascript:history.go(-1)">click here</a> to return');
+					}
+					
+					//print_r($_POST);
+					if (!isset($_POST['content']) || $_POST['content'] == '') {
+						die('content should not be empty...<a href="javascript:history.go(-1)">click here</a> to return');
+					}
+					
+					$postId = $_GET['r'];
+					$areaId = isset($_GET['area']) && is_numeric($_GET['area']) ? $_GET['area'] : 0;
+					
+					$cookie = Controller::cookies('');
+					$req = Array(
+						'user_name' => $cookie,
+						'area_id' => $areaId,
+						'user_ip' => $_SERVER['REMOTE_ADDR'],
+						'reply_post_id' => $postId,
+						'post_content' => $_POST['content']
+					);
+					if (isset($_POST['title']) && $_POST['title'] != '') {
+						$req['post_title'] = $_POST['title'];
+					}
+					if (isset($_POST['name']) && $_POST['name'] != '') {
+						$req['author_name'] = $_POST['name'];
+					}
+					if (isset($_POST['email']) && $_POST['email'] != '') {
+						$req['author_email'] = $_POST['email'];
+					}
+					//print_r($_FILES);
+					if (isset($_FILES['uploadFile']) && $_FILES['uploadFile']['error'] != UPLOAD_ERR_NO_FILE) {
+						$uploadDir = '.';
+						if ($_FILES['uploadFile']['error'] == UPLOAD_ERR_OK &&
+							($_FILES['uploadFile']['type'] == 'image/jpeg' || $_FILES['uploadFile']['type'] == 'image/png' || $_FILES['uploadFile']['type'] == 'image/gif')) {
+							if (!move_uploaded_file($_FILES['uploadFile']['tmp_name'], $_FILES['uploadFile']['name'])) {
+								die('seem not to move successfully...');
+							}
+						} else {
+							die('error code is ' . $_FILES['uploadFile']['error'] . '. or type is not jpg/png/gif');
+						}
+						$dataImage = file_get_contents($_FILES['uploadFile']['name']);
+						unlink($_FILES['uploadFile']['name']);
+						$req['post_image'] = 'data:' . $_FILES['uploadFile']['type'] . ';base64,' . base64_encode($dataImage);
+					}
+
+					//print_r($req);
+					$data = Controller::apis(self::$dbData['sendPost'], $req);
+					//print_r($data);
+					// exit();
+					// 根据是否具有error字段判断发串成功与否
+					if (isset($data['error'])) {
+						if ($data['error'] == 'Last post time interval too short') {
+							date_default_timezone_set("Asia/Shanghai");
+							$sendInfo = '发串时间间隔过短，上次发帖时间为：' . $data['last_post_time'] . '下次可发串时间为：' . date('Y-m-d H:i:s');
+							$replyTitle = '发串过快';
+						// 为以后预留？
+						} else {
+							$sendInfo = '未知错误~';
+							$replyTitle = '不知道出了什么问题……';
+						}
+					} else {
+						$sendInfo = '回复串成功';
+						$replyTitle = self::$calculate['replyTitle'][0];
+						$toURI = '?p=' . $postId;
+					}
+					
+					$html = str_replace('%replyInfo%', $sendInfo, $html);
+					$html = str_replace('%replyTitle%', $replyTitle, $html);
+					header("refresh:5;url=$toURI");
+					
 				} else if ($templateString == 'userLists') {
 					$req = Array();
 					$req['user_per_page'] = 50;
@@ -294,7 +366,7 @@ class Template {
 			. $areaPost['post_title'] . '</span><span class="author-name">' 
 			. $areaPost['author_name'] . '</span><span class="post-id">No.' 
 			. $areaPost['post_id'] . '</span><span class="create-time">' . $areaPost['create_time'] .'</span><span class="user-name">ID:' . $areaPost['user_name'] . '</span><input class="reply-button" onclick="location.href=\'?p=' . $areaPost['post_id'] .'\'" type="button" value="回应" /></div>';
-			$postImage = $areaPost['post_images'] == '' ? '' : '<span class="post-images"><a href="' . $config['uri']['imgURI'] . $areaPost['post_images'] . '"><img class="thumb" src="i-' . $areaPost['post_images'] . '"></a></span>';
+			$postImage = $areaPost['post_images'] == '' ? '' : '<span class="post-images"><a target="_blank" href="' . $config['uri']['imgURI'] . $areaPost['post_images'] . '"><img class="thumb" src="?i=' . $areaPost['post_images'] . '"></a></span>';
 			$contentPart = '<div class="post-content">' . $postImage . '<span class="post-content">' . $areaPost['post_content'] . '</span></div>';
 			$replyPart = '';
 			//require_once('../config/config.php');
@@ -302,14 +374,14 @@ class Template {
 				$contentPart .= '<p class="tip">一共有' . $areaPost['reply_num'] . '条回复，当前只显示最新' . $config['display']['lastReplyPosts'] . '条回复，选择“回应”查看所有回复。</p>';
 			}
 			foreach ($areaPost['reply_recent_post'] as $replyPost) {
-				$replyTitlePart = '<div class="reply post-title-info"><span class="post-title">' 
+				$replyTitlePart = '<div class="post-title-info reply"><span class="post-title">' 
 				. $replyPost['post_title'] . '</span><span class="author-name">' 
-				. $replyPost['author_name'] . '</span><span class="post_id">No.' 
+				. $replyPost['author_name'] . '</span><span class="post-id">No.' 
 				. $replyPost['post_id'] . '</span><span class="create-time">' 
 				. $replyPost['create_time'] . '</span><span class="user-name">ID:' 
 				. $replyPost['user_name'] . '</span></div>';
 				$replyPostImage = $replyPost['post_images'] == '' ? '' : '<span class="post-images"><a href="' . $config['folder']['imgURI'] . $replyPost['post_images'] . '"><img class="thumb" src="i-' . $replyPost['post_images'] . '"></a></span>';
-				$replyContentPart = '<div class="reply post-content">' . $replyPostImage . '<span class="post-content">' . $replyPost['post_content'] . '</span></div>';
+				$replyContentPart = '<div class="post-content reply">' . $replyPostImage . '<span class="post-content">' . $replyPost['post_content'] . '</span></div>';
 				$replyPart .= $replyTitlePart . $replyContentPart;
 			}
 			
@@ -352,35 +424,35 @@ class Template {
 		. $postArray['post_title'] . '</span><span class="author-name">' 
 		. $postArray['author_name'] . '</span><span class="post-id">No.' 
 		. $postArray['post_id'] . '</span><span class="create-time">' . $postArray['create_time'] .'</span><span class="user-name">ID:' . $postArray['user_name'] . '</span></div>';
-		$postImage = $postArray['post_images'] == '' ? '' : '<span class="post-images"><a href="' . $config['uri']['imgURI'] . $postArray['post_images'] . '"><img class="thumb" src="' . $config['uri']['imgURI'] . $postArray['post_images'] . '"></a></span>';
+		$postImage = $postArray['post_images'] == '' ? '' : '<span class="post-images"><a target="_blank" href="' . $config['uri']['imgURI'] . $postArray['post_images'] . '"><img class="thumb" src="' . $config['uri']['imgURI'] . $postArray['post_images'] . '"></a></span>';
 		$contentPart = '<div class="post-content">' . $postImage . '<span class="post-content">' . $postArray['post_content'] . '</span></div>';
 		$replyPart = '';
 		foreach ($postArray['reply_recent_posts'] as $replyPost) {
-			$replyTitlePart = '<div class="reply post-title-info"><span class="post-title">' 
+			$replyTitlePart = '<div class="post-title-info reply"><span class="post-title">' 
 			. $replyPost['post_title'] . '</span><span class="author-name">' 
-			. $replyPost['author_name'] . '</span><span class="post_id">No.' 
+			. $replyPost['author_name'] . '</span><span class="post-id">No.' 
 			. $replyPost['post_id'] . '</span><span class="create-time">' 
 			. $replyPost['create_time'] . '</span><span class="user-name">ID:' 
 			. $replyPost['user_name'] . '</span></div>';
-			$replyPostImage = $replyPost['post_images'] == '' ? '' : '<span class="post-images"><a href="'. $config['uri']['imgURI'] . $replyPost['post_images'] . '"><img class="thumb" src="' . $config['uri']['imgURI'] . $replyPost['post_images'] . '"></a></span>';
-			$replyContentPart = '<div class="reply post-content">' . $replyPostImage . '<span class="post-content">' . $replyPost['post_content'] . '</span></div>';
+			$replyPostImage = $replyPost['post_images'] == '' ? '' : '<span class="post-images"><a target="_blank" href="'. $config['uri']['imgURI'] . $replyPost['post_images'] . '"><img class="thumb" src="' . $config['uri']['imgURI'] . $replyPost['post_images'] . '"></a></span>';
+			$replyContentPart = '<div class="post-content reply">' . $replyPostImage . '<span class="post-content">' . $replyPost['post_content'] . '</span></div>';
 			$replyPart .= $replyTitlePart . $replyContentPart;
 		}
 		$return = $titlePart . $contentPart . $replyPart;
 		// 页码部分
 		// 第一页不显示<
 		if ($postArray['post_page'] == 1) {
-			$prev = '<span class="unavailable">&lt;</span>';
+			$prev = '<span class="unavailable">&lt;-</span>';
 		} else {
 			$prevPage = $postArray['post_page'] - 1;
-			$prev = '<span class="available"><a href="p-' . $postArray['post_id'] . '-page-' . $prevPage . '" title="上一页">&lt;</a></span>';
+			$prev = '<span class="available"><a href="p-' . $postArray['post_id'] . '-page-' . $prevPage . '" title="上一页">&lt;-</a></span>';
 		}
 		// 最后一页不显示>
 		if ($postArray['post_page'] == 1) {
-			$next = '<span class="unavailable">&gt;</span>';
+			$next = '<span class="unavailable">-&gt;</span>';
 		} else {
 			$nextPage = $postArray['post_page'] + 1;
-			$netx = '<span class="available"><a href="p-' . $postArray['post_id'] . '-page-' . $nextPage . '" title="下一页">&gt;</a></span>';
+			$netx = '<span class="available"><a href="p-' . $postArray['post_id'] . '-page-' . $nextPage . '" title="下一页">-&gt;</a></span>';
 		}
 		$current = '<span class="current" title="当前">' . $postArray['post_page'] . '</span>';
 		$pageNumberPart = '<div class="page-number">' . $prev . ' ' . $current . ' ' . $next . '</div>';
@@ -393,12 +465,28 @@ class Template {
 		$action = '?s=' . $areaId;
 		
 		$return = '<form action="' . $action . '" method="post" enctype="multipart/form-data">' .
-					'<span>标题</span><input type="text" name="title" placeholder="无标题"/><br />' .
-					'<span>名称</span><input type="text" name="name" placeholder="无名氏"/><br />'.
-					'<span>邮箱</span><input type="text" name="email" placeholder=""/><br />'.
-					'<span>附件</span><input type="file" name="uploadFile"/><br />' .
+					'<span>标题</span><input type="text" name="title" placeholder="无标题"/>' .
+					'<span>名称</span><input type="text" name="name" placeholder="无名氏"/>'.
+					'<span>邮箱</span><input type="text" name="email" placeholder=""/>'.
+					'<span>附件</span><input type="file" name="uploadFile"/>' .
 					'<span style="float:left">正文</span>' .
-					'<textarea style="margin-top:2px" name="content" require="require"></textarea><br />' .
+					'<textarea name="content" require="require"></textarea>' .
+					'<input type="submit" value="发送" />' .
+					'</form>';
+		return $return;
+	}
+	
+	// 回复串
+	private static function sendReply($postId, $areaId) {
+		$action = '?r=' . $postId . '&area=' . $areaId;
+		$return = '<form action="' . $action . '" method="post" enctype="multipart/form-data">' .
+					'<span>回复No.' . $postId . '</span><br />' .
+					'<span>标题</span><input type="text" name="title" placeholder="无标题"/>' .
+					'<span>名称</span><input type="text" name="name" placeholder="无名氏"/>'.
+					'<span>邮箱</span><input type="text" name="email" placeholder=""/>'.
+					'<span>附件</span><input type="file" name="uploadFile"/>' .
+					'<span style="float:left">正文</span>' .
+					'<textarea name="content" require="require"></textarea>' .
 					'<input type="submit" value="发送" />' .
 					'</form>';
 		return $return;
