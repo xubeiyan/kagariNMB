@@ -380,7 +380,7 @@ class Template {
 				. $replyPost['post_id'] . '</span><span class="create-time">' 
 				. $replyPost['create_time'] . '</span><span class="user-name">ID:' 
 				. $replyPost['user_name'] . '</span></div>';
-				$replyPostImage = $replyPost['post_images'] == '' ? '' : '<span class="post-images"><a href="' . $config['folder']['imgURI'] . $replyPost['post_images'] . '"><img class="thumb" src="i-' . $replyPost['post_images'] . '"></a></span>';
+				$replyPostImage = $replyPost['post_images'] == '' ? '' : '<span class="post-images"><a href="' . $config['folder']['imgURI'] . $replyPost['post_images'] . '"><img class="thumb" src="?i=' . $replyPost['post_images'] . '"></a></span>';
 				$replyContentPart = '<div class="post-content reply">' . $replyPostImage . '<span class="post-content">' . $replyPost['post_content'] . '</span></div>';
 				$replyPart .= $replyTitlePart . $replyContentPart;
 			}
@@ -396,17 +396,17 @@ class Template {
 		// 页码部分
 		// 第一页不显示<
 		if ($areaArray['area_page'] == 1) {
-			$prev = '<span class="unavailable">&lt;</span>';
+			$prev = '<span class="unavailable">&lt;-</span>';
 		} else {
 			$prevPage = $areaArray['area_page'] - 1;
-			$prev = '<span class="available"><a href="a-' . $areaArray['area_id'] .'-p-' . $prevPage . '" title="上一页">&lt;</a></span>';
+			$prev = '<span class="available"><a href="?a=' . $areaArray['area_id'] .'&page' . $prevPage . '" title="上一页">&lt;-</a></span>';
 		}
 		// 最后一页不显示>
 		if (floor($areaArray['posts_num'] / $areaArray['posts_per_page']) + 1 == $areaArray['area_page']) {
-			$next = '<span class="unavailable">&gt;</span>';
+			$next = '<span class="unavailable">-&gt;</span>';
 		} else {
 			$nextPage = $areaArray['area_page'] + 1;
-			$next = '<span class="available"><a href="a-' . $areaArray['area_id'] .'-p-' . $nextPage . '" title="下一页">&gt;</a></span>';
+			$next = '<span class="available"><a href="?a=' . $areaArray['area_id'] .'&page=' . $nextPage . '" title="下一页">-&gt;</a></span>';
 		}
 		$current = '<span class="current" title="当前">' . $areaArray['area_page'] . '</span>';
 		$pageNumberPart = '<div class="page-number">' . $prev . ' ' . $current . ' ' . $next . '</div>';
@@ -445,14 +445,14 @@ class Template {
 			$prev = '<span class="unavailable">&lt;-</span>';
 		} else {
 			$prevPage = $postArray['post_page'] - 1;
-			$prev = '<span class="available"><a href="p-' . $postArray['post_id'] . '-page-' . $prevPage . '" title="上一页">&lt;-</a></span>';
+			$prev = '<span class="available"><a href="?p=' . $postArray['post_id'] . '&page=' . $prevPage . '" title="上一页">&lt;-</a></span>';
 		}
 		// 最后一页不显示>
 		if ($postArray['post_page'] == 1) {
 			$next = '<span class="unavailable">-&gt;</span>';
 		} else {
 			$nextPage = $postArray['post_page'] + 1;
-			$netx = '<span class="available"><a href="p-' . $postArray['post_id'] . '-page-' . $nextPage . '" title="下一页">-&gt;</a></span>';
+			$netx = '<span class="available"><a href="?p=' . $postArray['post_id'] . '&page=' . $nextPage . '" title="下一页">-&gt;</a></span>';
 		}
 		$current = '<span class="current" title="当前">' . $postArray['post_page'] . '</span>';
 		$pageNumberPart = '<div class="page-number">' . $prev . ' ' . $current . ' ' . $next . '</div>';
