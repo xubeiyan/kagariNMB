@@ -4,9 +4,9 @@
 ###### user:(用户信息)
 * user_id(primary key), 
 * ip_address(IP地址), 
-* user_name(随机生成字符串还是按规律增长的字符串), 
-* block_time(被阻止时间，秒数？分钟数？亦或是被永久),
-* last_post_id(最后发串id？这个功能疑似没啥用啊)
+* user_name(按一定规律生成的字符串，具体请参见`lib/api.php`的`randomString`), 
+* block_time(被阻止时间，按分钟数计算),
+* last_post_id(最后发串id，用于删除自己的最后一条发言)
 * last_post_time(最后发串时间，配合最小区域最小发串时间使用)
 
 ###### area:(分区)
@@ -499,6 +499,32 @@
 				"last_post_time": "2017-01-12 22:12:51"
 			}
 		]
+	}
+}
+
+* 阻止用户
+`/api/blockUser`    
+提交内容：    
+`user_name`(要block的用户名，必需)    
+`block_time`(要block的时间，必需)    
+返回内容：(设置成功)    
+```javascript
+{
+	"request": "blockUser",
+	"response": {
+		"timestamp": "2018-04-16 15:27:49",
+		"status": "OK"
+	}
+}
+```
+(没有找到用户)    
+```javascript
+{
+	"request": "blockUser",
+	"response": {
+		"timestamp": "2018-04-16 15:27:49",
+		"error": "未找到用户",
+		"user_name": "47SI8jk"
 	}
 }
 ```
