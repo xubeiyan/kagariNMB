@@ -313,6 +313,44 @@
 }
 ```
 
+* 删除自己发表的最后一串
+`api/deleteLastPost`    
+提交内容：    
+`user_name`(用户名，必需)     
+`user_ip`(IP地址，必需)    
+返回内容：(删除成功)    
+```javascript
+{
+	"request": "deleteLastPost",
+	"response": {
+		"timestamp": "2018-04-16 15:06:43",
+		"status": "OK"
+	}
+}
+```
+(未发表过帖子)     
+```javascript
+{
+	"request": "deleteLastPost",
+	"response": {
+		"timestamp": "2018-04-16 15:03:12",
+		"error": "并未发表过帖子",
+		"last_post_id": 0
+	}
+}
+```
+(已经删除)    
+```javascript
+{
+	"request": "deleteLastPost",
+	"response": {
+		"timestamp": "2018-04-16 15:03:12",
+		"error": "最后发表帖子已删除",
+		"last_post_id": 10002
+	}
+}
+```
+
 * 管理员登录     
 `api/adminLogin`    
 提交内容：    
@@ -339,11 +377,11 @@
 		"timestamp": "2018-04-07 19:33:09"
 	}
 }
+```
 
 #### 管理员级别    
 > 需要额外提供secretKey     
 
-```
 * 增加新板块    
 `api/addArea`    
 提交内容：     
