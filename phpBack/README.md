@@ -45,6 +45,7 @@
 #### 用户级别:
 * 获取饼干    
 `/api/getCookie`    
+
 提交内容：
 ```javascript
 {
@@ -73,8 +74,9 @@
 	}
 }
 ```
-* 获取板块列表  
+* 获取板块列表    
 `/api/getAreaLists`   
+
 提交内容：(暂无)  
 返回内容：(举例)    
 ```javascript
@@ -97,8 +99,9 @@
 }
 ```
 
-* 获取板块串   
+* 获取板块串    
 `/api/getAreaPosts`  
+
 提交内容：    
 `area_id`    
 `area_page`    
@@ -195,8 +198,9 @@
 	}
 }
 ```
-* 获取串内容   
+* 获取串内容    
 `/api/getPost`   
+
 提交内容：  
 `post_id`   
 `post_page`    
@@ -260,7 +264,8 @@
 ```
 
 * 发表新串   
-`/api/sendPost`     
+`/api/sendPost`   
+  
 提交内容：   
 `user_name`(用户名，必需)   
 `area_id`(分区id，必需)     
@@ -313,8 +318,9 @@
 }
 ```
 
-* 删除自己发表的最后一串
+* 删除自己发表的最后一串    
 `api/deleteLastPost`    
+
 提交内容：    
 `user_name`(用户名，必需)     
 `user_ip`(IP地址，必需)    
@@ -353,6 +359,7 @@
 
 * 管理员登录     
 `api/adminLogin`    
+
 提交内容：    
 `username` 用户名    
 `password` 密码    
@@ -380,10 +387,14 @@
 ```
 
 #### 管理员级别    
+
 > 需要额外提供secretKey     
+
+##### 对串用API
 
 * 增加新板块    
 `api/addArea`    
+
 提交内容：     
 `area_name` 板块名     
 `parent_area` 为某板块的子版块，0为无    
@@ -419,7 +430,8 @@
 ```
 	
 * 删除某个区    
-`api/deleteArea`    
+`api/deleteArea`   
+ 
 提交内容：    
 `area_id`(要删除的区的id)    
 返回内容：(删除成功)    
@@ -444,7 +456,8 @@
 ```
 
 * 删除某个串    
-`/api/deletePost`    
+`/api/deletePost`   
+  
 提交内容：    
 `post_id`(删除的串的id)     
 返回内容：(删除成功)     
@@ -467,9 +480,12 @@
 	}
 }
 ```
-	
+
+##### 对用户用API
+
 * 获取用户列表    
-`/api/getUserLists`    
+`/api/getUserLists`   
+ 
 提交内容：   
 `user_per_page`(每页多少信息，超过50自动设为50)      
 `pages`(可选，页数)     
@@ -485,7 +501,7 @@
 			{
 				"user_id": "1",
 				"ip_address": "::1",
-				"user_name": "1cfBDZD",
+				"user_name": "4a512NM",
 				"block_time": "0",
 				"last_post_id": "0",
 				"last_post_time": "2017-02-20 18:03:47"
@@ -493,7 +509,7 @@
 			{
 				"user_id": "2",
 				"ip_address": "127.0.0.1",
-				"user_name": "1cfZHQG",
+				"user_name": "4b512NM",
 				"block_time": "0",
 				"last_post_id": "0",
 				"last_post_time": "2017-01-12 22:12:51"
@@ -503,11 +519,14 @@
 }
 ```
 
-* 阻止用户
+* 阻止用户    
 `/api/blockUser`    
+
+> 将block时间设为0即为不封禁，设为-1则为永久封禁    
+
 提交内容：    
 `user_name`(要block的用户名，必需)    
-`block_time`(要block的时间，必需)    
+`block_time`(要block的时间(分钟)，必需)    
 返回内容：(设置成功)    
 ```javascript
 {
