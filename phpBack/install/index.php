@@ -59,12 +59,13 @@ if (isset($_GET['create_tbl'])) {
 		PRIMARY KEY(post_id)
 	) COLLATE utf8_general_ci';
 	
-	$adminsql = 'CREATE TABLE ' . $conf['datebaseTableName']['post'] . ' (
+	$adminsql = 'CREATE TABLE ' . $conf['databaseTableName']['admin'] . ' (
 		admin_id int NOT NULL AUTO_INCREMENT,
 		username varchar(20),
 		password varchar(20),
 		secretKey varchar(10),
-		expireTime datetime DEFAULT CURRENT_TIMESTAMP
+		expireTime datetime DEFAULT CURRENT_TIMESTAMP,
+		PRIMARY KEY(admin_id)
 	) COLLATE utf8_general_ci';
 	
 	$postidSql = 'ALTER TABLE ' . $conf['databaseTableName']['post'] . 'AUTO_INCREMENT=10000';
@@ -88,10 +89,9 @@ if (isset($_GET['create_tbl'])) {
 		echo "create table " . $conf['databaseTableName']['post'] . " successfully! and the start id of post has been changed to 10000!<br />";
 	}
 	
-	if(!mysqli_query($con, $postsql)) {
+	if(!mysqli_query($con, $adminsql)) {
 		die(mysqli_connect_error());
 	} else {
-		mysqli_query($con, $postidSql);
 		echo "create table " . $conf['databaseTableName']['admin'] . " successfully!<br />";
 	}
 }

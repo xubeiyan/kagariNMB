@@ -119,7 +119,7 @@ class API {
 		
 		// 查询所在post表
 		$sql = 'SELECT * FROM ' . $postTable . ' WHERE area_id=' . $area_id .' AND reply_post_id=0 ORDER BY update_time DESC LIMIT ' . $postsPerPage . ' OFFSET ' . ($area_page - 1) * $postsPerPage;
-		//echo $sql;
+		
 		$result = mysqli_query($con, $sql);
 		
 		$forloop = 0;
@@ -303,22 +303,30 @@ class API {
 		$user_name = $post['user_name'];
 		
 		$ip = $post['user_ip'];
-		$sql = 'SELECT user_id, last_post_time FROM ' . $user_table . ' WHERE ip_address="' . $ip . '" AND user_name="' . $user_name . '"';
+		$sql = 'SELECT user_id, last_post_time, block_time FROM ' . $user_table . ' WHERE ip_address="' . $ip . '" AND user_name="' . $user_name . '"';
 		$result = mysqli_query($con, $sql);
-		// print $sql;
-		// exit();
 		// 未找到则返回错误
 		if (empty($row = mysqli_fetch_assoc($result))) {
 			$return['response']['error'] = 'Not exists such user';
 			echo json_encode($return, JSON_UNESCAPED_UNICODE);
 			exit();
 		}
+		
+		$last_post_time = $row['last_post_time']; // 最后发串时间 类似2017-03-14 12:53:52
+		// 根据阻止时间判断封禁状态
+		$block_time = $row['block_time'];
+		if ($block_time == -1) {
+			$return['response']['error'] = 'This user is blocked forever';
+			echo json_encode($return, JSON_UNESCAPED_UNICODE);
+			exit();
+		}
+
+		if ($block_time > 0) {
+			date_add(date_create_from_format('Y-m-d H:i:s', $last_post_time), date_interval_create_from_date_string($block_time . ' min'));
+		}
+		
 		// 将找到的用户id赋给$user_id
 		$user_id = $row['user_id'];
-		// 最后发串时间 类似2017-03-14 12:53:52
-		$last_post_time = $row['last_post_time'];
-		// print $last_post_time;
-		// exit();
 		// 检查区id
 		$area_id = is_numeric($post['area_id']) ? $post['area_id'] : 0;
 		$sql = 'SELECT area_id, posts_num, min_post FROM ' . $area_table . ' WHERE area_id=' . $area_id;

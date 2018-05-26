@@ -56,6 +56,7 @@ if ($_SERVER['QUERY_STRING'] == '') {
 	exit();
 }
 // 检查提交的API是否在指定的API列表内
+// print($_SERVER['QUERY_STRING']);
 $queryString = explode("=", $_SERVER['QUERY_STRING'])[1];
 if (!in_array($queryString, $conf['apiLists'])) {
 	$paras = Array($queryString);
@@ -111,23 +112,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 			}
 			break;
 		case 'api/addArea':
-			if (isset($input['area_name'])) {
+			if (isset($input['area_name']) && isset($input['secret_key'])) {
 				API::addArea($input);
 			}
 			break;
 		case 'api/deleteArea':
-			if (isset($input['area_id'])) {
+			if (isset($input['area_id']) && isset($input['secret_key'])) {
 				API::deleteArea($input);
 			}
 			break;
 		case 'api/deletePost':
-			if (isset($input['post_id'])) {
+			if (isset($input['post_id']) && isset($input['secret_key'])) {
 				API::deletePost($input);
 			}
  			break;
 		case 'api/getUserLists':
-			if (isset($input['user_per_page'])) {
+			if (isset($input['user_per_page']) && isset($input['secret_key'])) {
 				API::getUserLists($input);
+			}
+			break;
+		case 'api/blockUser':
+			if (isset($input['user_name']) && isset($input['block_time']) && isset($input['secret_key'])) {
+				API::blockUser($input);
+			}
+		case 'api/adminLogin':
+			if (isset($input['username']) && isset($input['password'])) {
+				API::adminLogin($input);
 			}
 			break;
 		default:
