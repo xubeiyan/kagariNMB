@@ -20,8 +20,7 @@ class Controller {
 		$opts = Array(
 			'http' => Array(
 				'method' => 'POST',
-				'user_agent' => $userAgent,
-				'header' => "Content-type: application/json\r\n",
+				'header' => "User-Agent: " . $userAgent . "\r\nContent-type: application/json\r\n",
 				'content' => json_encode($data, JSON_UNESCAPED_UNICODE)
 			)
 		);
@@ -54,7 +53,7 @@ class Controller {
 			$opts = Array(
 				'http' => Array(
 					'method' => 'GET',
-					'user_agent' => $userAgent,
+					'header' => 'User-Agent: ' . $userAgent,
 				)
 			);
 			$context = stream_context_create($opts);
@@ -71,23 +70,21 @@ class Controller {
 			$opts = Array(
 				'http' => Array(
 					'method' => 'POST',
-					'user_agent' => $userAgent,
-					'header' => "Content-type: application/json\r\n",
+					'header' => "User-Agent: " . $userAgent . "\r\nContent-type: application/json\r\n",
 					'content' => json_encode($req, JSON_UNESCAPED_UNICODE)
 				)
 			);
 			$context = stream_context_create($opts);
 			$jsonResponse = file_get_contents($config['uri']['backURI'] . $api, false, $context);
 			$arrayResponse = json_decode($jsonResponse, TRUE);
-			
+			// print_r($jsonResponse);
 			return $arrayResponse['response'];
 		// 串	
 		} else if ($api == 'api/getPost') {
 			$opts = Array(
 				'http' => Array(
 					'method' => 'POST',
-					'user_agent' => $userAgent,
-					'header' => "Content-type: application/json\r\n",
+					'header' => "User-Agent: " . $userAgent . "\r\nContent-type: application/json\r\n",
 					'content' => json_encode($req, JSON_UNESCAPED_UNICODE)
 				)
 			);
@@ -101,8 +98,7 @@ class Controller {
 			$opts = Array(
 				'http' => Array(
 					'method' => 'POST',
-					'user_agent' => $userAgent,
-					'header' => "Content-type: application/json\r\n",
+					'header' => "User-Agent: " . $userAgent . "\r\nContent-type: application/json\r\n",
 					'content' => json_encode($req, JSON_UNESCAPED_UNICODE)
 				)
 			);
@@ -116,8 +112,7 @@ class Controller {
 			$opts = Array(
 				'http' => Array(
 					'method' => 'POST',
-					'user_agent' => $userAgent,
-					'header' => "Content-type: application/json\r\n",
+					'header' => "User-Agent: " . $userAgent . "\r\nContent-type: application/json\r\n",
 					'content' => json_encode($req, JSON_UNESCAPED_UNICODE)
 				)
 			);
