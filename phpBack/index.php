@@ -2,15 +2,25 @@
 /**
 * kagariNMB入口文件index.php
 */
-$userAgentString = $_SERVER['HTTP_USER_AGENT'];	// 浏览器字符串
-$remoteAddr = $_SERVER['REMOTE_ADDR']; 			// 客户端地址
+require 'lib/verify.php';	// 检查类
+require 'conf/conf.php'; 	// 引入$conf变量
+require 'lib/error.php';	// 错误信息
+
+// 验证UserAgent
+if (!Verify::userAgentVerify($conf['customUserAgent'])) {
+	$paras = Array($_SERVER['HTTP_USER_AGENT']);
+	die(Error::errMsg('notSpecificUserAgent', $paras));
+}
+// 验证客户端地址
+if (!Verify::frontIPVerify($conf['frontIPAddress'])) {
+	$paras = Array($_SERVER['REMOTE_ADDR']);
+	die(Error::errMsg('notAllowedFrontIP', $paras));
+}
 
 // 获取执行文件名
 $scriptArray = explode("/", $_SERVER['SCRIPT_FILENAME']);
 $scriptFilename = array_pop($scriptArray);
 
-require 'conf/conf.php'; 	// 引入$conf变量
-require 'lib/error.php';	// 错误信息
 
 // 使用json还是html作为返回格式
 if (!isset($conf['responseType']) || $conf['responseType'] == 'json') {
@@ -39,13 +49,7 @@ if ($scriptFilename != $conf['scriptFilename']) {
 	$paras = Array($conf['scriptFilename'], $scriptFilename);
 	die(Error::errMsg('requestInvalidURI', $paras));
 }
-// 检查User-Agent是否为指定值
-if ($conf['customUserAgent'] != '') {
-	if ($_SERVER['HTTP_USER_AGENT'] != $conf['customUserAgent']) {
-		$paras = Array($_SERVER['HTTP_USER_AGENT']);
-		die(Error::errMsg('notSpecificUserAgent', $paras));
-	}	
-}
+
 // 检查提交API是否为空，是则返回欢迎页面
 if ($_SERVER['QUERY_STRING'] == '') {
 	echo file_get_contents('welcome.html');
