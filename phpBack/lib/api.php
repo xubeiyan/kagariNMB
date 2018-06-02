@@ -489,9 +489,10 @@ class API {
 			exit();
 		}
 		
-		$return['response']['secretKey'] = substr(md5(date_create()), 0, 10);
-		$date_in_30min = date_add(date_create(), date_interval_create_from_date_string('30 minutes'));
-		$return['response']['expireTime'] = date_format($date_in_30min, 'Y-m-d H:i:s');
+		// 使用时间戳，考虑到对老版本php的支持
+		$return['response']['secretKey'] = substr(md5(time()), 0, 10);
+		$date_in_30min = time() + 30 * 60;
+		$return['response']['expireTime'] = date('Y-m-d H:i;s', $date_in_30min);
 		$updateSql = 'UPDATE ' . $conf['databaseTableName']['admin'] . ' SET secretKey = "' . 
 			$return['response']['secretKey'] . '", expireTime = "' . $return['response']['expireTime'] . '"';
 			
