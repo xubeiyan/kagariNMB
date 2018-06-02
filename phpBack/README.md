@@ -1,11 +1,18 @@
 ### 数据库设计
+
+#### 待完成
+
+* 增加“如果调用删除最后一串，其实这串已经被管理员删除”的判断
+* 增加“调用addArea,deleteArea,deletePost时对secretKey的检查”
+* 修改“block_time的格式，由INT改成DATETIME
+
 #### MySQL数据库：(库名kagari_Nimingban)
 ##### 数据表名：(表名前缀kagari_)
 ###### user:(用户信息)
 * user_id(primary key), 
 * ip_address(IP地址), 
 * user_name(按一定规律生成的字符串，具体请参见`lib/api.php`的`randomString`), 
-* block_time(被阻止时间，按分钟数计算),
+* block_time(被阻止到的时间),
 * last_post_id(最后发串id，用于删除自己的最后一条发言)
 * last_post_time(最后发串时间，配合最小区域最小发串时间使用)
 
