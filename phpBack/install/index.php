@@ -26,7 +26,8 @@ if (isset($_GET['create_tbl'])) {
 		user_id int NOT NULL AUTO_INCREMENT,
 		ip_address varchar(140), 
 		user_name varchar(20), 
-		block_time int,
+		user_status ENUM("normal", "block", "forbid") DEFAULT "normal",
+		block_end_time datetime DEFAULT CURRENT_TIMESTAMP,
 		last_post_id int,
 		last_post_time datetime DEFAULT CURRENT_TIMESTAMP,
 		PRIMARY KEY(user_id)
@@ -58,7 +59,7 @@ if (isset($_GET['create_tbl'])) {
 		update_time datetime DEFAULT CURRENT_TIMESTAMP,
 		PRIMARY KEY(post_id)
 	) COLLATE utf8_general_ci';
-	
+	// admin表
 	$adminsql = 'CREATE TABLE ' . $conf['databaseTableName']['admin'] . ' (
 		admin_id int NOT NULL AUTO_INCREMENT,
 		username varchar(20),
@@ -71,26 +72,26 @@ if (isset($_GET['create_tbl'])) {
 	$postidSql = 'ALTER TABLE ' . $conf['databaseTableName']['post'] . 'AUTO_INCREMENT=10000';
 
 	if(!mysqli_query($con, $usersql)) {
-		die(mysqli_connect_error());
+		die(mysqli_error($con));
 	} else {
 		echo "create table " . $conf['databaseTableName']['user'] . " successfully!<br />";
 	}
 
 	if(!mysqli_query($con, $areasql)) {
-		die(mysqli_connect_error());
+		die(mysqli_error($con));
 	} else {
 		echo "create table " . $conf['databaseTableName']['area'] . " successfully!<br />";
 	}
 
 	if(!mysqli_query($con, $postsql)) {
-		die(mysqli_connect_error());
+		die(mysqli_error($con));
 	} else {
 		mysqli_query($con, $postidSql);
 		echo "create table " . $conf['databaseTableName']['post'] . " successfully! and the start id of post has been changed to 10000!<br />";
 	}
 	
 	if(!mysqli_query($con, $adminsql)) {
-		die(mysqli_connect_error());
+		die(mysqli_error());
 	} else {
 		echo "create table " . $conf['databaseTableName']['admin'] . " successfully!<br />";
 	}
@@ -101,7 +102,7 @@ if (isset($_GET['test_area'])) {
 	' (area_name, area_sort, block_status, parent_area, min_post) VALUES (' .
 	'"综合", 1, 0, 0, 0)';
 	if(!mysqli_query($con, $test_area_sql)) {
-		die(mysqli_connect_error());
+		die(mysqli_error($con));
 	} else {
 		echo "insert " . $test_area_sql ." successfully!<br />";
 	}
@@ -110,9 +111,9 @@ if (isset($_GET['test_area'])) {
 	' (area_name, area_sort, block_status, parent_area, min_post) VALUES (' .
 	'"综合版", 5, 0, 1, 0)';
 	if(!mysqli_query($con, $test_area_sql2)) {
-		die(mysqli_connect_error());
+		die(mysqli_error($con));
 	} else {
-		echo "insert " . $test_area_sql ." successfully!<br />";
+		echo "insert " . $test_area_sql2 ." successfully!<br />";
 	}
 	
 	$sql = 'SELECT area_id FROM ' . $conf['databaseName'] . '.' . $conf['databaseTableName']['area'] . ' WHERE area_name="综合版"';
@@ -120,11 +121,12 @@ if (isset($_GET['test_area'])) {
 	$test_area_id = $row['area_id'];
 }
 
+// 插入测试管理员用户
 if (isset($_GET['admin_user'])) {
 	$admin_sql = 'INSERT INTO ' . $conf['databaseName'] . '.' . $conf['databaseTableName']['admin'] . 
 	' (username, password) VALUES ("kagari", "kana")';
 	if(!mysqli_query($con, $admin_sql)) {
-		die(mysqli_connect_error());
+		die(mysqli_error($con));
 	} else {
 		echo "insert " . $admin_sql ." successfully!<br />";
 	} 
@@ -134,6 +136,7 @@ if (isset($_GET['admin_user'])) {
 if (isset($_GET['test_post'])) {
 	$test_post_sql = 'INSERT INTO ' . $conf['databaseName'] . '.' . $conf['databaseTableName']['post'] . ' (area_id, user_id, reply_post_id, author_name, author_email, post_title, post_content, post_images, create_time, update_time) VALUES (' . $test_area_id . ')';
 }
+
 
 if (isset($_GET['drop_all'])) {
 	$sql = 'DROP DATABASE ' . $conf['databaseName'];

@@ -41,7 +41,7 @@ class API {
 				$id = $row['max(user_id)'] + 1;
 			}
 			$username = self::randomString($id);
-			$sql = 'INSERT INTO ' . $table . '(ip_address, user_name, block_time, last_post_id) VALUES ("' . $ip . '", "' . $username . '", 0, 0)';
+			$sql = 'INSERT INTO ' . $table . '(ip_address, user_name, last_post_id) VALUES ("' . $ip . '", "' . $username . '", 0)';
 			if (mysqli_query($con, $sql)) {
 				$return['response']['ip'] = $ip;
 				$return['response']['username'] = $username;
@@ -303,7 +303,7 @@ class API {
 		$user_name = $post['user_name'];
 		
 		$ip = $post['user_ip'];
-		$sql = 'SELECT user_id, last_post_time, block_time FROM ' . $user_table . ' WHERE ip_address="' . $ip . '" AND user_name="' . $user_name . '"';
+		$sql = 'SELECT user_id, last_post_time, user_status, block_end_time FROM ' . $user_table . ' WHERE ip_address="' . $ip . '" AND user_name="' . $user_name . '"';
 		$result = mysqli_query($con, $sql);
 		// 未找到则返回错误
 		if (empty($row = mysqli_fetch_assoc($result))) {
@@ -312,17 +312,26 @@ class API {
 			exit();
 		}
 		
-		$last_post_time = $row['last_post_time']; // 最后发串时间 类似2017-03-14 12:53:52
-		// 根据阻止时间判断封禁状态
-		$block_time = $row['block_time'];
-		if ($block_time == -1) {
-			$return['response']['error'] = 'This user is blocked forever';
+		$last_post_time = $row['last_post_time'];
+		// 根据状态查询
+		$user_status = $row['user_status'];
+		if ($user_status == 'forbid') {
+			$return['response']['error'] = 'This user is forbid forever';
 			echo json_encode($return, JSON_UNESCAPED_UNICODE);
 			exit();
-		}
-
-		if ($block_time > 0) {
-			date_add(date_create_from_format('Y-m-d H:i:s', $last_post_time), date_interval_create_from_date_string($block_time . ' min'));
+		} else if ($user_status == 'block') {
+			$block_end_time = strtotime($row['block_end_time']); // 封禁时间 类似2017-03-14 12:53:52
+			if ($block_end_time > time()) {
+				$return['response']['error'] = 'This user is blocked';
+				$return['response']['block_end_time'] = $block_end_time;
+				echo json_encode($return, JSON_UNESCAPED_UNICODE);
+				exit();
+			} else {
+				$updateSql = 'UPDATE ' . $user_table . ' SET `user_status` = "normal" WHERE `user_id` = ' . $row['user_id'];
+				if (!mysqli_query($con, $updateSql)) {
+					die(mysqli_error($con));
+				}
+			}
 		}
 		
 		// 将找到的用户id赋给$user_id
@@ -340,7 +349,7 @@ class API {
 			$minPostSeconds = $row['min_post'];
 		}
 		// 检查最小发串时间
-		$current_unix_timestamp = strtotime("now");
+		$current_unix_timestamp = time();
 		$last_post_timestamp = strtotime($last_post_time);
 		// print_r(date('Y-m-d H:i:s', $current_unix_timestamp));
 		// print_r(date('Y-m-d H:i:s', $last_post_timestamp));

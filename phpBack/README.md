@@ -11,8 +11,9 @@
 ###### user:(用户信息)
 * user_id(primary key), 
 * ip_address(IP地址), 
-* user_name(按一定规律生成的字符串，具体请参见`lib/api.php`的`randomString`), 
-* block_time(被阻止到的时间),
+* user_name(按一定规律生成的字符串，具体请参见`lib/api.php`的`randomString`) 
+* user_status(用户状态，normal（正常）,blocked（被阻止）,forbid（永久不能访问）)
+* block_end_time(被阻止到的时间)
 * last_post_id(最后发串id，用于删除自己的最后一条发言)
 * last_post_time(最后发串时间，配合最小区域最小发串时间使用)
 
@@ -321,6 +322,16 @@
 		"timestamp": "2017-04-10 23:35:26",
 		"error": "发串间隔太短",
 		"last_post_time": "2017-04-10 23:39:10"
+	}
+}
+```
+(此用户被封禁)
+```javascript
+{
+	"request": "sendPost",
+	"response": {
+		"timestamp": "2018-06-03 14:14:14",
+		"error": "此用户已被封禁"
 	}
 }
 ```
