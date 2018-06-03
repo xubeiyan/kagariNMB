@@ -229,6 +229,12 @@ class Template {
 							date_default_timezone_set("Asia/Shanghai");
 							$sendInfo = '发串时间间隔过短，上次发帖时间为：' . $data['last_post_time'] . '下次可发串时间为：' . date('Y-m-d H:i:s');
 							$replyTitle = '发串过快';
+						} else if ($data['error'] == 'This user is forbid forever') {
+							$sendInfo = '此用户已被封禁';
+							$replyTitle = '很遗憾';
+						} else if ($data['error'] == 'This user is blocked') {
+							$sendInfo = '此用户在' . date('Y-m-d H:i:s', $data['block_end_time']) . '之前不允许发帖';
+							$replyTitle = '唔唔唔';
 						// 为以后预留？
 						} else {
 							$sendInfo = '未知错误~';
@@ -237,8 +243,8 @@ class Template {
 					} else {
 						$sendInfo = '发新串成功';
 						$replyTitle = self::$calculate['replyTitle'][0];
-						$toURI = '?a=' . $areaId;
 					}
+					$toURI = '?a=' . $areaId;
 					$html = str_replace('%sendInfo%', $sendInfo, $html);
 					$html = str_replace('%replyTitle%', $replyTitle, $html);
 					header("refresh:5;url=$toURI");
@@ -300,6 +306,12 @@ class Template {
 							date_default_timezone_set("Asia/Shanghai");
 							$sendInfo = '发串时间间隔过短，上次发帖时间为：' . $data['last_post_time'] . '下次可发串时间为：' . date('Y-m-d H:i:s');
 							$replyTitle = '发串过快';
+						} else if ($data['error'] == 'This user is forbid forever') {
+							$sendInfo = '此用户已被封禁';
+							$replyTitle = '很遗憾';
+						} else if ($data['error'] == 'This user is blocked') {
+							$sendInfo = '此用户在' . date('Y-m-d H:i:s', $data['block_end_time']) . '之前不允许发帖';
+							$replyTitle = '唔唔唔';
 						// 为以后预留？
 						} else {
 							$sendInfo = '未知错误~';
@@ -308,9 +320,9 @@ class Template {
 					} else {
 						$sendInfo = '回复串成功';
 						$replyTitle = self::$calculate['replyTitle'][0];
-						$toURI = '?p=' . $postId;
 					}
 					
+					$toURI = '?p=' . $postId;
 					$html = str_replace('%replyInfo%', $sendInfo, $html);
 					$html = str_replace('%replyTitle%', $replyTitle, $html);
 					header("refresh:5;url=$toURI");
