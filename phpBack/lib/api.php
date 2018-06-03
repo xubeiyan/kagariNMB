@@ -480,13 +480,15 @@ class API {
 		
 		global $conf, $con;
 		
-		$sql = 'SELECT password FROM ' . $conf['databaseTableName']['admin'] . ' WHERE username = "' .
+		$sql = 'SELECT `password` FROM ' . $conf['databaseName'] . '.' . $conf['databaseTableName']['admin'] . ' WHERE username = "' .
 			$post['username'] . '" LIMIT 1';
+		// print_r($sql);
+		// exit();
 		$result = mysqli_query($con, $sql);
 
 		if (mysqli_num_rows($result) == 0) {
 			$return['response']['error'] = 'username or password wrong';
-			echo json_encode($resturn, JSON_UNESCAPED_UNICODE);
+			echo json_encode($return, JSON_UNESCAPED_UNICODE);
 			exit();	
 		}
 		
@@ -494,7 +496,7 @@ class API {
 		
 		if ($row['password'] != $post['password']) {
 			$return['response']['error'] = 'username or password wrong';
-			echo json_encode($resturn, JSON_UNESCAPED_UNICODE);
+			echo json_encode($return, JSON_UNESCAPED_UNICODE);
 			exit();
 		}
 		
@@ -502,7 +504,7 @@ class API {
 		$return['response']['secretKey'] = substr(md5(time()), 0, 10);
 		$date_in_30min = time() + 30 * 60;
 		$return['response']['expireTime'] = date('Y-m-d H:i;s', $date_in_30min);
-		$updateSql = 'UPDATE ' . $conf['databaseTableName']['admin'] . ' SET secretKey = "' . 
+		$updateSql = 'UPDATE ' . $conf['databaseName'] . '.' . $conf['databaseTableName']['admin'] . ' SET secretKey = "' . 
 			$return['response']['secretKey'] . '", expireTime = "' . $return['response']['expireTime'] . '"';
 			
 		if (!mysqli_query($con, $updateSql)) {
@@ -674,6 +676,105 @@ class API {
 		}
 		echo json_encode($return, JSON_UNESCAPED_UNICODE);
 		exit();
+		
+	}
+	
+	/**
+	* 封禁用户（要求权限
+	* `user_name` 要封禁的用户名
+	* `block_time` 封禁时间（按分钟计算），默认1个小时
+	* `forbid` 是否禁止访问（默认为false）
+	*/
+	public static function blockUser($post) {
+		global $conf, $con;
+		$userTable = $conf['databaseName'] . '.' . $conf['databaseTableName']['user'];
+		
+		// 返回目标
+ 		$return['request'] = 'blockUser';
+ 		$return['response']['timestamp'] = self::timestamp();
+		
+		self::validateSecretKey($post['secret_key']);
+
+		// 判断username是否是满足条件
+		$pattern = '/^[N1M2B5a0c9T4m3D6s7x8CiSdI]{7}$/';
+		
+		if (preg_match($pattern, $post['user_name']) == 0) {
+			$return['response']['error'] = 'username mismatch';
+			echo json_encode($return, JSON_UNESCAPED_UNICODE);
+			exit();
+		}
+		
+		// 判断username是否存在
+		$sql = sprintf('SELECT `user_id`, `user_status` FROM %s WHERE `user_name` = "%s" LIMIT 1', $userTable, $post['user_name']);
+		
+		$result = mysqli_query($con, $sql);
+		if (mysqli_num_rows($result) == 0) {
+			$return['response']['error'] = 'username not found';
+			echo json_encode($return, JSON_UNESCAPED_UNICODE);
+			exit();
+		}
+		
+		// 判断user_status是否为'normal'(不为normal意味着此号已经被封禁了，但解封嘛，做到另一个API里面得了)
+		$row = mysqli_fetch_assoc($result);
+		if ($row['user_status'] != 'normal') {
+			$return['response']['error'] = 'user had been block or forbid';
+			echo json_encode($return, JSON_UNESCAPED_UNICODE);
+			exit();
+		}
+		
+		// 如果forbid为true则永远封禁
+		$user_id = $row['user_id'];
+		if (isset($post['forbid']) && $post['forbid'] == true) {
+			$sql = sprintf('UPDATE %s SET `user_status` = "forbid" WHERE `user_id` = %d', $userTable, $user_id);
+			if (!mysqli_query($con, $sql)) {
+				die(mysqli_error($con));
+			}
+			$return['response']['status'] = 'OK';
+			echo json_encode($return, JSON_UNESCAPED_UNICODE);
+			exit();
+		}
+		
+		$block_time = isset($post['block_time']) && is_numeric($post['block_time']) 
+			&& $post['block_time'] > 0 ? $post['block_time'] : 60;
+			
+		$block_end_time = date('Y-m-d H:i:s', time() + $block_time * 60);
+		
+		$sql = sprintf('UPDATE %s SET `user_status` = "block", `block_end_time` = "%s" WHERE `user_id` = %d',
+			$userTable, $block_end_time, $user_id);
+		if (!mysqli_query($con, $sql)) {
+			die(mysqli_error($con));
+		}	
+		
+		$return['response']['status'] = 'OK';
+		echo json_encode($return, JSON_UNESCAPED_UNICODE);
+		exit();
+	}
+	
+	/**
+	* 内部使用的验证某个secretKey是否可用
+	*/
+	private static function validateSecretKey($key) {
+		global $conf, $con;
+		$adminTable = $conf['databaseName'] . '.' . $conf['databaseTableName']['admin'];
+		
+		// 判断secret_key是否正确
+		$sql = sprintf('SELECT `expireTime` FROM %s WHERE `secretKey` = "%s" LIMIT 1', $adminTable, $key);
+		
+		$result = mysqli_query($con, $sql);
+		
+		if (mysqli_num_rows($result) == 0) {
+			$return['response']['error'] = 'secert key mismatch';
+			echo json_encode($return, JSON_UNESCAPED_UNICODE);
+			exit();
+		}
+		
+		// 判断expireTime是否过期
+		$row = mysqli_fetch_assoc($result);
+		if (strtotime($row['expireTime']) < time()) {
+			$return['response']['error'] = 'secret key has expired';
+			echo json_encode($return, JSON_UNESCAPED_UNICODE);
+			exit();
+		}
 		
 	}
 	

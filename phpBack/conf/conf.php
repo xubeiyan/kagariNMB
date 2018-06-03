@@ -27,6 +27,7 @@ $conf = Array(
 		'api/deleteArea',
 		'api/delatePost',
 		'api/getUserLists',
+		'api/blockUser',
 	),
 	// 匿名版设置
 	'customUserAgent' => 'KagariNMBFront', 	// 留空则不限制特定的UserAgent

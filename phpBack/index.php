@@ -132,7 +132,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 			}
 			break;
 		case 'api/blockUser':
-			if (isset($input['user_name']) && isset($input['block_time']) && isset($input['secret_key'])) {
+			if (isset($input['user_name']) && isset($input['secret_key'])) {
 				API::blockUser($input);
 			}
 		case 'api/adminLogin':

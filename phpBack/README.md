@@ -408,6 +408,28 @@
 
 > 需要额外提供secretKey     
 
+通用的错误返回：    
+(secretKey错误)    
+```javascript
+{
+	"request": "suibianxiege",
+	"response": {
+		"timestamp": "2018-06-03 20:24:36",
+		"error": "secert key mismatch"
+	}
+}
+```
+(secretKey过期)
+```javascript
+{
+	"request": "suibianxiege",
+	"response": {
+		"timestamp": "2018-06-03 20:24:36",
+		"error": "secret key has expired"
+	}
+}
+```    
+
 ##### 对串用API
 
 * 增加新板块    
@@ -540,11 +562,12 @@
 * 阻止用户    
 `/api/blockUser`    
 
-> 将block时间设为0即为不封禁，设为-1则为永久封禁    
+> 此API已加上secretKey判断         
 
 提交内容：    
 `user_name`(要block的用户名，必需)    
-`block_time`(要block的时间(分钟)，必需)    
+`block_time`(要block的时间(分钟)，默认60分钟)    
+`forbid`(是否永久封禁，默认为false)    
 返回内容：(设置成功)    
 ```javascript
 {
@@ -555,14 +578,33 @@
 	}
 }
 ```
-(没有找到用户)    
+(要封禁的用户名格式错误)
 ```javascript
 {
 	"request": "blockUser",
 	"response": {
 		"timestamp": "2018-04-16 15:27:49",
-		"error": "未找到用户",
-		"user_name": "47SI8jk"
+		"error": "username mismatch"
+	}
+}
+```
+(要封禁的用户名不存在)
+```javascript
+{
+	"request": "blockUser",
+	"response": {
+		"timestamp": "2018-04-16 15:27:49",
+		"error": "username not found"
+	}
+}
+```
+(用户已经被封禁或禁止访问)
+```javascript
+{
+	"request": "blockUser",
+	"response": {
+		"timestamp": "2018-04-16 15:27:49",
+		"error": "user had been block or forbid"
 	}
 }
 ```
