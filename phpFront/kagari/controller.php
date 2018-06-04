@@ -65,8 +65,10 @@ class Controller {
 			} else {
 				return $arrayResponse['response']['areas'];
 			}
-		// 板块下串列表	
-		} else if ($api == 'api/getAreaPosts') {
+		// 板块下串列表	| 串 | 新串 | 管理员登录 | 
+		// 获取用户列表
+		} else if ($api == 'api/getAreaPosts' || $api == 'api/getPost' || $api == 'api/sendPost' || $api == 'api/adminLogin' ||
+			$api == 'api/getUserLists') {
 			$opts = Array(
 				'http' => Array(
 					'method' => 'POST',
@@ -79,50 +81,7 @@ class Controller {
 			$arrayResponse = json_decode($jsonResponse, TRUE);
 			// print_r($jsonResponse);
 			return $arrayResponse['response'];
-		// 串	
-		} else if ($api == 'api/getPost') {
-			$opts = Array(
-				'http' => Array(
-					'method' => 'POST',
-					'header' => "User-Agent: " . $userAgent . "\r\nContent-type: application/json\r\n",
-					'content' => json_encode($req, JSON_UNESCAPED_UNICODE)
-				)
-			);
-			$context = stream_context_create($opts);
-			$jsonResponse = file_get_contents($config['uri']['backURI'] . $api, false, $context);
-			$arrayResponse = json_decode($jsonResponse, TRUE);
-			
-			return $arrayResponse['response'];
-		// 新串
-		} else if ($api == 'api/sendPost') {
-			$opts = Array(
-				'http' => Array(
-					'method' => 'POST',
-					'header' => "User-Agent: " . $userAgent . "\r\nContent-type: application/json\r\n",
-					'content' => json_encode($req, JSON_UNESCAPED_UNICODE)
-				)
-			);
-			$context = stream_context_create($opts);
-			$jsonResponse = file_get_contents($config['uri']['backURI'] . $api, false, $context);
-			//print_r($opts['http']['content']);
-			$arrayResponse = json_decode($jsonResponse, TRUE);
-			return $arrayResponse['response'];
-		// 用户列表
-		} else if ($api == 'api/getUserLists') {
-			$opts = Array(
-				'http' => Array(
-					'method' => 'POST',
-					'header' => "User-Agent: " . $userAgent . "\r\nContent-type: application/json\r\n",
-					'content' => json_encode($req, JSON_UNESCAPED_UNICODE)
-				)
-			);
-			$context = stream_context_create($opts);
-			$jsonResponse = file_get_contents($config['uri']['backURI'] . $api, false, $context);
-			//print_r($opts['http']['content']);
-			$arrayResponse = json_decode($jsonResponse, TRUE);
-			return $arrayResponse['response'];
-		}
-		
+		} 
 	}
 }
 ?>

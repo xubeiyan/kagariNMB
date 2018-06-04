@@ -326,16 +326,22 @@ class Template {
 					$html = str_replace('%replyInfo%', $sendInfo, $html);
 					$html = str_replace('%replyTitle%', $replyTitle, $html);
 					header("refresh:5;url=$toURI");
-					
+				// 管理员登录
+				} else if ($templateString == 'adminLogin') {
+				
+				// 用户列表
 				} else if ($templateString == 'userLists') {
 					$req = Array();
 					$req['user_per_page'] = 50;
 					$data = Controller::apis(self::$dbData['userLists'], $req);
+					print_r($data);
+					exit();
 					$userInfo = '';
 					foreach ($data['users'] as $user) {
 						$userInfo .= 'id: ' . $user['user_id'] .' IP地址: ' . $user['ip_address'] . ' 用户名: ' . $user['user_name'];
 					}
 					$html = str_replace('%userLists%', $userInfo, $html);
+				// 
 				}
 			}
 		}

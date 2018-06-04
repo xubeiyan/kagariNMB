@@ -642,11 +642,14 @@ class API {
 	
 	/**
 	* 获取用户信息（要求权限
-	* `user_per_page` 每页的用户数（最大为50）
+	* `user_per_page` 每页的用户数（省略为50
 	* `pages` 请求的页数（省略则为1
 	*/
 	public static function getUserLists($post) {
-		if (!is_numeric($post['user_per_page']) || $post['user_per_page'] > 50) {
+		self::validateSecretKey($post['secret_key']);
+		
+		if (!isset($post['user_per_page']) || !is_numeric($post['user_per_page']) || 
+			$post['user_per_page'] <= 0 || $post['user_per_page'] > 50) {
 			$user_per_page = 50;
 		} else {
 			$user_per_page = $post['user_per_page'];
@@ -763,7 +766,7 @@ class API {
 		$result = mysqli_query($con, $sql);
 		
 		if (mysqli_num_rows($result) == 0) {
-			$return['response']['error'] = 'secert key mismatch';
+			$return['response']['error'] = 'secret key mismatch';
 			echo json_encode($return, JSON_UNESCAPED_UNICODE);
 			exit();
 		}

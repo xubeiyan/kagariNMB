@@ -127,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 			}
  			break;
 		case 'api/getUserLists':
-			if (isset($input['user_per_page']) && isset($input['secret_key'])) {
+			if (isset($input['secret_key'])) {
 				API::getUserLists($input);
 			}
 			break;
