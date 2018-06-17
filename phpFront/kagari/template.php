@@ -89,22 +89,7 @@ class Template {
 			if ($key == 'datetime') {
 				$date = date($value);
 				$html = str_replace('%' . $key . '%', $date, $html);
-			} else if ($key == 'admin') {
-				$string = '<div class="button">' . $value . '</div>';
-				$html = str_replace('%' . $key . '%', $string, $html);
-			} else if ($key == 'adminLists') {
-				$string = '<div class="button menu-first"><a href="?admin">' . $value[0] . '</a></div>';
-				$html = str_replace('%' . $key . '%', $string, $html);
 			}
-			// } else if ($key == 'replyTitle') {
-				// var_dump($key);
-				// if (isset($_GET['q']) && $_GET['q'] == 's-0') {
-					// $string = $value[0];
-				// } else {
-					// $string = $value[1];
-				// }
-				// $html = str_replace('%' . $key . '%', $string, $html);
-			// }
 		}
 		return $html;
 	}
@@ -219,10 +204,7 @@ class Template {
 						$req['post_image'] = 'data:' . $_FILES['uploadFile']['type'] . ';base64,' . base64_encode($dataImage);
 					}
 
-					//print_r($req);
 					$data = Controller::apis(self::$dbData['sendPost'], $req);
-					//print_r($data);
-					// exit();
 					// 根据是否具有error字段判断发串成功与否
 					if (isset($data['error'])) {
 						if ($data['error'] == 'Last post time interval too short') {
@@ -328,7 +310,8 @@ class Template {
 					header("refresh:5;url=$toURI");
 				// 管理员登录
 				} else if ($templateString == 'adminLogin') {
-				
+					$adminLogin = self::adminLogin();
+					$html = str_replace('%adminLogin%', $adminLogin, $html);
 				// 用户列表
 				} else if ($templateString == 'userLists') {
 					$req = Array();
@@ -426,7 +409,7 @@ class Template {
 			$nextPage = $areaArray['area_page'] + 1;
 			$next = '<span class="available"><a href="?a=' . $areaArray['area_id'] .'&page=' . $nextPage . '" title="下一页">-&gt;</a></span>';
 		}
-		$current = '<span class="current" title="当前">' . $areaArray['area_page'] . '</span>';
+		$current = '<span class="current" title="当前页面">第' . $areaArray['area_page'] . '页</span>';
 		$pageNumberPart = '<div class="page-number">' . $prev . ' ' . $current . ' ' . $next . '</div>';
 		$return .= $pageNumberPart;
 		return $return;
@@ -472,7 +455,7 @@ class Template {
 			$nextPage = $postArray['post_page'] + 1;
 			$netx = '<span class="available"><a href="?p=' . $postArray['post_id'] . '&page=' . $nextPage . '" title="下一页">-&gt;</a></span>';
 		}
-		$current = '<span class="current" title="当前">' . $postArray['post_page'] . '</span>';
+		$current = '<span class="current" title="当前页面">第' . $postArray['post_page'] . '页</span>';
 		$pageNumberPart = '<div class="page-number">' . $prev . ' ' . $current . ' ' . $next . '</div>';
 		$return .= $pageNumberPart;
 		return $return;       
@@ -506,6 +489,17 @@ class Template {
 					'<span style="float:left">正文</span>' .
 					'<textarea name="content" require="require"></textarea>' .
 					'<input type="submit" value="发送" />' .
+					'</form>';
+		return $return;
+	}
+	
+	// 登录框体
+	private static function adminLogin() {
+		$action = '?login';
+		$return = '<form action="' . $action . '" method="post" enctype="multipart/form-data">' .
+					'<span>用户名</span><input type="text" name="username" placeholder="Username">' .
+					'<span>密码</sapn><input type="password" name="password" placeholder="Password"><br />' .
+					'<input type="submit" value="登录" />' .
 					'</form>';
 		return $return;
 	}

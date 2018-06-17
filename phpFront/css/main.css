@@ -152,6 +152,10 @@ a:hover {
 		align-items: center;
 	}
 	
+	main div.main-part div.page-number span.unavailable {
+		color: #EEE;
+	}
+	
 	/* 功能列表 */
 	main div.func-list-menu {
 		width: 200px;
@@ -160,6 +164,13 @@ a:hover {
 	
 	/* 发串回复内容 */
 	main div.func-list-menu input[type=text] {
+		display: block;
+		padding-left: 2px;
+		padding-right: 2px;
+		width: calc(100% - 6px);
+	}
+	
+	main div.func-list-menu input[type=password] {
 		display: block;
 		padding-left: 2px;
 		padding-right: 2px;
