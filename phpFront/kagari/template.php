@@ -11,13 +11,17 @@ class Template {
 		'functionText' => '功能',
 		'sendPost' => '发新串',
 		'replyPost' => '回复串',
-		'adminListPanel' => '管理列表'
+		'adminListPanel' => '权限狗认证处',
+		'username' => '用户名',
+		'usernamePlaceholder' => 'Username',
+		'password' => '密码',
+		'passwordPlaceholder' => 'Password',
+		'loginSubmit' => '登录',
 	);
 	
 	// 匿名版的某些计算后的到的值
 	private static $calculate = Array (
 		'datetime' => 'Y年m月d日 H:i',
-		'funcLists' => '权限狗认证处',
 		'replyTitle' => Array('发送新串', '回复串'),
 		'sendInfo' => Array('回复成功', '没有饼干', '回复失败'),
 		'adminLists' => Array('用户管理')
@@ -496,11 +500,12 @@ class Template {
 	// 登录框体
 	private static function adminLogin() {
 		$action = '?login';
-		$return = '<form action="' . $action . '" method="post" enctype="multipart/form-data">' .
-					'<span>用户名</span><input type="text" name="username" placeholder="Username">' .
-					'<span>密码</sapn><input type="password" name="password" placeholder="Password"><br />' .
-					'<input type="submit" value="登录" />' .
-					'</form>';
+		$return = '<div id="admin-login-button" class="button menu-first">%adminListPanel%</div>' .
+					'<div id="admin-login-list"><form action="' . $action . '" method="post" enctype="multipart/form-data">' .
+					'<span>%username%</span><input type="text" name="username" placeholder="%usernamePlaceholder%">' .
+					'<span>%password%</sapn><input type="password" name="password" placeholder="%passwordPlaceholder%"><br />' .
+					'<input type="submit" value="%loginSubmit%" />' .
+					'</form></div>';
 		return $return;
 	}
 }

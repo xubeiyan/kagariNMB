@@ -55,6 +55,7 @@ a:hover {
 	main div.container {
 		display: flex;
 		justify-content: center;
+		min-height: calc(100vh - 62px);
 	}
 	
 	/* 板块列表 */
@@ -201,6 +202,18 @@ a:hover {
 	
 	main div.func-list-menu input[type=submit]:hover {
 		background-color: #EEE;
+	}
+	
+	/* 权限狗认证处 */
+	
+	main div.func-list-menu div#admin-login-button {
+		padding: 5px;
+		background-color: #EEE;
+		text-align: center;
+	}
+	
+	main div.func-list-menu div#admin-login-list {
+		display: none;
 	}
 	
 	/* 页脚 */

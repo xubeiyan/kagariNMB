@@ -5,7 +5,9 @@
 var areaListButton = document.getElementsByClassName('area-list')[0],
 	areaList = document.getElementsByClassName('area-list-menu')[0],
 	funcListButton = document.getElementsByClassName('add-func')[0],
-	funcList = document.getElementsByClassName('func-list-menu')[0];
+	funcList = document.getElementsByClassName('func-list-menu')[0],
+	adminLoginButton = document.getElementById('admin-login-button'),
+	adminLoginList = document.getElementById('admin-login-list');
 	
 // 板块列表显示
 areaListButton.addEventListener('click', function () {
@@ -24,4 +26,15 @@ funcListButton.addEventListener('click', function () {
 	} else {
 		funcList.style.display = 'inline-block';
 	}
-})
+});
+
+if (adminLoginButton != undefined) {
+	adminLoginButton.addEventListener('click', function () {
+		if (adminLoginList.style.display != 'block') {
+			adminLoginList.style.display = 'block';
+		} else {
+			adminLoginList.style.display = 'none';
+		}
+		
+	});
+}
