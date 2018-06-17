@@ -127,8 +127,12 @@ a:hover {
 	}
 	
 	/* 串内容 */
-	main div.main-part span.post-content {
+	main div.main-part div.post-content {
 		padding-left: 5px;
+		padding-right: 5px;
+	}
+	
+	main div.main-part span.post-content {
 		white-space: pre;
 	}
 	

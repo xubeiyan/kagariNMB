@@ -51,19 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 		$image = is_string($_GET['i']) ? $_GET['i'] : 'r18';
 		require('kagari/imageThumb.php');
 		ImageThumb::request($image);
-	// 发送串
-	} else if (isset($_GET['s'])) {
-		$html = Template::index('send_page.html');
-		$html = Template::replace($html);
-		//print_r($_POST);
-		echo $html;
-	// 回复串
-	} else if (isset($_GET['r'])) {
-		$html = Template::index('reply_page.html');
-		$html = Template::replace($html);
-		//print_r($_POST);
-		echo $html;
-
+	
 	// 无法处理的请求
 	} else {
 		$get_str = '';
@@ -79,6 +67,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 	// 登录
 	if (isset($_GET['login'])) {
 		//if ($)
+		echo $html;
+		exit();
+	// 发送串
+	} else if (isset($_GET['s'])) {
+		$html = Template::index('send_page.html');
+		$html = Template::replace($html);
+		//print_r($_POST);
+		echo $html;
+		exit();
+	// 回复串
+	} else if (isset($_GET['r'])) {
+		$html = Template::index('reply_page.html');
+		$html = Template::replace($html);
+		//print_r($_POST);
 		echo $html;
 		exit();
 	}
