@@ -4,13 +4,12 @@
 */
 
 // 模板
-require('kagari/template.php');
+require('kagari/controller.php');
 
 // 未提交任何GET参数则认为访问主页
 
 if (!isset($_GET) || empty($_GET)) {
-	$html = Template::index('index.html');
-	$html = Template::replace($html);
+	$html = Controller::index('index.html');
 	echo $html;
 	exit();
 }
@@ -21,8 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 		// require('kagari/admin.php');
 		// 如果有secretkey则跳转到admin
 		if (isset($_COOKIES['secretkey'])) {
-			$html = Template::index('admin.html');
-			$html = Template::replace($html);
+			$html = Controller::index('admin.html');
 			echo $html;
 			exit();
 		} else {
@@ -34,8 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 		$param = Array (
 			'area' => $area,
 		);
-		$html = Template::index('area_page.html', $param);
-		$html = Template::replace($html);
+		$html = Controller::index('area_page.html', $param);
 		echo $html;
 	// 串访问
 	} else if (isset($_GET['p'])) {
@@ -43,23 +40,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 		$param = Array (
 			'post' => $post,
 		);
-		$html = Template::index('post_page.html', $param);
-		$html = Template::replace($html);
+		$html = Controller::index('post_page.html', $param);
 		echo $html;
 	// 图片访问
 	} else if (isset($_GET['i'])) {
 		$image = is_string($_GET['i']) ? $_GET['i'] : 'r18';
 		require('kagari/imageThumb.php');
 		ImageThumb::request($image);
-	
 	// 无法处理的请求
 	} else {
 		$get_str = '';
 		foreach ($_GET as $key => $value) {
 			$get_str .= $key . '=>' . $value . ' ';
 		}
-		$html = Template::index('error.html');
-		$html = Template::replace($html);
+		$html = Controller::index('error.html');
 		echo $html;
 		exit();
 	} 
@@ -71,15 +65,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 		exit();
 	// 发送串
 	} else if (isset($_GET['s'])) {
-		$html = Template::index('send_page.html');
-		$html = Template::replace($html);
+		$html = Controller::index('send_page.html');
 		//print_r($_POST);
 		echo $html;
 		exit();
 	// 回复串
 	} else if (isset($_GET['r'])) {
-		$html = Template::index('reply_page.html');
-		$html = Template::replace($html);
+		$html = Controller::index('reply_page.html');
 		//print_r($_POST);
 		echo $html;
 		exit();
