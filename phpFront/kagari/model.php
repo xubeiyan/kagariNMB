@@ -42,14 +42,15 @@ class Model {
 		}
 		
 		// 处理templateArray
-		// 替换数据
-		$templateArray = self::replaceData($templateArray);
 		
 		// 替换固定值
 		$templateArray = self::replaceConstant($templateArray);
 		
 		// 替换计算值
 		$templateArray = self::replaceCalculate($templateArray);
+		
+		// 替换数据
+		$templateArray = self::replaceData($templateArray);
 		
 		return $templateArray;
 	}
@@ -167,7 +168,8 @@ class Model {
 				}
 
 				$areaId = $_GET['s'];
-				$cookie = Controller::cookies('');
+				
+				$cookie = $templateArray['cookie'];
 				$req = Array(
 					'user_name' => $cookie,
 					'area_id' => $areaId,
@@ -200,7 +202,7 @@ class Model {
 					$req['post_image'] = 'data:' . $_FILES['uploadFile']['type'] . ';base64,' . base64_encode($dataImage);
 				}
 
-				$data = Controller::apis(self::$dbData['sendPost'], $req);
+				$data = self::apis('api/sendPost', $req);
 				// 根据是否具有error字段判断发串成功与否
 				if (isset($data['error'])) {
 					if ($data['error'] == 'Last post time interval too short') {
@@ -212,7 +214,7 @@ class Model {
 						$replyTitle = '很遗憾';
 					} else if ($data['error'] == 'This user is blocked') {
 						$sendInfo = '此用户在' . date('Y-m-d H:i:s', $data['block_end_time']) . '之前不允许发帖';
-						$replyTitle = '唔唔唔';
+						$replyTitle = '反思中';
 					// 为以后预留？
 					} else {
 						$sendInfo = '未知错误~';
@@ -220,11 +222,12 @@ class Model {
 					}
 				} else {
 					$sendInfo = '发新串成功';
-					$replyTitle = self::$calculate['replyTitle'][0];
+					$replyTitle = '恭喜';
 				}
 				$toURI = '?a=' . $areaId;
-				$html = str_replace('%sendInfo%', $sendInfo, $html);
-				$html = str_replace('%replyTitle%', $replyTitle, $html);
+				$templateArray['sendInfo'] = $sendInfo;
+				$templateArray['replyTitle'] = $replyTitle;
+				
 				header("refresh:5;url=$toURI");
 			// 回复串
 			} else if ($key == 'replyInfo') {
@@ -241,7 +244,7 @@ class Model {
 				$postId = $_GET['r'];
 				$areaId = isset($_GET['area']) && is_numeric($_GET['area']) ? $_GET['area'] : 0;
 				
-				$cookie = Controller::cookies('');
+				$cookie = $templateArray['cookie'];
 				$req = Array(
 					'user_name' => $cookie,
 					'area_id' => $areaId,
@@ -275,7 +278,7 @@ class Model {
 				}
 
 				//print_r($req);
-				$data = Controller::apis(self::$dbData['sendPost'], $req);
+				$data = self::apis('api/sendPost', $req);
 				//print_r($data);
 				// exit();
 				// 根据是否具有error字段判断发串成功与否
@@ -289,7 +292,7 @@ class Model {
 						$replyTitle = '很遗憾';
 					} else if ($data['error'] == 'This user is blocked') {
 						$sendInfo = '此用户在' . date('Y-m-d H:i:s', $data['block_end_time']) . '之前不允许发帖';
-						$replyTitle = '唔唔唔';
+						$replyTitle = '反思中';
 					// 为以后预留？
 					} else {
 						$sendInfo = '未知错误~';
@@ -297,12 +300,13 @@ class Model {
 					}
 				} else {
 					$sendInfo = '回复串成功';
-					$replyTitle = self::$calculate['replyTitle'][0];
+					$replyTitle = '恭喜';
 				}
 				
 				$toURI = '?p=' . $postId;
-				$html = str_replace('%replyInfo%', $sendInfo, $html);
-				$html = str_replace('%replyTitle%', $replyTitle, $html);
+				$templateArray['replyInfo'] = $sendInfo;
+				$templateArray['replyTitle'] = $replyTitle;
+				
 				header("refresh:5;url=$toURI");
 			// 管理员登录
 			} else if ($key == 'adminLogin') {
