@@ -11,254 +11,257 @@ a:hover {
 	text-decoration: underline;
 }
 
-/* 大于1000px限制在1000px */
-@media (min-width: 1000px) {
+
+div.container {
+	width: 1000px;
+	margin-left: auto;
+	margin-right: auto;
+	display: table;
+}
+
+/* 页眉 */
+header {
+	background-color: #0081C6;
+}
+
+header div.area-list {
+	display: inline-block;
+	width: 100px;
+}
+
+header div.title {
+	display: inline-block;
+	width: 790px;
+	padding-left: 10px;
+}
+
+header div.add-func {
+	display: inline-block;
+	width: 100px;
+}
+
+header div.header-button {
+	padding-top: 5px;
+	padding-bottom: 5px;
+	background-color: #00A1E6;
+	color: #FFF;
+	border-radius: 5px;
+	text-align: center;
+	cursor: pointer;
+}
+
+/* main */
+main div.container {
+	display: flex;
+	justify-content: center;
+	min-height: calc(100vh - 62px);
+}
+
+/* 板块列表 */
+main div.area-list-menu {
+	width: 200px;
+	display: inline-block;
+}
+
+main div.area-list-menu div.button {
+	border-left: 3px solid #666;
+	padding: 5px;
+}
+
+main div.area-list-menu div.menu-first {
+	background-color: #46CDCF;
+}
+
+main div.area-list-menu div.menu-second {
+	background-color: #ABEDD8;
+	padding-left: 10px;
+}
+
+/* 页面内容 */
+main div.main-part {
+	width: 600px;
+	min-height: 400px;
+	display: inline-block;
+}
+
+/* 串标题栏 */
+main div.main-part div.post-title-info {
+	height: 30px;
+	line-height: 30px;
+}
+
+main div.main-part span.post-title {
+	color: #F00;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+main div.main-part span.author-name {
+	color: #00F;
+	margin-right: 5px;
+}
+
+main div.main-part span.post-id {
+	margin-right: 5px;
+}
+
+main div.main-part span.create-time {
+	margin-right: 5px;
+}
+
+main div.main-part span.user-name {
+	margin-right: 5px;
+}
+
+main div.main-part input.reply-button {
+	border: 0;
+	background-color: #CCC;
+	width: 50px;
+	height: 25px;
+	cursor: pointer;
+}
+
+main div.main-part input.reply-button:hover {
+	background-color: #EEE;
+}
+
+/* 串内容 */
+main div.main-part div.post-content {
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+main div.main-part span.post-content {
+	white-space: pre;
+}
+
+main div.main-part span.post-images img.thumb {
+	max-width: 590px;
+}
+
+/* tip部分 */
+main div.main-part p.tip {
+	background-color: #DDD;
+}
+
+/* 回复部分 */
+main div.main-part div.reply {
+	border-left: 5px solid #BBB;
+}
+
+/* 页码部分 */
+main div.main-part div.page-number {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+main div.main-part div.page-number span.unavailable {
+	color: #EEE;
+}
+
+/* 功能列表 */
+main div.func-list-menu {
+	width: 200px;
+	display: inline-block;
+}
+
+/* 发串回复内容 */
+main div.func-list-menu input[type=text] {
+	display: block;
+	padding-left: 2px;
+	padding-right: 2px;
+	width: calc(100% - 6px);
+}
+
+main div.func-list-menu input[type=password] {
+	display: block;
+	padding-left: 2px;
+	padding-right: 2px;
+	width: calc(100% - 6px);
+}
+
+main div.func-list-menu textarea {
+	padding-left: 2px;
+	padding-right: 2px;
+	display: block;
+	width: calc(100% - 6px);
+	height: 100px;
+	margin-bottom: 5px;
+	resize: none;
+}
+
+main div.func-list-menu input[type=submit] {
+	width: 90%;
+	height: 40px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 5px;
+	border: 0;
+	background-color: #CCC;
+	display: block;
+	cursor: pointer;
+}
+
+main div.func-list-menu input[type=submit]:hover {
+	background-color: #EEE;
+}
+
+/* 权限狗认证处 */
+
+main div.func-list-menu div#admin-login-button {
+	padding: 5px;
+	background-color: #EEE;
+	text-align: center;
+}
+
+main div.func-list-menu div#admin-login-list {
+	display: none;
+}
+
+/* 页脚 */
+footer {
+	background-color: #DDD;
+}
+
+footer div.container {
+	display: table;
+}
+
+footer div.cookies {
+	background-color: #CCC;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 10px;
+	padding-right: 10px;
+	text-align: center;
+	width: 180px;
+	display: inline-block;
+}
+
+footer div.date-time {
+	text-align: right;
+	width: 800px;
+	color: #000;
+	display: inline-block;
+}
+
+
+/* 小于1024px的 iPad*/
+@media (max-width: 1024px) {
+	
+}
+/* 小于414px 手机*/
+@media (max-width: 414px) {
 	div.container {
-		width: 1000px;
+		width: 400px;
 		margin-left: auto;
 		margin-right: auto;
-		display: table;
-	}
-	
-	/* 页眉 */
-	header {
-		background-color: #0081C6;
-	}
-	
-	header div.area-list {
-		display: inline-block;
-		width: 100px;
+		display: flex;
 	}
 	
 	header div.title {
-		display: inline-block;
-		width: 790px;
-		padding-left: 10px;
+		width: 80%;
 	}
-	
-	header div.add-func {
-		display: inline-block;
-		width: 100px;
-	}
-	
-	header div.header-button {
-		padding-top: 5px;
-		padding-bottom: 5px;
-		background-color: #00A1E6;
-		color: #FFF;
-		border-radius: 5px;
-		text-align: center;
-		cursor: pointer;
-	}
-	
-	/* main */
-	main div.container {
-		display: flex;
-		justify-content: center;
-		min-height: calc(100vh - 62px);
-	}
-	
-	/* 板块列表 */
-	main div.area-list-menu {
-		width: 200px;
-		display: inline-block;
-	}
-	
-	main div.area-list-menu div.button {
-		border-left: 3px solid #666;
-		padding: 5px;
-	}
-	
-	main div.area-list-menu div.menu-first {
-		background-color: #46CDCF;
-	}
-	
-	main div.area-list-menu div.menu-second {
-		background-color: #ABEDD8;
-		padding-left: 10px;
-	}
-	
-	/* 页面内容 */
-	main div.main-part {
-		width: 600px;
-		min-height: 400px;
-		display: inline-block;
-	}
-	
-	/* 串标题栏 */
-	main div.main-part div.post-title-info {
-		height: 30px;
-		line-height: 30px;
-	}
-	
-	main div.main-part span.post-title {
-		color: #F00;
-		margin-left: 5px;
-		margin-right: 5px;
-	}
-	
-	main div.main-part span.author-name {
-		color: #00F;
-		margin-right: 5px;
-	}
-	
-	main div.main-part span.post-id {
-		margin-right: 5px;
-	}
-	
-	main div.main-part span.create-time {
-		margin-right: 5px;
-	}
-	
-	main div.main-part span.user-name {
-		margin-right: 5px;
-	}
-	
-	main div.main-part input.reply-button {
-		border: 0;
-		background-color: #CCC;
-		width: 50px;
-		height: 25px;
-		cursor: pointer;
-	}
-	
-	main div.main-part input.reply-button:hover {
-		background-color: #EEE;
-	}
-	
-	/* 串内容 */
-	main div.main-part div.post-content {
-		padding-left: 5px;
-		padding-right: 5px;
-	}
-	
-	main div.main-part span.post-content {
-		white-space: pre;
-	}
-	
-	main div.main-part span.post-images img.thumb {
-		max-width: 590px;
-	}
-	
-	/* tip部分 */
-	main div.main-part p.tip {
-		background-color: #DDD;
-	}
-	
-	/* 回复部分 */
-	main div.main-part div.reply {
-		border-left: 5px solid #BBB;
-	}
-	
-	/* 页码部分 */
-	main div.main-part div.page-number {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	}
-	
-	main div.main-part div.page-number span.unavailable {
-		color: #EEE;
-	}
-	
-	/* 功能列表 */
-	main div.func-list-menu {
-		width: 200px;
-		display: inline-block;
-	}
-	
-	/* 发串回复内容 */
-	main div.func-list-menu input[type=text] {
-		display: block;
-		padding-left: 2px;
-		padding-right: 2px;
-		width: calc(100% - 6px);
-	}
-	
-	main div.func-list-menu input[type=password] {
-		display: block;
-		padding-left: 2px;
-		padding-right: 2px;
-		width: calc(100% - 6px);
-	}
-	
-	main div.func-list-menu textarea {
-		padding-left: 2px;
-		padding-right: 2px;
-		display: block;
-		width: calc(100% - 6px);
-		height: 100px;
-		margin-bottom: 5px;
-		resize: none;
-	}
-	
-	main div.func-list-menu input[type=submit] {
-		width: 90%;
-		height: 40px;
-		margin-left: auto;
-		margin-right: auto;
-		margin-bottom: 5px;
-		border: 0;
-		background-color: #CCC;
-		display: block;
-		cursor: pointer;
-	}
-	
-	main div.func-list-menu input[type=submit]:hover {
-		background-color: #EEE;
-	}
-	
-	/* 权限狗认证处 */
-	
-	main div.func-list-menu div#admin-login-button {
-		padding: 5px;
-		background-color: #EEE;
-		text-align: center;
-	}
-	
-	main div.func-list-menu div#admin-login-list {
-		display: none;
-	}
-	
-	/* 页脚 */
-	footer {
-		background-color: #DDD;
-	}
-	
-	footer div.container {
-		display: table;
-	}
-	
-	footer div.cookies {
-		background-color: #CCC;
-		padding-top: 5px;
-		padding-bottom: 5px;
-		padding-left: 10px;
-		padding-right: 10px;
-		text-align: center;
-		width: 180px;
-		display: inline-block;
-	}
-	
-	footer div.date-time {
-		text-align: right;
-		width: 800px;
-		color: #000;
-		display: inline-block;
-	}
-}
-
-/* 800px到1000px限制在640px */
-@media (min-width: 800px) and (max-width: 1000px) {
-	div.container {
-		width: 800px;
-		margin-left: auto;
-		margin-right: auto;
-	}
-}
-
-/* 800px以下 */
-@media (max-width: 800px) {
-	
 }
 
