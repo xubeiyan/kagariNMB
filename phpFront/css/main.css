@@ -84,6 +84,10 @@ main div.main-part {
 	display: inline-block;
 }
 
+main div.main-part h3 {
+	text-align: center;
+}
+
 /* 串标题栏 */
 main div.main-part div.post-title-info {
 	height: 30px;
@@ -132,7 +136,8 @@ main div.main-part div.post-content {
 }
 
 main div.main-part span.post-content {
-	white-space: pre;
+	white-space: pre-line;
+	word-break: break-all;
 }
 
 main div.main-part span.post-images img.thumb {
