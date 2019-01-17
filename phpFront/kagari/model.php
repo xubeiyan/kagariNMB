@@ -7,8 +7,8 @@ require 'config/config.php';
 class Model {
 	// 匿名版的某些固定值
 	private static $constant = Array (
-		'nimingbanTitle' => 'kagari匿名版',
-		'welcomeInformation' => '<h3>Kagari匿名版欢迎你！</h3>',
+		// 'nimingbanTitle' => 'kagari匿名版',
+		// 'welcomeInformation' => '<h3>Kagari匿名版欢迎你！</h3>',
 		'areaListText' => '版块列表',
 		'functionText' => '功能',
 		'sendPost' => '发新串',
@@ -83,17 +83,25 @@ class Model {
 	
 	// 匿名版计算后数值替换
 	private static function replaceCalculate($templateArray) {
+		global $config;
+		
 		foreach ($templateArray as $key => $value) {
 			// 跳过已计算的
 			if ($value != '') {
 				continue;
 			}
 			
-			if ($key == 'datetime') {
-				$templateArray['datetime'] = date('Y年m月d日 H:i');
+			if ($key == 'nimingbanTitle') {
+				$templateArray[$key] = $config['general']['NMBname'];
+			} else if ($key == 'welcomeInformation') {
+				$wcInfoFile = $config['folder']['templateDir'] . '/templates/welcome.html'; 
+				$templateArray[$key] = file_get_contents($wcInfoFile);
+			} else if ($key == 'datetime') {
+				date_default_timezone_set($config['locale']['timeZone']);
+				$templateArray[$key] = date('Y年m月d日 H:i');
 			} else if ($key == 'cookie') {
 				$username = isset($_COOKIE['username']) ? $_COOKIE['username'] : '';
-				$templateArray['cookie'] = self::cookies($username);
+				$templateArray[$key] = self::cookies($username);
 			}
 		}
 		
