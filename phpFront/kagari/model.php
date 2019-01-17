@@ -83,6 +83,8 @@ class Model {
 	
 	// 匿名版计算后数值替换
 	private static function replaceCalculate($templateArray) {
+		global $config;
+		date_default_timezone_set($config['locale']['timeZone']);
 		foreach ($templateArray as $key => $value) {
 			// 跳过已计算的
 			if ($value != '') {
