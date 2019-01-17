@@ -24,12 +24,13 @@ class View {
 	
 	// 板块列表处理函数
 	public static function areaLists($areaListsArray) {
-		if ($areaListsArray == 'no areas') {
-			return '<b>No Areas...</b>';
+		// 没有板块
+		if (count($areaListsArray['areas']) == 0) {
+			return '<b>No area...</b>';
 		}
 		
 		$return = '';
-		foreach ($areaListsArray as $value) {
+		foreach ($areaListsArray['areas'] as $value) {
 			if ($value['parent_area'] == '') {
 				$return .= '<div class="button menu-first"><b>' . $value['area_name'] . '</b></div>';
 			} else {
@@ -111,6 +112,10 @@ class View {
 		$return = '';
 		//print_r($postArray);
 		global $config;
+		
+		if (isset($postArray['error'])) {
+			return '<b>No such post</b>';
+		}
 		
 		$titlePart = '<div class="post-title-info"><span class="post-title">' 
 		. $postArray['post_title'] . '</span><span class="author-name">' 

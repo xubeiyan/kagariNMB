@@ -135,6 +135,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 			if (isset($input['user_name']) && isset($input['secret_key'])) {
 				API::blockUser($input);
 			}
+			break;
 		case 'api/adminLogin':
 			if (isset($input['username']) && isset($input['password'])) {
 				API::adminLogin($input);

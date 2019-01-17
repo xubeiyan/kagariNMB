@@ -7,8 +7,6 @@ require 'config/config.php';
 class Model {
 	// 匿名版的某些固定值
 	private static $constant = Array (
-		// 'nimingbanTitle' => 'kagari匿名版',
-		// 'welcomeInformation' => '<h3>Kagari匿名版欢迎你！</h3>',
 		'areaListText' => '版块列表',
 		'functionText' => '功能',
 		'sendPost' => '发新串',
@@ -154,6 +152,10 @@ class Model {
 				
 				$data = self::apis('api/getPost', $req);
 				$string = View::post($data);
+				if ($string == '<b>No such post</b>') {
+					$data['area_id'] = -1;
+					$data['area_name'] = '未知板块';
+				}
 				$sendPost = View::sendReply($postId, $data['area_id']);
 				
 				$templateArray[$key] = $string;
@@ -293,7 +295,7 @@ class Model {
 				if (isset($data['error'])) {
 					if ($data['error'] == 'Last post time interval too short') {
 						date_default_timezone_set("Asia/Shanghai");
-						$sendInfo = '发串时间间隔过短，上次发帖时间为：' . $data['last_post_time'] . '下次可发串时间为：' . date('Y-m-d H:i:s');
+						$sendInfo = '发串时间间隔过短，上次发帖时间为：' . $data['last_post_time'] . '下次可发串时间为：' . $data['next_post_time'];
 						$replyTitle = '发串过快';
 					} else if ($data['error'] == 'This user is forbid forever') {
 						$sendInfo = '此用户已被封禁';
@@ -303,7 +305,7 @@ class Model {
 						$replyTitle = '反思中';
 					// 为以后预留？
 					} else {
-						$sendInfo = '未知错误~';
+						$sendInfo = '未知错误~' . $data['error'];
 						$replyTitle = '不知道出了什么问题……';
 					}
 				} else {
@@ -397,13 +399,9 @@ class Model {
 			$jsonResponse = file_get_contents($config['uri']['backURI'] . $api, false, $context);
 			$arrayResponse = json_decode($jsonResponse, TRUE);
 			
-			if ($arrayResponse['response']['areas'] == Array()) {
-				return 'no areas';
-			} else {
-				return $arrayResponse['response']['areas'];
-			}
+			return $arrayResponse['response'];
 		// 板块下串列表	| 串 | 新串 | 管理员登录 | 
-		// 获取用户列表
+		// 	获取用户列表
 		} else if ($api == 'api/getAreaPosts' || $api == 'api/getPost' || $api == 'api/sendPost' || $api == 'api/adminLogin' ||
 			$api == 'api/getUserLists') {
 			$opts = Array(

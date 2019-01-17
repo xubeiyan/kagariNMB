@@ -63,7 +63,7 @@ class API {
 		$return['response']['areas'] = Array();
 		
 		$areaTable = $conf['databaseName'] . '.' . $conf['databaseTableName']['area'];
-		$sql = 'SELECT area_id, area_name, parent_area FROM ' . $areaTable;
+		$sql = 'SELECT area_id, area_name, parent_area FROM ' . $areaTable . ' ORDER BY area_sort ASC';
 		$result = mysqli_query($con, $sql);
 		// 返回所有的area
 		for ($row = mysqli_fetch_assoc($result); !empty($row); $row = mysqli_fetch_assoc($result)) {
@@ -196,7 +196,7 @@ class API {
 		$return['response']['timestamp'] = self::timestamp();
 		
 		if (!isset($post['post_id']) && !is_numeric($post['post_id']) && $post['post_id'] < 10000) {
-			$return['response']['error'] = 'No such posts found';
+			$return['response']['error'] = 'post id require but not found';
 			echo json_encode($return, JSON_UNESCAPED_UNICODE);
 			exit();
 		} else {
@@ -351,14 +351,15 @@ class API {
 		// 检查最小发串时间
 		$current_unix_timestamp = time();
 		$last_post_timestamp = strtotime($last_post_time);
+		$next_post_timestamp = $last_post_timestamp + $minPostSeconds;
 		// print_r(date('Y-m-d H:i:s', $current_unix_timestamp));
 		// print_r(date('Y-m-d H:i:s', $last_post_timestamp));
 		// print $minPostSeconds;
 		// exit();
-		if ($current_unix_timestamp - $last_post_timestamp < $minPostSeconds) {
-			$return['response']['error'] = 'Post time interval too short';
+		if ($current_unix_timestamp < $next_post_timestamp) {
+			$return['response']['error'] = 'Last post time interval too short';
 			$return['response']['last_post_time'] = $last_post_time;
-			//$return['response']['next_post_time'] = 
+			$return['response']['next_post_time'] = date('Y-m-d H:i:s', $next_post_timestamp);
 			echo json_encode($return, JSON_UNESCAPED_UNICODE);
 			exit();
 		}
