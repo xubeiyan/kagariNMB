@@ -60,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 } else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	// 登录
 	if (isset($_GET['login'])) {
-		//if ($)
+		$html = 'unable to login...';
 		echo $html;
 		exit();
 	// 发送串

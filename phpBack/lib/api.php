@@ -422,10 +422,15 @@ class API {
 		}
 		
 		
-		// 发送请求
+		// 写入此串内容
 		$sql = 'INSERT INTO ' . $post_table . 
 		'(area_id, user_id, reply_post_id, author_name, author_email, post_title, post_content, post_images, create_time, update_time) VALUES (' . 
 		$area_id . ',' . $user_id . ',' . $reply_post_id . ',"' . $author_name . '","' . $author_email . '","' . $post_title . '","' . $post_content . '","' . $post_image_filename . '", CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)';
+		if (!mysqli_query($con, $sql)) {
+			die(mysqli_error($con));
+		}
+		// 获取最新插入的id
+		$last_insert_id = mysqli_insert_id($con);
 		
 		// 如果reply_post_id不为0（为回复串），更新主串update_time，并增加主串回帖数记录
  		if ($reply_post_id != 0) {
@@ -453,20 +458,14 @@ class API {
 		}
 		
 		// 改写last_post_id以及last_post_time
-		$last_insert_id = mysqli_insert_id($con);
 		$updatesql = 'UPDATE ' . $user_table . ' SET last_post_time=CURRENT_TIMESTAMP, last_post_id=' . $last_insert_id . ' WHERE user_id=' . $user_id;
 		if (!mysqli_query($con, $updatesql)) {
 			die(mysqli_error($con));
 		}
-			
-		//echo $sql;
-		if (mysqli_query($con, $sql)) {
-			$return['response']['status'] = "OK";
-			echo json_encode($return, JSON_UNESCAPED_UNICODE);
-			exit();
-		} else {
-			die(mysqli_error($con));
-		}
+		
+		$return['response']['status'] = "OK";
+		echo json_encode($return, JSON_UNESCAPED_UNICODE);
+		exit();
 	}
 	
 	/**
