@@ -9,12 +9,12 @@ require 'lib/error.php';	// 错误信息
 // 验证UserAgent
 if (!Verify::userAgentVerify($conf['customUserAgent'])) {
 	$paras = Array($_SERVER['HTTP_USER_AGENT']);
-	die(Error::errMsg('notSpecificUserAgent', $paras));
+	die(Err::errMsg('notSpecificUserAgent', $paras));
 }
 // 验证客户端地址
 if (!Verify::frontIPVerify($conf['frontIPAddress'])) {
 	$paras = Array($_SERVER['REMOTE_ADDR']);
-	die(Error::errMsg('notAllowedFrontIP', $paras));
+	die(Err::errMsg('notAllowedFrontIP', $paras));
 }
 
 // 获取执行文件名
@@ -33,13 +33,13 @@ if (!isset($conf['responseType']) || $conf['responseType'] == 'json') {
 $allowedRequest = explode('|', $conf['allowedRequest']);
 if (!in_array($_SERVER['REQUEST_METHOD'], $allowedRequest)) {
 	$paras = Array($_SERVER['REQUEST_METHOD']);
-	die(Error::errMsg('notAllowedRequestMethod', $paras));
+	die(Err::errMsg('notAllowedRequestMethod', $paras));
 }
 
 // 判断是否执行过安装
 // if (file_exists($conf['installerPath'])) {
 	// $paras = [$conf['installerPath']];
-	// die(Error::errMsg('notInstalled', $paras));
+	// die(Err::errMsg('notInstalled', $paras));
 // }
 
 require 'lib/database.php';	// 访问数据库
@@ -47,7 +47,7 @@ require 'lib/database.php';	// 访问数据库
 // 检查请求的文件是否是index.php，但是由于rewrite模块的存在这个疑似没啥用
 if ($scriptFilename != $conf['scriptFilename']) {
 	$paras = Array($conf['scriptFilename'], $scriptFilename);
-	die(Error::errMsg('requestInvalidURI', $paras));
+	die(Err::errMsg('requestInvalidURI', $paras));
 }
 
 // 检查提交API是否为空，是则返回欢迎页面
@@ -60,7 +60,7 @@ if ($_SERVER['QUERY_STRING'] == '') {
 $queryString = explode("=", $_SERVER['QUERY_STRING'])[1];
 if (!in_array($queryString, $conf['apiLists'])) {
 	$paras = Array($queryString);
-	die(Error::errMsg('notAllowedAPI', $paras));
+	die(Err::errMsg('notAllowedAPI', $paras));
 }
 
 // 检查使用时区
@@ -87,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 	$inputJSON = file_get_contents("php://input");
 	$input = json_decode($inputJSON, true); // true返回array
 	if ($input == NULL) {
-		die(Error::errMsg('badJSON', []));
+		die(Err::errMsg('badJSON', []));
 	}
 	header('connection:close');
 	switch ($queryString) {

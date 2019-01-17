@@ -1,6 +1,7 @@
 body {
 	margin:0;
 	font-family:微软雅黑;
+	font-size: 16px;
 }
 a {
 	color:inherit;
@@ -88,6 +89,11 @@ main div.main-part h3 {
 	text-align: center;
 }
 
+main div.main-part hr {
+	margin-left: 0.3em;
+	margin-right: 0.3em;
+}
+
 /* 串标题栏 */
 main div.main-part div.post-title-info {
 	height: 30px;
@@ -147,6 +153,9 @@ main div.main-part span.post-images img.thumb {
 /* tip部分 */
 main div.main-part p.tip {
 	background-color: #DDD;
+	margin: 0.3em;
+	padding: 0.3em;
+	font-size: 14px;
 }
 
 /* 回复部分 */
@@ -157,6 +166,7 @@ main div.main-part div.reply {
 /* 页码部分 */
 main div.main-part div.page-number {
 	display: flex;
+	margin-top: 0.5em;
 	justify-content: center;
 	align-items: center;
 }
