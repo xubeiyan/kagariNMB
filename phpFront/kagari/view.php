@@ -117,6 +117,8 @@ class View {
 			return 'no such post';
 		}
 		
+		
+		
 		$titlePart = '<div class="post-title-info"><span class="post-title">' 
 		. $postArray['post_title'] . '</span><span class="author-name">' 
 		. $postArray['author_name'] . '</span><span class="post-id">No.' 
@@ -125,6 +127,15 @@ class View {
 		$contentPart = '<div class="post-content">' . $postImage . '<span class="post-content">' . $postArray['post_content'] . '</span></div>';
 		$replyPart = '';
 		foreach ($postArray['reply_recent_posts'] as $replyPost) {
+			
+			// 增加回复串的'>>No.'字符处理
+			preg_match_all('/\&gt;\&gt;No\.\d+/', $replyPost['post_content'], $matches);
+			// print_r($matches[0]);
+			foreach ($matches[0] as $match) {
+				$replace = '<b>' . $match . '</b>';
+				$replyPost['post_content'] = str_replace($match, $replace, $replyPost['post_content']);
+			}
+			
 			$replyTitlePart = '<div class="post-title-info reply"><span class="post-title">' 
 			. $replyPost['post_title'] . '</span><span class="author-name">' 
 			. $replyPost['author_name'] . '</span><span class="post-id">No.' 
