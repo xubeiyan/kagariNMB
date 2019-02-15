@@ -45,11 +45,11 @@ class View {
 		global $config;
 		// 没有这个板块
 		if (isset($areaArray['error']) ) {
-			return '<b>No such area</b>';
+			return 'no such area';
 		}
 		// 板块没有串
 		if ($areaArray['posts'] == Array()) {
-			return '<b>No Posts...</b>';
+			return 'no posts';
 		}
 		$return = '';
 		$areaPostsArray = $areaArray['posts'];
@@ -114,7 +114,7 @@ class View {
 		global $config;
 		
 		if (isset($postArray['error'])) {
-			return '<b>No such post</b>';
+			return 'no such post';
 		}
 		
 		$titlePart = '<div class="post-title-info"><span class="post-title">' 

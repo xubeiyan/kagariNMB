@@ -5,7 +5,10 @@
 $config = Array(
 	// 通用设置
 	'general' => Array (
-		'NMBname' => 'Kagari匿名版',
+		'NMBname' 	=> 'Kagari匿名版',
+		'cssFile'	=> 'css/main.css', 		// css文件位置
+		'jsFile'	=> 'js/angular.js', 	// js文件位置
+		'favicon'	=> 'favicon.png',		// favicon
 	),
 	// URI地址
 	'uri' => Array(
@@ -14,8 +17,8 @@ $config = Array(
 	),
 	// 各种文件位置
 	'folder' => Array(
-		'templateDir' => 'html', // 模板文件位置
-		'thumbDir' => 'thumbs', // 略缩图位置
+		'templateDir' 	=> 'html/', 		// 模板文件位置
+		'thumbDir' 		=> 'thumbs/', 		// 略缩图位置
 	),
 	// 表现设置
 	'display' => Array(
