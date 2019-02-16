@@ -11,12 +11,12 @@
 ### 目录结构
 
 * `config` 配置文件 
-* `css` CSS主题文件
 * `html` html页面
-* `js` 某些js库
+	* `css` css文件
+	* `js` js文件
+	* `templates` 一些固定模板文件
 * `kagari` 主要内容
 * `thumbs` 图片缓存
-* `favicon.png` 某图标
 * `index.php` 入口文件
 * `README.md` 就是本文件
 
