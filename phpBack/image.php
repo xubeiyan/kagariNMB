@@ -1,22 +1,36 @@
 <?php
-require('conf/conf.php');
-if (!(isset($_GET['img']) && file_exists($conf['uploadPath'] . '//' . $_GET['img']))) {
-	$_GET['img'] = 'mea.jpg';
-}
-$image = $_GET['img'];
+/*
+* 显示图片
+* 
+*/
+require('conf/conf.php'); // 配置文件
+require('lib/error.php'); // 错误输出
 
-if (!file_exists($conf['uploadPath'] . '//' . $image)) {
-	echo $conf['uploadPath'] . '//' . $image;
-	die('seem not to exist "mea.jpg" in upload folder...');
+$default_image_file = 'mea.jpg';
+
+if (isset($_GET['img']) && $_GET['img'] != '') {
+	$image = $_GET['img'];	
+} else {
+	$image = $default_image_file;
 }
-$ext = explode('.', $image)[1];
-if ($ext == 'jpg') {
+
+$fullPath = $conf['uploadPath'] . '//' . $image;
+
+if (!file_exists($fullPath)) {
+	$paras = Array($image);
+	die(Err::errMsg('defaultImageNotFound', $paras));
+}
+$fileType = exif_imagetype($fullPath);
+if ($fileType == IMAGETYPE_JPEG) {
 	header('Content-Type:image/jpg');	
-} else if ($ext == 'png') {
+} else if ($fileType == IMAGETYPE_PNG) {
 	header('Content-Type:image/png');
-} else if ($ext == 'gif') {
+} else if ($fileType == IMAGETYPE_GIF) {
 	header('Content-Type:image/gif');
+} else {
+	$paras = Array();
+	die(Err::errMsg('imageTypeNotSupport', $paras));
 }
-echo file_get_contents($conf['uploadPath'] . '//' . $image);
+echo file_get_contents($fullPath);
 exit();
 ?>
