@@ -354,8 +354,18 @@ class Model {
 		return $templateArray;
 	}
 	
-	
-	
+	/**
+	* 是否需要重写URI
+	*/
+	private static function uri() {
+		global $config;
+		if ($config['general']['rewriteURI']) {
+			$uri = $config['uri']['backURI'];
+		} else {
+			$uri = $config['uri']['backURI'] . 'index.php?q=';
+		}
+		return $uri;
+	}
 	/**
 	* cookie读取
 	* 参数：用户cookie中的username
@@ -379,7 +389,7 @@ class Model {
 		);
 		
 		$context = stream_context_create($opts);
-		$json = file_get_contents($config['uri']['backURI'] . 'api/getCookie', false, $context);
+		$json = file_get_contents(self::uri() . 'api/getCookie', false, $context);
 		$string = json_decode($json, TRUE);
 		
 		if ($username == '') {
@@ -401,6 +411,7 @@ class Model {
 	public static function apis($api, $req) {
 		global $config;
 		$userAgent = $config['back']['userAgent'] == '' ? '' : $config['back']['userAgent'];
+		
 		// 板块列表
 		if ($api == 'api/getAreaLists') {
 			$opts = Array(
@@ -410,7 +421,7 @@ class Model {
 				)
 			);
 			$context = stream_context_create($opts);
-			$jsonResponse = file_get_contents($config['uri']['backURI'] . $api, false, $context);
+			$jsonResponse = file_get_contents(self::uri() . $api, false, $context);
 			$arrayResponse = json_decode($jsonResponse, TRUE);
 			
 			return $arrayResponse['response'];
@@ -426,7 +437,7 @@ class Model {
 				)
 			);
 			$context = stream_context_create($opts);
-			$jsonResponse = file_get_contents($config['uri']['backURI'] . $api, false, $context);
+			$jsonResponse = file_get_contents(self::uri() . $api, false, $context);
 			$arrayResponse = json_decode($jsonResponse, TRUE);
 			// print_r($jsonResponse);
 			return $arrayResponse['response'];

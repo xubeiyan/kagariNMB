@@ -5,15 +5,16 @@
 $config = Array(
 	// 通用设置
 	'general' => Array (
-		'NMBname' 	=> 'Kagari匿名版',
-		'cssFile'	=> 'css/main.css', 		// css文件位置
-		'jsFile'	=> 'js/angular.js', 	// js文件位置
-		'favicon'	=> 'favicon.png',		// favicon
+		'NMBname' 		=> 'Kagari匿名版',
+		'cssFile'		=> 'css/main.css', 		// css文件位置
+		'jsFile'		=> 'js/angular.js', 	// js文件位置
+		'favicon'		=> 'favicon.png',		// favicon
+		'rewriteURI'	=> False 				// 重写URI
 	),
 	// URI地址
 	'uri' => Array(
-		'backURI' => 'http://localhost/kagariNMB/phpBack/', // 后台地址
-		'imgURI' => 'http://localhost/kagariNMB/phpBack/images/', // 图片地址
+		'backURI' => 'http://localhost/kagariNmb/phpBack/', // 后台地址
+		'imgURI' => 'http://localhost/kagariNmb/phpBack/upload/', // 图片地址
 	),
 	// 各种文件位置
 	'folder' => Array(

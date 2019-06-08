@@ -73,7 +73,7 @@ class View {
 				. $replyPost['post_id'] . '</span><span class="create-time">' 
 				. $replyPost['create_time'] . '</span><span class="user-name">ID:' 
 				. $replyPost['user_name'] . '</span></div>';
-				$replyPostImage = $replyPost['post_images'] == '' ? '' : '<span class="post-images"><a href="' . $config['folder']['imgURI'] . $replyPost['post_images'] . '"><img class="thumb" src="?i=' . $replyPost['post_images'] . '"></a></span>';
+				$replyPostImage = $replyPost['post_images'] == '' ? '' : '<span class="post-images"><a href="' . $config['uri']['imgURI'] . $replyPost['post_images'] . '"><img class="thumb" src="?i=' . $replyPost['post_images'] . '"></a></span>';
 				$replyContentPart = '<div class="post-content reply">' . $replyPostImage . '<span class="post-content">' . $replyPost['post_content'] . '</span></div>';
 				$replyPart .= $replyTitlePart . $replyContentPart;
 			}
