@@ -147,11 +147,14 @@ class Model {
 					$string = file_get_contents($config['folder']['templateDir'] . 'templates/no_posts.html');
 				}
 				
+				$sendPostTemplate = file_get_contents($config['folder']['templateDir'] . 'templates/send_post.html');
+				$sendPost = View::sendPost($areaId, $sendPostTemplate);
+				
 				$templateArray[$key] = $string;
 				$templateArray['areaId'] = $areaId;
 				$templateArray['areaName'] = $data['area_name'];
 				$templateArray['areaPage'] = $areaPage;
-				$templateArray['newPost'] = View::sendPost($areaId);
+				$templateArray['newPost'] = $sendPost;
 				
 			// 浏览某个串
 			} else if ($key == 'post') {
@@ -170,7 +173,9 @@ class Model {
 					$data['area_name'] = '未知板块';
 					$string = file_get_contents($config['folder']['templateDir'] . 'templates/no_such_post.html');
 				}
-				$sendPost = View::sendReply($postId, $data['area_id']);
+				
+				$sendPostTemplate = file_get_contents($config['folder']['templateDir'] . 'templates/send_reply.html');
+				$sendPost = View::sendReply($postId, $data['area_id'], $sendPostTemplate);
 				
 				$templateArray[$key] = $string;
 				$templateArray['function'] = $sendPost;
@@ -334,7 +339,9 @@ class Model {
 				header("refresh:5;url=$toURI");
 			// 管理员登录
 			} else if ($key == 'adminLogin') {
-				$adminLogin = View::adminLogin();
+				global $config;
+				$adminLoginTemplate = file_get_contents($config['folder']['templateDir'] . 'templates/login.html');
+				$adminLogin = View::adminLogin($adminLoginTemplate);
 				$templateArray['adminLogin'] = $adminLogin;
 			// 用户列表
 			} else if ($key == 'userLists') {
