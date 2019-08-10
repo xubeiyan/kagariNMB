@@ -145,7 +145,7 @@ class View {
 			
 			$replyTitlePart = '<div class="post-title-info reply" id="post-' . $replyPost['post_id'] .'"><span class="post-title">' 
 			. $replyPost['post_title'] . '</span><span class="author-name">' 
-			. $replyPost['author_name'] . '</span><span class="post-id">No.' 
+			. $replyPost['author_name'] . '</span><span class="post-id" onclick="reply(' . $replyPost['post_id'] . ')">No.' 
 			. $replyPost['post_id'] . '</span><span class="create-time">' 
 			. $replyPost['create_time'] . '</span><span class="user-name">ID:' 
 			. $replyPost['user_name'] . '</span></div>';

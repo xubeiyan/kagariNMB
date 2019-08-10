@@ -7,7 +7,10 @@ $config = Array(
 	'general' => Array (
 		'NMBname' 		=> 'Kagari匿名版',
 		'cssFile'		=> 'css/main.css', 		// css文件位置
-		'jsFile'		=> 'js/angular.js', 	// js文件位置
+		'menuFile'		=> 'js/menu.js', 		// 菜单js文件位置
+		'adminFile'		=> 'js/admin.js',		// 
+		'loginFile'		=> 'js/login.js',
+		'replyFile'		=> 'js/reply.js',
 		'favicon'		=> 'favicon.png',		// favicon
 		'rewriteURI'	=> False 				// 重写URI
 	),
