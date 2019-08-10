@@ -16,8 +16,10 @@ class Model {
 	/**
 	* 计算需要替换的数据
 	*/
-	public static function data($template) {
-		$templateArray = Array();
+	public static function data($template, $pagename) {
+		$templateArray = Array(
+			'pageName' => $pagename,
+		);
 		$offset = 0; // 从头开始
 		$in = FALSE; // 最初是不在一个%xxx%之中的
 		$templateString = ''; // 最初的templateString为空
@@ -82,7 +84,6 @@ class Model {
 	// 匿名版计算后数值替换
 	private static function replaceCalculate($templateArray) {
 		global $config;
-		
 		foreach ($templateArray as $key => $value) {
 			// 跳过已计算的
 			if ($value != '') {
@@ -102,14 +103,29 @@ class Model {
 				$templateArray[$key] = self::cookies($username);
 			} else if ($key == 'cssFile') {
 				$templateArray[$key] = $config['folder']['templateDir'] . $config['general']['cssFile'];
-			} else if ($key == 'angularjs') {
-				$templateArray[$key] = $config['folder']['templateDir'] . $config['general']['jsFile'];
+			} else if ($key == 'jsFile') {
+				$templateArray[$key] = self::jsMountCalculate($templateArray['pageName']);
 			} else if ($key == 'favicon') {
 				$templateArray[$key] = $config['folder']['templateDir'] . $config['general']['favicon'];
 			}
 		}
 		
 		return $templateArray;
+	}
+	
+	// 根据页面名称决定装入哪个js文件
+	private static function jsMountCalculate($pageName) {
+		global $config;
+		if ($pageName == 'index.html') {
+			$jsString = sprintf('<script src="%s"></script>', $config['folder']['templateDir'] . $config['general']['menuFile']);
+			$jsString .= sprintf('<script src="%s"></script>', $config['folder']['templateDir'] . $config['general']['loginFile']);
+		} else if ($pageName == 'area_page.html') {
+			$jsString = sprintf('<script src="%s"></script>', $config['folder']['templateDir'] . $config['general']['menuFile']);
+		} else if ($pageName == 'post_page.html') {
+			$jsString = sprintf('<script src="%s"></script>', $config['folder']['templateDir'] . $config['general']['menuFile']);
+			$jsString .= sprintf('<script src="%s"></script>', $config['folder']['templateDir'] . $config['general']['replyFile']);
+		}
+		return $jsString;
 	}
 	
 	// 匿名版数据库替换函数
