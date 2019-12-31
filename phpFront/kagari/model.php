@@ -16,8 +16,10 @@ class Model {
 	/**
 	* 计算需要替换的数据
 	*/
-	public static function data($template) {
-		$templateArray = Array();
+	public static function data($template, $pagename) {
+		$templateArray = Array(
+			'pageName' => $pagename,
+		);
 		$offset = 0; // 从头开始
 		$in = FALSE; // 最初是不在一个%xxx%之中的
 		$templateString = ''; // 最初的templateString为空
@@ -82,7 +84,6 @@ class Model {
 	// 匿名版计算后数值替换
 	private static function replaceCalculate($templateArray) {
 		global $config;
-		
 		foreach ($templateArray as $key => $value) {
 			// 跳过已计算的
 			if ($value != '') {
@@ -100,10 +101,31 @@ class Model {
 			} else if ($key == 'cookie') {
 				$username = isset($_COOKIE['username']) ? $_COOKIE['username'] : '';
 				$templateArray[$key] = self::cookies($username);
+			} else if ($key == 'cssFile') {
+				$templateArray[$key] = $config['folder']['templateDir'] . $config['general']['cssFile'];
+			} else if ($key == 'jsFile') {
+				$templateArray[$key] = self::jsMountCalculate($templateArray['pageName']);
+			} else if ($key == 'favicon') {
+				$templateArray[$key] = $config['folder']['templateDir'] . $config['general']['favicon'];
 			}
 		}
 		
 		return $templateArray;
+	}
+	
+	// 根据页面名称决定装入哪个js文件
+	private static function jsMountCalculate($pageName) {
+		global $config;
+		if ($pageName == 'index.html') {
+			$jsString = sprintf('<script src="%s"></script>', $config['folder']['templateDir'] . $config['general']['menuFile']);
+			$jsString .= sprintf('<script src="%s"></script>', $config['folder']['templateDir'] . $config['general']['loginFile']);
+		} else if ($pageName == 'area_page.html') {
+			$jsString = sprintf('<script src="%s"></script>', $config['folder']['templateDir'] . $config['general']['menuFile']);
+		} else if ($pageName == 'post_page.html') {
+			$jsString = sprintf('<script src="%s"></script>', $config['folder']['templateDir'] . $config['general']['menuFile']);
+			$jsString .= sprintf('<script src="%s"></script>', $config['folder']['templateDir'] . $config['general']['replyFile']);
+		}
+		return $jsString;
 	}
 	
 	// 匿名版数据库替换函数
@@ -119,6 +141,7 @@ class Model {
 				$templateArray[$key] = View::areaLists($data);
 			// 版块下所有串
 			} else if ($key == 'areaPosts') {
+				global $config;
 				// 判断分区值是否为数字，不是给予值0
 				$areaId = is_numeric($_GET['a']) ? $_GET['a'] : 0; 
 				// 判断页数是否为设置且是数字，不是给予值1
@@ -131,18 +154,27 @@ class Model {
 				$data = self::apis('api/getAreaPosts', $req);
 				$string = View::areaPosts($data);
 				
-				if ($string == '<b>No such area</b>') {
+				if ($string == 'no such area') {
 					$data['area_name'] = '未知板块';
+					$string = file_get_contents($config['folder']['templateDir'] . 'templates/no_area.html');
 				}
+				
+				if ($string == 'no posts') {
+					$string = file_get_contents($config['folder']['templateDir'] . 'templates/no_posts.html');
+				}
+				
+				$sendPostTemplate = file_get_contents($config['folder']['templateDir'] . 'templates/send_post.html');
+				$sendPost = View::sendPost($areaId, $sendPostTemplate);
 				
 				$templateArray[$key] = $string;
 				$templateArray['areaId'] = $areaId;
 				$templateArray['areaName'] = $data['area_name'];
 				$templateArray['areaPage'] = $areaPage;
-				$templateArray['newPost'] = View::sendPost($areaId);
+				$templateArray['newPost'] = $sendPost;
 				
 			// 浏览某个串
 			} else if ($key == 'post') {
+				global $config;
 				$postId = is_numeric($_GET['p']) ? $_GET['p'] : 0;
 				$postPage = isset($_GET['page']) && is_numeric($_GET['page']) ? $_GET['page'] : 1; 
 				$req = Array(
@@ -152,11 +184,14 @@ class Model {
 				
 				$data = self::apis('api/getPost', $req);
 				$string = View::post($data);
-				if ($string == '<b>No such post</b>') {
+				if ($string == 'no such post') {
 					$data['area_id'] = -1;
 					$data['area_name'] = '未知板块';
+					$string = file_get_contents($config['folder']['templateDir'] . 'templates/no_such_post.html');
 				}
-				$sendPost = View::sendReply($postId, $data['area_id']);
+				
+				$sendPostTemplate = file_get_contents($config['folder']['templateDir'] . 'templates/send_reply.html');
+				$sendPost = View::sendReply($postId, $data['area_id'], $sendPostTemplate);
 				
 				$templateArray[$key] = $string;
 				$templateArray['function'] = $sendPost;
@@ -320,7 +355,9 @@ class Model {
 				header("refresh:5;url=$toURI");
 			// 管理员登录
 			} else if ($key == 'adminLogin') {
-				$adminLogin = View::adminLogin();
+				global $config;
+				$adminLoginTemplate = file_get_contents($config['folder']['templateDir'] . 'templates/login.html');
+				$adminLogin = View::adminLogin($adminLoginTemplate);
 				$templateArray['adminLogin'] = $adminLogin;
 			// 用户列表
 			} else if ($key == 'userLists') {
@@ -340,8 +377,18 @@ class Model {
 		return $templateArray;
 	}
 	
-	
-	
+	/**
+	* 是否需要重写URI
+	*/
+	private static function uri() {
+		global $config;
+		if ($config['general']['rewriteURI']) {
+			$uri = $config['uri']['backURI'];
+		} else {
+			$uri = $config['uri']['backURI'] . 'index.php?q=';
+		}
+		return $uri;
+	}
 	/**
 	* cookie读取
 	* 参数：用户cookie中的username
@@ -365,7 +412,7 @@ class Model {
 		);
 		
 		$context = stream_context_create($opts);
-		$json = file_get_contents($config['uri']['backURI'] . 'api/getCookie', false, $context);
+		$json = file_get_contents(self::uri() . 'api/getCookie', false, $context);
 		$string = json_decode($json, TRUE);
 		
 		if ($username == '') {
@@ -387,6 +434,7 @@ class Model {
 	public static function apis($api, $req) {
 		global $config;
 		$userAgent = $config['back']['userAgent'] == '' ? '' : $config['back']['userAgent'];
+		
 		// 板块列表
 		if ($api == 'api/getAreaLists') {
 			$opts = Array(
@@ -396,7 +444,7 @@ class Model {
 				)
 			);
 			$context = stream_context_create($opts);
-			$jsonResponse = file_get_contents($config['uri']['backURI'] . $api, false, $context);
+			$jsonResponse = file_get_contents(self::uri() . $api, false, $context);
 			$arrayResponse = json_decode($jsonResponse, TRUE);
 			
 			return $arrayResponse['response'];
@@ -412,7 +460,7 @@ class Model {
 				)
 			);
 			$context = stream_context_create($opts);
-			$jsonResponse = file_get_contents($config['uri']['backURI'] . $api, false, $context);
+			$jsonResponse = file_get_contents(self::uri() . $api, false, $context);
 			$arrayResponse = json_decode($jsonResponse, TRUE);
 			// print_r($jsonResponse);
 			return $arrayResponse['response'];

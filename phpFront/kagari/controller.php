@@ -14,7 +14,7 @@ class Controller {
 			return $pageContent;
 		}
 		// 根据内容获取数据
-		$data = Model::data($content);
+		$data = Model::data($content, $pageName);
 		// 将数据渲染在页面上
 		$pageContent = View::render($content, $data);
 		return $pageContent;

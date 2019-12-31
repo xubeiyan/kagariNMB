@@ -1,0 +1,10 @@
+<form action="%action%" method="post" enctype="multipart/form-data">
+	<span>回复No.%postId%</span><br />
+	<span>标题</span><input type="text" name="title" placeholder="无标题"/>
+	<span>名称</span><input type="text" name="name" placeholder="无名氏"/>
+	<span>邮箱</span><input type="text" name="email" placeholder=""/>
+	<span>附件</span><input type="file" name="uploadFile"/>
+	<span>正文</span><br />
+	<textarea id="reply_content" name="content" require="require"></textarea>
+	<input type="submit" value="发送" />
+</form>

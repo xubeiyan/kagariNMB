@@ -1,13 +1,11 @@
 /**
-* angular是某个库，反正和Angular.js没太大关系
+* 控制两侧的菜单
 */
 
 var areaListButton = document.getElementsByClassName('area-list')[0],
 	areaList = document.getElementsByClassName('area-list-menu')[0],
 	funcListButton = document.getElementsByClassName('add-func')[0],
-	funcList = document.getElementsByClassName('func-list-menu')[0],
-	adminLoginButton = document.getElementById('admin-login-button'),
-	adminLoginList = document.getElementById('admin-login-list');
+	funcList = document.getElementsByClassName('func-list-menu')[0];
 	
 // 板块列表显示
 areaListButton.addEventListener('click', function () {
@@ -28,13 +26,3 @@ funcListButton.addEventListener('click', function () {
 	}
 });
 
-if (adminLoginButton != undefined) {
-	adminLoginButton.addEventListener('click', function () {
-		if (adminLoginList.style.display != 'block') {
-			adminLoginList.style.display = 'block';
-		} else {
-			adminLoginList.style.display = 'none';
-		}
-		
-	});
-}

@@ -493,8 +493,9 @@ class API {
 		}
 		
 		$row = mysqli_fetch_assoc($result);
+		$password_hash = $row['password'];
 		
-		if ($row['password'] != $post['password']) {
+		if (!password_verify($post['password'], $password_hash)) {
 			$return['response']['error'] = 'username or password wrong';
 			echo json_encode($return, JSON_UNESCAPED_UNICODE);
 			exit();

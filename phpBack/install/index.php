@@ -63,7 +63,7 @@ if (isset($_GET['create_tbl'])) {
 	$adminsql = 'CREATE TABLE ' . $conf['databaseTableName']['admin'] . ' (
 		admin_id int NOT NULL AUTO_INCREMENT,
 		username varchar(20),
-		password varchar(20),
+		password varchar(255),
 		secretKey varchar(10),
 		expireTime datetime DEFAULT CURRENT_TIMESTAMP,
 		PRIMARY KEY(admin_id)
@@ -123,8 +123,10 @@ if (isset($_GET['test_area'])) {
 
 // 插入测试管理员用户
 if (isset($_GET['admin_user'])) {
-	$admin_sql = 'INSERT INTO ' . $conf['databaseName'] . '.' . $conf['databaseTableName']['admin'] . 
-	' (username, password) VALUES ("kagari", "kana")';
+	$username = "kagari";
+	$password = password_hash("hana", PASSWORD_DEFAULT);
+	$admin_sql = sprintf('INSERT INTO %s.%s (username, password) VALUES ("%s", "%s")', 
+		$conf['databaseName'], $conf['databaseTableName']['admin'], $username, $password);
 	if(!mysqli_query($con, $admin_sql)) {
 		die(mysqli_error($con));
 	} else {

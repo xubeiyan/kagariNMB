@@ -20,7 +20,11 @@ class Err {
 		// JSON数据格式有误
 		'badJSON' 					=> 'the JSON cannot be decoded...',
 		// 未找到指定的表
-		'notSelectedTable' 			=> 'the table %1 not found...'
+		'notSelectedTable' 			=> 'the table %1 not found...',
+		// 未找到默认的图片
+		'defaultImageNotFound'		=> 'image file: %1 not found...',
+		// 不支持的图片格式
+		'imageTypeNotSupport'		=> 'image type was not supported...',
 	);
 	// 输出错误信息，$name为错误名称，$paras为待输出的信息
 	public static function errMsg($name, $paras, $json = true) {
@@ -34,6 +38,7 @@ class Err {
 				'error' => $name,
 				'message' => $string
 			);
+			header("Content-Type:application/json");
 			$responseJSON = json_encode($response, JSON_UNESCAPED_UNICODE); // 神奇勿动233
 			return $responseJSON;
 		} else {
