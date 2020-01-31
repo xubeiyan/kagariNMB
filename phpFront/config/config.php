@@ -16,8 +16,8 @@ $config = Array(
 	),
 	// URI地址
 	'uri' => Array(
-		'backURI' => 'http://localhost/kagariNmb/phpBack/', // 后台地址
-		'imgURI' => 'http://localhost/kagariNmb/phpBack/upload/', // 图片地址
+		'backURI' => 'http://localhost/kagariNMB/phpBack/', // 后台地址
+		'imgURI' => 'http://localhost/kagariNMB/phpBack/upload/', // 图片地址
 	),
 	// 各种文件位置
 	'folder' => Array(
