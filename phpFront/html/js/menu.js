@@ -2,27 +2,18 @@
 * 控制两侧的菜单
 */
 
-var areaListButton = document.getElementsByClassName('area-list')[0],
-	areaList = document.getElementsByClassName('area-list-menu')[0],
-	funcListButton = document.getElementsByClassName('add-func')[0],
-	funcList = document.getElementsByClassName('func-list-menu')[0];
+const areaListButton = document.querySelector('#area-list-switcher');
+const areaList = document.querySelectorAll('.area-list-menu')[0];
+const funcListButton = document.querySelector('#add-func-switcher');
+const funcList = document.querySelectorAll('.func-list-menu')[0];
 	
 // 板块列表显示
 areaListButton.addEventListener('click', function () {
-	if (areaList.style.display != 'none') {
-		areaList.style.display = 'none';
-		
-	} else {
-		areaList.style.display = 'inline-block';
-	}
+	areaList.classList.toggle('hide');
 });
 
 // 功能列表显示
 funcListButton.addEventListener('click', function () {
-	if (funcList.style.display != 'none') {
-		funcList.style.display = 'none';
-	} else {
-		funcList.style.display = 'inline-block';
-	}
+	funcList.classList.toggle('hide');
 });
 

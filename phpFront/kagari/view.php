@@ -10,6 +10,7 @@ class View {
 	*/
 	private static $part = Array(
 		'sendReply' => 'html/templates/send_reply.html',
+		'header_part' => 'html/templates/header_part.html',
 	);
 	/**
 	* 未找到对应的模板
@@ -31,7 +32,7 @@ class View {
 	// 板块列表处理函数
 	public static function areaLists($areaListsArray) {
 		// 没有板块
-		if (count($areaListsArray['areas']) == 0) {
+		if (!isset($areaListsArray['areas']) || count($areaListsArray['areas']) == 0) {
 			return '<b>No area...</b>';
 		}
 		

@@ -1,7 +1,14 @@
+*, *::before, *::after {
+	box-sizing: border-box;
+}
+
+:root {
+	--header-height: 2em;
+	--footer-height: 2em;
+}
+
 body {
-	margin:0;
-	font-family:微软雅黑;
-	font-size: 16px;
+	margin: 0;
 }
 a {
 	color:inherit;
@@ -12,56 +19,66 @@ a:hover {
 	text-decoration: underline;
 }
 
-
-div.container {
-	width: 1000px;
-	margin-left: auto;
-	margin-right: auto;
-	display: table;
+div.button {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 /* 页眉 */
 header {
 	background-color: #0081C6;
-}
-
-header div.area-list {
-	display: inline-block;
-	width: 100px;
+	height: 2em;
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }
 
 header div.title {
 	display: inline-block;
-	width: 790px;
+	width: 60%;
 	padding-left: 10px;
 }
 
-header div.add-func {
-	display: inline-block;
-	width: 100px;
-}
-
 header div.header-button {
-	padding-top: 5px;
-	padding-bottom: 5px;
 	background-color: #00A1E6;
+	height: 100%;
 	color: #FFF;
 	border-radius: 5px;
-	text-align: center;
 	cursor: pointer;
+	padding-left: 3em;
+	padding-right: 3em;
+}
+
+header div.header-button:hover {
+	background-color: blueviolet;
+}
+
+header div.left-button {
+	width: 20%;
+}
+
+header div.right-button {
+	width: 20%;
 }
 
 /* main */
-main div.container {
-	display: flex;
-	justify-content: center;
-	min-height: calc(100vh - 62px);
+main {
+	min-height: calc(100vh - var(--header-height) - var(--footer-height));
+	width: 100%;
+	display: grid;
+	grid-template-columns: 20% 60% 20%;
+}
+
+/* 隐藏左右列表 */
+main div.hide {
+	transform: scaleY(0);
 }
 
 /* 板块列表 */
 main div.area-list-menu {
-	width: 200px;
-	display: inline-block;
+	transition: 200ms ease-in-out;
 }
 
 main div.area-list-menu div.button {
@@ -80,7 +97,6 @@ main div.area-list-menu div.menu-second {
 
 /* 页面内容 */
 main div.main-part {
-	width: 600px;
 	min-height: 400px;
 	display: inline-block;
 }
@@ -177,7 +193,6 @@ main div.main-part div.page-number span.unavailable {
 
 /* 功能列表 */
 main div.func-list-menu {
-	width: 200px;
 	display: inline-block;
 }
 
@@ -237,28 +252,23 @@ main div.func-list-menu div#admin-login-list {
 /* 页脚 */
 footer {
 	background-color: #DDD;
-}
-
-footer div.container {
-	display: table;
+	height: 2em;
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }
 
 footer div.cookies {
 	background-color: #CCC;
-	padding-top: 5px;
-	padding-bottom: 5px;
-	padding-left: 10px;
-	padding-right: 10px;
+	padding: 5px 10px;
 	text-align: center;
-	width: 180px;
-	display: inline-block;
+	width: 20%;
 }
 
 footer div.date-time {
-	text-align: right;
-	width: 800px;
+	width: 20%;
 	color: #000;
-	display: inline-block;
 }
 
 

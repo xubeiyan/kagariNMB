@@ -6,7 +6,7 @@ $conf = Array(
 	// 数据库部分
 	'databaseHost' => 		'localhost',
 	'databaseUsername' => 	'root',
-	'databasePassword' => 	'',
+	'databasePassword' => 	'root',
 	'databaseName' =>		'kagari_Nimingban',
 	'databasePort' =>		'3306',
 	'databaseTableName' => 	Array(

@@ -5,8 +5,8 @@ $con = mysqli_connect(
 	$conf['databasePassword']
 	);
 
-if (!$con) {
-	die(mysqli_connect_error());
+if (mysqli_connect_errno()) {
+	die('mysqli connection error: ' . mysqli_connect_error());
 }
 
 mysqli_query($con, "set character set 'utf8'");

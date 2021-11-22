@@ -1,29 +1,30 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<title>%nimingbanTitle%</title>
-<meta charset="UTF-8" />
-<link rel="stylesheet" type="text/css" href="%cssFile%" />
-<link rel="icon" type="image/png" href="%favicon%"/>
+	<title>%nimingbanTitle%</title>
+	<meta charset="UTF-8" />
+	<link rel="stylesheet" type="text/css" href="%cssFile%" />
+	<link rel="icon" type="image/png" href="%favicon%" />
 </head>
+
 <body>
-<header>
-	<div class="container">
-		<div class="area-list header-button">%areaListText%</div><div class="title"><a href=".">%nimingbanTitle%</a></div><div class="add-func header-button">%functionText%</div>
-	</div>
-</header>
-<main>
-	<div class="container">
+	<header>
+		<div class="button header-button left-button" id="area-list-switcher">%areaListText%</div>
+		<div class="title"><a href=".">%nimingbanTitle%</a></div>
+		<div class="button header-button right-button" id="add-func-switcher">%functionText%</div>
+	</header>
+	<main>
 		<div class="area-list-menu">%areaLists%</div>
 		<div class="main-part">%welcomeInformation%</div>
 		<div class="func-list-menu">%adminLogin%</div>
-	</div>
-</main>
-<footer>
-	<div class="container">
-		<div class="cookies">饼干: %cookie%</div><div class="date-time">%datetime%</div>
-	</div>
-</footer>
-%jsFile%
+	</main>
+
+	<footer>
+		<div class="cookies">饼干: %cookie%</div>
+		<div class="date-time">%datetime%</div>
+	</footer>
+	%jsFile%
 </body>
+
 </html>
